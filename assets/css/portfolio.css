@@ -609,3 +609,250 @@ body::after {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   CONNECTED TIMELINE COMPONENT (LINKEDIN & CYBER TERMINAL HYBRID)
+   ========================================================================== */
+.edu-timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 1rem;
+}
+
+/* Vertical timeline connector line */
+.edu-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.625rem;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-green) 0%, rgba(0, 240, 255, 0.4) 50%, rgba(0, 255, 102, 0.15) 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+}
+
+html.light-theme .edu-timeline::before {
+  background: linear-gradient(180deg, #047857 0%, #0284c7 50%, rgba(4, 120, 87, 0.2) 100%);
+  box-shadow: none;
+}
+
+.edu-timeline-item {
+  position: relative;
+  padding-bottom: 2.25rem;
+}
+
+.edu-timeline-item:last-child {
+  padding-bottom: 0.25rem;
+}
+
+/* Circular timeline node dots */
+.edu-timeline-node {
+  position: absolute;
+  left: -2rem;
+  top: 0.35rem;
+  transform: translateX(0.18rem);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg-main);
+  border: 3px solid var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green);
+  z-index: 2;
+  transition: all var(--transition-normal);
+}
+
+.edu-timeline-node.active-node {
+  background: var(--accent-green);
+  box-shadow: 0 0 16px var(--accent-green), inset 0 0 6px #ffffff;
+}
+
+html.light-theme .edu-timeline-node {
+  background: #ffffff;
+  border-color: #047857;
+  box-shadow: 0 0 6px rgba(4, 120, 87, 0.3);
+}
+
+html.light-theme .edu-timeline-node.active-node {
+  background: #047857;
+  border-color: #047857;
+  box-shadow: 0 0 10px rgba(4, 120, 87, 0.4);
+}
+
+.edu-timeline-item:hover .edu-timeline-node {
+  transform: translateX(0.18rem) scale(1.3);
+  box-shadow: 0 0 20px var(--accent-green);
+}
+
+/* Skills/Highlights pill badge inside timeline item */
+.edu-skills-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border-subtle);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.edu-skills-badge:hover {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+}
+
+html.light-theme .edu-skills-badge {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  box-shadow: none;
+}
+
+html.light-theme .edu-skills-badge:hover {
+  border-color: #047857;
+  background: #e2e8f0;
+}
+
+/* Skills Timeline / Technical Progression Roadmap */
+.skills-timeline-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.skills-timeline-level.level-ai {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+}
+
+.skills-timeline-level.level-mobile {
+  background: rgba(0, 255, 102, 0.12);
+  color: var(--accent-green);
+  border: 1px solid rgba(0, 255, 102, 0.35);
+}
+
+.skills-timeline-level.level-core {
+  background: rgba(255, 183, 3, 0.12);
+  color: var(--accent-amber);
+  border: 1px solid rgba(255, 183, 3, 0.35);
+}
+
+.skills-timeline-level.level-tools {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+html.light-theme .skills-timeline-level.level-ai {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+
+html.light-theme .skills-timeline-level.level-mobile {
+  background: #d1fae5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+html.light-theme .skills-timeline-level.level-core {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+html.light-theme .skills-timeline-level.level-tools {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border-color: #e9d5ff;
+}
+
+/* ==========================================================================
+   TERMINAL IDE SPLIT-PANE STYLES (GITHUB REPOS)
+   ========================================================================== */
+.repo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.repo-item:hover {
+  background: rgba(0, 255, 102, 0.08);
+  border-color: rgba(0, 255, 102, 0.2);
+}
+
+.repo-item.active-repo {
+  background: rgba(0, 240, 255, 0.12) !important;
+  border-color: var(--accent-cyan) !important;
+  box-shadow: inset 4px 0 0 var(--accent-cyan);
+}
+
+html.light-theme .repo-item {
+  color: #0f172a;
+}
+
+html.light-theme .repo-item:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+html.light-theme .repo-item.active-repo {
+  background: #e0f2fe !important;
+  border-color: #0284c7 !important;
+  box-shadow: inset 4px 0 0 #0284c7;
+}
+
+/* ==========================================================================
+   TERMINAL COMMAND PALETTE (CTRL + K)
+   ========================================================================== */
+.cmd-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.cmd-item:hover,
+.cmd-item.selected {
+  background: rgba(0, 255, 102, 0.12) !important;
+  border-color: var(--accent-green) !important;
+  color: var(--accent-green) !important;
+}
+
+html.light-theme .cmd-item {
+  color: #334155;
+}
+
+html.light-theme .cmd-item:hover,
+html.light-theme .cmd-item.selected {
+  background: #e0f2fe !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+
+
+

@@ -60,11 +60,11 @@ function initTypingEffect() {
     if (!target) return;
 
     const commands = [
+        './run_agentic_ai.py --mode=autonomous_agents',
+        'exec deploy_llm_workflows --stack=python_kotlin',
         './run_android_dev.sh --lang=Kotlin',
-        'cat /etc/skills/computer_engineering.txt',
-        'ssh root@chinmay.dev -p 2026',
-        'exec build_mobile_apps --mode=release',
-        'git commit -m "Deploying innovative solutions"'
+        'cat /etc/skills/ai_and_computer_engineering.txt',
+        'git commit -m "Building intelligent agentic systems"'
     ];
 
     let cmdIndex = 0;
@@ -153,26 +153,28 @@ function timeAgo(dateStr) {
     return Math.floor(diff / 2592000) + 'mo ago';
 }
 
+let selectedRepo = null;
+
 async function fetchRepos() {
-    const grid = document.getElementById('proj-grid');
+    const ideContainer = document.getElementById('ide-container');
     const errorEl = document.getElementById('proj-error');
     const countEl = document.getElementById('repo-count');
     const heroRepos = document.getElementById('hero-repos');
     const heroStars = document.getElementById('hero-stars');
 
-    if (!grid) return;
+    if (!ideContainer) return;
 
     if (errorEl) errorEl.classList.add('hidden');
-    grid.classList.remove('hidden');
-    showSkeletons(6);
+    ideContainer.classList.remove('hidden');
+    showSkeletons();
     if (countEl) countEl.textContent = '[FETCHING...]';
 
     try {
-        const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30&type=owner`);
+        const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100&type=owner`);
         if (!res.ok) throw new Error('API Error: ' + res.status);
         const data = await res.json();
 
-        allRepos = data.filter(r => !r.fork).slice(0, 12);
+        allRepos = data.filter(r => !r.fork);
 
         if (heroRepos) heroRepos.textContent = allRepos.length + '+';
         const totalStars = allRepos.reduce((s, r) => s + r.stargazers_count, 0);
@@ -180,11 +182,17 @@ async function fetchRepos() {
         if (countEl) countEl.textContent = allRepos.length + ' REPOS';
 
         buildFilters();
-        renderCards(allRepos);
+
+        if (allRepos.length > 0) {
+            selectedRepo = allRepos[0];
+            renderIDEPane(allRepos);
+        } else {
+            renderEmptyIDE();
+        }
 
     } catch (err) {
         console.error('GitHub API fetch error:', err);
-        grid.classList.add('hidden');
+        if (ideContainer) ideContainer.classList.add('hidden');
         if (errorEl) errorEl.classList.remove('hidden');
         if (countEl) countEl.textContent = '[OFFLINE]';
         if (heroRepos) heroRepos.textContent = '—';
@@ -192,25 +200,45 @@ async function fetchRepos() {
     }
 }
 
-function showSkeletons(count) {
-    const grid = document.getElementById('proj-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    for (let i = 0; i < count; i++) {
-        const el = document.createElement('div');
-        el.className = 'hacker-card p-6';
-        el.innerHTML = `
-            <div class="terminal-bar -mx-6 -mt-6 mb-4">
-                <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                <span>FETCHING_REPO.SH</span>
-            </div>
-            <div class="h-4 w-32 bg-emerald-500/10 rounded animate-pulse mb-3"></div>
-            <div class="h-3 w-full bg-emerald-500/10 rounded animate-pulse mb-2"></div>
-            <div class="h-3 w-2/3 bg-emerald-500/10 rounded animate-pulse mb-4"></div>
-            <div class="h-5 w-20 bg-emerald-500/10 rounded-full animate-pulse"></div>
-        `;
-        grid.appendChild(el);
+function showSkeletons() {
+    const listPane = document.getElementById('repo-list-pane');
+    const inspectPane = document.getElementById('repo-inspector-pane');
+    if (listPane) {
+        listPane.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+            const div = document.createElement('div');
+            div.className = 'p-3 rounded bg-emerald-500/10 animate-pulse mb-2';
+            div.innerHTML = `<div class="h-4 w-3/4 bg-emerald-500/20 rounded"></div>`;
+            listPane.appendChild(div);
+        }
     }
+    if (inspectPane) {
+        inspectPane.innerHTML = `
+            <div class="space-y-4 animate-pulse p-4">
+                <div class="h-6 w-1/2 bg-emerald-500/10 rounded"></div>
+                <div class="h-4 w-full bg-emerald-500/10 rounded"></div>
+                <div class="h-4 w-3/4 bg-emerald-500/10 rounded"></div>
+            </div>`;
+    }
+}
+
+function getRepoTopics(repo) {
+    const topics = [];
+    const name = (repo.name || '').toLowerCase();
+    const desc = (repo.description || '').toLowerCase();
+
+    if (name.includes('android') || desc.includes('android')) topics.push('Android App');
+    if (name.includes('kotlin') || desc.includes('kotlin') || repo.language === 'Kotlin') topics.push('Kotlin');
+    if (name.includes('ai') || desc.includes('ai') || desc.includes('agent') || name.includes('agent')) topics.push('Agentic AI');
+    if (name.includes('java') || desc.includes('java')) topics.push('Java');
+    if (name.includes('python') || desc.includes('python') || repo.language === 'Python') topics.push('Python');
+    if (name.includes('dsa') || desc.includes('algorithm') || desc.includes('data structure')) topics.push('Algorithms');
+
+    if (topics.length === 0) {
+        topics.push('Software Module');
+    }
+
+    return Array.from(new Set(topics)).slice(0, 3);
 }
 
 function buildFilters() {
@@ -227,81 +255,155 @@ function buildFilters() {
     container.innerHTML = html;
 }
 
-function renderCards(repos) {
-    const grid = document.getElementById('proj-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
+function renderIDEPane(repos) {
+    const listPane = document.getElementById('repo-list-pane');
+    if (!listPane) return;
 
     if (repos.length === 0) {
-        grid.innerHTML = `
-            <div class="col-span-full text-center py-12 text-emerald-400 font-mono">
-                <i data-lucide="terminal" class="w-10 h-10 mx-auto mb-2 opacity-60"></i>
-                <p>[SYSTEM_MSG]: NO REPOSITORIES MATCH CURRENT FILTER.</p>
-            </div>`;
-        if (window.lucide) lucide.createIcons();
+        listPane.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">$ no repos match filter</p>`;
+        renderEmptyIDE();
         return;
     }
 
-    repos.forEach((repo) => {
-        const lang = repo.language || 'Source';
-        const icon = getRepoIcon(repo);
-        const desc = repo.description || 'Developer module repository hosted on GitHub.';
-        const size = formatSize(repo.size);
-        const stars = repo.stargazers_count;
-        const forks = repo.forks_count;
-        const updated = timeAgo(repo.updated_at);
-        const url = repo.html_url;
+    if (!repos.some(r => r.id === selectedRepo?.id)) {
+        selectedRepo = repos[0];
+    }
 
-        const card = document.createElement('div');
-        card.className = 'hacker-card p-6 flex flex-col justify-between';
-        card.innerHTML = `
-            <div>
-                <div class="terminal-bar -mx-6 -mt-6 mb-4">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span class="font-mono text-xs text-emerald-400">${repo.name}.git</span>
+    let listHtml = '';
+    repos.forEach(repo => {
+        const isActive = selectedRepo && repo.id === selectedRepo.id;
+        const icon = getRepoIcon(repo);
+
+        listHtml += `
+            <div onclick="selectRepo(${repo.id})" class="repo-item ${isActive ? 'active-repo' : ''}">
+                <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                    <i data-lucide="${icon}" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                    <span class="font-mono text-xs font-bold truncate">${repo.name}</span>
                 </div>
-                <div class="flex items-start justify-between mb-3">
-                    <a href="${url}" target="_blank" class="flex items-center gap-3 group text-decoration-none">
-                        <div class="w-9 h-9 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-400 group-hover:bg-emerald-400 group-hover:text-black transition-colors">
-                            <i data-lucide="${icon}" class="w-4 h-4"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <h3 class="text-base font-mono font-bold text-white truncate group-hover:text-emerald-400 transition-colors">${repo.name}</h3>
-                            <div class="flex items-center gap-2 text-xs font-mono text-emerald-500/70">
-                                <span>SIZE: ${size}</span>
-                                <span>·</span>
-                                <span>MOD: ${updated}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <p class="text-xs font-mono text-slate-300 mb-4 line-clamp-2 leading-relaxed">${desc}</p>
-            </div>
-            <div>
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="code-badge">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        ${lang}
-                    </span>
-                </div>
-                <div class="flex items-center justify-between pt-3 border-t border-emerald-500/20 text-xs font-mono text-slate-400">
-                    <div class="flex items-center gap-4">
-                        <span class="flex items-center gap-1 text-amber-400" title="Stars">
-                            <i data-lucide="star" class="w-3.5 h-3.5"></i> ${stars}
-                        </span>
-                        <span class="flex items-center gap-1 text-emerald-400" title="Forks">
-                            <i data-lucide="git-fork" class="w-3.5 h-3.5"></i> ${forks}
-                        </span>
-                    </div>
-                    <a href="${url}" target="_blank" class="flex items-center gap-1 text-emerald-400 hover:underline">
-                        [SRC_CODE] <i data-lucide="external-link" class="w-3 h-3"></i>
-                    </a>
+                <div class="flex items-center gap-2 flex-shrink-0 text-[10px] font-mono">
+                    <span class="text-amber-400 font-semibold">★ ${repo.stargazers_count}</span>
                 </div>
             </div>
         `;
-        grid.appendChild(card);
     });
 
+    listPane.innerHTML = listHtml;
+    inspectRepo(selectedRepo);
+}
+
+function selectRepo(id) {
+    const target = allRepos.find(r => r.id === id);
+    if (target) {
+        selectedRepo = target;
+        const currentFiltered = currentFilter === 'All' ? allRepos : allRepos.filter(r => r.language === currentFilter);
+        renderIDEPane(currentFiltered);
+    }
+}
+
+function inspectRepo(repo) {
+    const inspectPane = document.getElementById('repo-inspector-pane');
+    if (!inspectPane || !repo) return;
+
+    const lang = repo.language || 'Source Code';
+    const icon = getRepoIcon(repo);
+    const desc = repo.description || 'Developer software module repository hosted on GitHub.';
+    const size = formatSize(repo.size);
+    const stars = repo.stargazers_count;
+    const forks = repo.forks_count;
+    const updated = timeAgo(repo.updated_at);
+    const url = repo.html_url;
+    const cloneUrl = `https://github.com/${GITHUB_USERNAME}/${repo.name}.git`;
+    const topics = getRepoTopics(repo);
+
+    inspectPane.innerHTML = `
+        <div>
+            <!-- Terminal Breadcrumb Bar -->
+            <div class="flex items-center justify-between pb-4 mb-5 border-b border-emerald-500/20 text-xs font-mono">
+                <div class="flex items-center gap-2 text-emerald-400 font-bold">
+                    <i data-lucide="terminal" class="w-4 h-4"></i>
+                    <span>nano README.md --target="${repo.name}.git"</span>
+                </div>
+                <span class="text-slate-400 text-[11px]">UPDATED: ${updated}</span>
+            </div>
+
+            <!-- Title & Language Badge -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-md">
+                        <i data-lucide="${icon}" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold font-mono text-slate-100">${repo.name}</h3>
+                        <p class="text-xs font-mono text-slate-400">Owner: root@${GITHUB_USERNAME}</p>
+                    </div>
+                </div>
+
+                <span class="code-badge text-xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block mr-1"></span>
+                    ${lang}
+                </span>
+            </div>
+
+            <!-- Simulated CLI Copy Box -->
+            <div class="mb-5 p-3 rounded bg-black/70 border border-emerald-500/30 flex items-center justify-between gap-2 text-xs font-mono text-slate-200">
+                <div class="flex items-center gap-2 overflow-hidden">
+                    <span class="text-emerald-400 font-bold">$</span>
+                    <span class="truncate text-slate-300">git clone ${cloneUrl}</span>
+                </div>
+                <button onclick="copyCloneCmd('${cloneUrl}', this)" class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-400 hover:text-black transition-colors flex-shrink-0 text-[11px] font-bold">
+                    COPY
+                </button>
+            </div>
+
+            <!-- Project Description -->
+            <div class="p-4 rounded bg-black/40 border border-emerald-500/10 mb-5">
+                <p class="text-xs sm:text-sm font-mono text-slate-300 leading-relaxed">${desc}</p>
+            </div>
+
+            <!-- Topic Pills -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                ${topics.map(t => `<span class="tech-pill text-xs">$ ${t}</span>`).join('')}
+            </div>
+        </div>
+
+        <div>
+            <!-- Telemetry & Metrics Header -->
+            <div class="grid grid-cols-3 gap-3 p-3 rounded bg-black/60 border border-emerald-500/20 mb-6 text-center text-xs font-mono">
+                <div>
+                    <span class="text-amber-400 font-bold text-sm block">★ ${stars}</span>
+                    <span class="text-[10px] text-slate-400 uppercase">STARS</span>
+                </div>
+                <div>
+                    <span class="text-emerald-400 font-bold text-sm block">⑂ ${forks}</span>
+                    <span class="text-[10px] text-slate-400 uppercase">FORKS</span>
+                </div>
+                <div>
+                    <span class="text-cyan-400 font-bold text-sm block">${size}</span>
+                    <span class="text-[10px] text-slate-400 uppercase">SIZE</span>
+                </div>
+            </div>
+
+            <!-- Launch Button -->
+            <a href="${url}" target="_blank" class="cyber-btn w-full justify-center">
+                <span>[OPEN_GITHUB_REPOSITORY]</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+        </div>
+    `;
+
+    if (window.lucide) lucide.createIcons();
+}
+
+function renderEmptyIDE() {
+    const inspectPane = document.getElementById('repo-inspector-pane');
+    if (!inspectPane) return;
+    inspectPane.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-full py-12 text-slate-400 font-mono text-center">
+            <i data-lucide="terminal" class="w-10 h-10 text-emerald-400 mb-3 opacity-60"></i>
+            <p class="text-sm font-bold text-slate-200">[SYSTEM_MSG]: NO REPOSITORIES FOUND</p>
+            <p class="text-xs text-slate-500 mt-1">Try selecting a different filter category above.</p>
+        </div>
+    `;
     if (window.lucide) lucide.createIcons();
 }
 
@@ -310,7 +412,18 @@ function filterProj(cat, btn) {
     btn.classList.add('active');
     currentFilter = cat;
     const filtered = cat === 'All' ? allRepos : allRepos.filter(r => r.language === cat);
-    renderCards(filtered);
+    renderIDEPane(filtered);
+}
+
+function copyCloneCmd(url, btn) {
+    navigator.clipboard.writeText(`git clone ${url}`);
+    const originalText = btn.textContent;
+    btn.textContent = 'COPIED!';
+    btn.classList.add('bg-emerald-400', 'text-black');
+    setTimeout(() => {
+        btn.textContent = originalText;
+        btn.classList.remove('bg-emerald-400', 'text-black');
+    }, 2000);
 }
 
 // --------------------------------------------------------------------------
@@ -417,3 +530,125 @@ function showToast(msg) {
     clearTimeout(window._toastTimeout);
     window._toastTimeout = setTimeout(() => toast.classList.remove('show'), 3200);
 }
+
+// --------------------------------------------------------------------------
+// 8. Terminal Command Palette (Ctrl + K)
+// --------------------------------------------------------------------------
+let activeCmdIndex = 0;
+let filteredCmdsList = [];
+
+const paletteCommands = [
+    { label: '~/home — Jump to Hero / Overview', action: () => scrollToId('home'), icon: 'terminal', tag: 'SECTION' },
+    { label: '~/about — View Bio, Focus & Checklist', action: () => scrollToId('about'), icon: 'user-check', tag: 'SECTION' },
+    { label: '~/skills — Open Technical Arsenal', action: () => scrollToId('skills'), icon: 'cpu', tag: 'SECTION' },
+    { label: '~/projects — Open GitHub Repositories IDE', action: () => scrollToId('projects'), icon: 'folder-git-2', tag: 'SECTION' },
+    { label: '~/journey — Open Academic Journey Timeline', action: () => scrollToId('education'), icon: 'graduation-cap', tag: 'SECTION' },
+    { label: '~/contact — Open Message Transmission Terminal', action: () => scrollToId('contact'), icon: 'mail', tag: 'SECTION' },
+    { label: '> execute toggle_theme.sh', action: () => toggleTheme(), icon: 'sun', tag: 'ACTION' },
+    { label: '> open github_profile', action: () => window.open('https://github.com/ChinmayGawad', '_blank'), icon: 'github', tag: 'EXTERNAL' },
+    { label: '> open linkedin_profile', action: () => window.open('https://www.linkedin.com/in/chinmay-gawad-7b3172256/', '_blank'), icon: 'linkedin', tag: 'EXTERNAL' },
+    { label: '> send direct_email', action: () => window.location.href = 'mailto:chinmaygawad365@gmail.com', icon: 'send', tag: 'ACTION' },
+];
+
+function scrollToId(id) {
+    const target = document.getElementById(id);
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function openCmdPalette() {
+    const modal = document.getElementById('cmd-palette-backdrop');
+    const input = document.getElementById('cmd-input');
+    if (!modal || !input) return;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    input.value = '';
+    activeCmdIndex = 0;
+    filterCmds('');
+    setTimeout(() => input.focus(), 50);
+}
+
+function closeCmdPalette() {
+    const modal = document.getElementById('cmd-palette-backdrop');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+}
+
+function filterCmds(query) {
+    const q = (query || '').toLowerCase().trim();
+    filteredCmdsList = paletteCommands.filter(c => 
+        !q || c.label.toLowerCase().includes(q) || c.tag.toLowerCase().includes(q)
+    );
+    activeCmdIndex = 0;
+    renderCmdList();
+}
+
+function renderCmdList() {
+    const listEl = document.getElementById('cmd-list');
+    if (!listEl) return;
+
+    if (filteredCmdsList.length === 0) {
+        listEl.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">$ command not found</p>`;
+        return;
+    }
+
+    let html = '';
+    filteredCmdsList.forEach((cmd, idx) => {
+        const isSelected = idx === activeCmdIndex;
+        html += `
+            <div onclick="executeCmdIndex(${idx})" class="cmd-item ${isSelected ? 'selected' : ''}">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <i data-lucide="${cmd.icon}" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                    <span class="truncate font-bold">${cmd.label}</span>
+                </div>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono">${cmd.tag}</span>
+            </div>
+        `;
+    });
+
+    listEl.innerHTML = html;
+    if (window.lucide) lucide.createIcons();
+}
+
+function executeCmdIndex(idx) {
+    const cmd = filteredCmdsList[idx];
+    if (cmd && typeof cmd.action === 'function') {
+        closeCmdPalette();
+        cmd.action();
+    }
+}
+
+function handleCmdKeyDown(e) {
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (filteredCmdsList.length > 0) {
+            activeCmdIndex = (activeCmdIndex + 1) % filteredCmdsList.length;
+            renderCmdList();
+        }
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (filteredCmdsList.length > 0) {
+            activeCmdIndex = (activeCmdIndex - 1 + filteredCmdsList.length) % filteredCmdsList.length;
+            renderCmdList();
+        }
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        executeCmdIndex(activeCmdIndex);
+    } else if (e.key === 'Escape') {
+        closeCmdPalette();
+    }
+}
+
+// Global hotkey listener (Ctrl+K or Cmd+K or '/')
+window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openCmdPalette();
+    } else if (e.key === 'Escape') {
+        closeCmdPalette();
+    }
+});

@@ -6,24 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO Meta Tags -->
-    <title>Chinmay Gawad — Developer & Computer Engineer // Terminal</title>
+    <title>Chinmay Gawad — AI Developer &amp; Computer Engineer // Terminal</title>
     <meta name="description"
-        content="Hacker-themed portfolio of Chinmay Gawad, final-year BE Computer Engineering student at SJCEM. Android App Development, Kotlin, Java, DSA, and modern software engineering.">
+        content="Hacker-themed portfolio of Chinmay Gawad, final-year BE Computer Engineering student at SJCEM. Specializing in Artificial Intelligence, Agentic AI Systems, Android App Development, Kotlin, Java, and DSA.">
     <meta name="keywords"
-        content="Chinmay Gawad, Computer Engineering, Developer Portfolio, Android Developer, Kotlin, Java, Hacker Theme, Terminal Portfolio">
+        content="Chinmay Gawad, Computer Engineering, Developer Portfolio, AI Developer, Agentic AI, LLM Workflows, Android Developer, Kotlin, Java, Hacker Theme, Terminal Portfolio">
     <meta name="author" content="Chinmay Gawad">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Chinmay Gawad — Developer & Computer Engineer // Terminal">
+    <meta property="og:title" content="Chinmay Gawad — AI Developer &amp; Computer Engineer // Terminal">
     <meta property="og:description"
-        content="Final-year BE Computer Engineering undergraduate specializing in Android development with Kotlin, DSA, and computer science fundamentals.">
+        content="Final-year BE Computer Engineering undergraduate specializing in Artificial Intelligence, Agentic AI Systems, Android development with Kotlin, DSA, and computer science fundamentals.">
     <meta property="og:image" content="pics/IMG_6884.jpg">
 
     <!-- Google Fonts: JetBrains Mono & Fira Code & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
@@ -39,13 +40,13 @@
 
 <body class="relative min-h-screen text-slate-100 font-mono">
 
-    <!-- Canvas Matrix Rain Background -->
+    <!-- Interactive Particle Web Canvas Background -->
     <canvas id="matrix-canvas"></canvas>
 
     <!-- ══════════ TOP TERMINAL NAVBAR ══════════ -->
     <nav class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-6"
         style="background:var(--bg-surface);backdrop-filter:blur(24px);border-bottom:1px solid var(--border-subtle)">
-        
+
         <!-- Navigation Buttons -->
         <div class="flex items-center gap-2">
             <div class="nav-box active" onclick="navTo(this,'home')" title="Home Terminal">
@@ -76,6 +77,10 @@
 
         <!-- Right Side Terminal Controls -->
         <div class="flex items-center gap-3">
+            <button onclick="openCmdPalette()" class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/60 border border-emerald-500/30 text-[11px] font-mono text-slate-300 hover:text-emerald-400 hover:border-emerald-400 transition-colors" title="Open Command Palette (Ctrl+K)">
+                <i data-lucide="command" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Ctrl+K</span>
+            </button>
             <button onclick="toggleTheme()" class="nav-box" title="Toggle Theme Matrix">
                 <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
             </button>
@@ -87,9 +92,10 @@
     </nav>
 
     <!-- ══════════ HERO SECTION ══════════ -->
-    <section id="home" class="relative z-10 min-h-screen pt-28 pb-16 flex flex-col justify-center max-w-6xl mx-auto px-6">
+    <section id="home"
+        class="relative z-10 min-h-screen pt-28 pb-16 flex flex-col justify-center max-w-6xl mx-auto px-6">
         <div class="grid md:grid-cols-12 gap-8 items-center">
-            
+
             <div class="md:col-span-7 fade-up">
                 <!-- Hacker Status Badge -->
                 <div class="mb-6">
@@ -108,12 +114,16 @@
                 <!-- Dynamic Typing Subtitle -->
                 <div class="h-10 mb-6 flex items-center bg-black/60 border border-emerald-500/30 rounded px-4 py-2">
                     <span class="text-emerald-400 font-bold">$ </span>
-                    <span id="typing-text" class="text-slate-200 ml-2 font-mono font-medium text-sm sm:text-base"></span>
+                    <span id="typing-text"
+                        class="text-slate-200 ml-2 font-mono font-medium text-sm sm:text-base"></span>
                     <span class="text-emerald-400 animate-pulse ml-0.5">_</span>
                 </div>
 
                 <p class="text-slate-300 text-sm sm:text-base mb-8 leading-relaxed max-w-xl font-mono">
-                    Final-year BE Computer Engineering student at <strong class="text-emerald-400">St. John College of Engineering & Management</strong>. Focused on Android App Development with Kotlin, algorithm optimization, and building robust software systems.
+                    Final-year BE Computer Engineering student at <strong class="text-emerald-400">St. John College of
+                        Engineering &amp; Management</strong>. Specializing in <strong class="text-cyan-400">Artificial
+                        Intelligence &amp; Agentic AI Systems</strong>, Android App Development with Kotlin, algorithm
+                    optimization, and autonomous software workflows.
                 </p>
 
                 <!-- Hero Cyber Buttons -->
@@ -121,10 +131,12 @@
                     <a href="pics/Chinmay Gawad Resmue.pdf" target="_blank" class="cyber-btn">
                         <i data-lucide="file-text" class="w-4 h-4"></i> EXECUTE_RESUME.PDF
                     </a>
-                    <a href="https://www.linkedin.com/in/chinmay-gawad-7b3172256/" target="_blank" class="cyber-btn-outline">
+                    <a href="https://www.linkedin.com/in/chinmay-gawad-7b3172256/" target="_blank"
+                        class="cyber-btn-outline">
                         <i data-lucide="linkedin" class="w-4 h-4"></i> LINKEDIN
                     </a>
-                    <a id="github-profile-cta" href="https://github.com/ChinmayGawad" target="_blank" class="cyber-btn-outline">
+                    <a id="github-profile-cta" href="https://github.com/ChinmayGawad" target="_blank"
+                        class="cyber-btn-outline">
                         <i data-lucide="github" class="w-4 h-4"></i> GITHUB
                     </a>
                 </div>
@@ -134,11 +146,13 @@
             <div class="md:col-span-5 fade-up">
                 <div class="hacker-card">
                     <div class="terminal-bar">
-                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span
+                                class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
                         <span>zsh - root@chinmay: ~/profile</span>
                     </div>
                     <div class="p-6 text-center">
-                        <div class="w-36 h-36 mx-auto rounded-xl overflow-hidden mb-5 border-2 border-emerald-400 shadow-xl shadow-emerald-500/20 bg-black/80">
+                        <div
+                            class="w-36 h-36 mx-auto rounded-xl overflow-hidden mb-5 border-2 border-emerald-400 shadow-xl shadow-emerald-500/20 bg-black/80">
                             <img src="pics/IMG_6884.jpg" alt="Chinmay Gawad" class="profile-avatar-img">
                         </div>
                         <h3 class="text-xl font-bold text-slate-100 mb-1">Chinmay Gawad</h3>
@@ -182,15 +196,21 @@
         <div class="grid md:grid-cols-12 gap-8 items-start">
             <div class="md:col-span-7 hacker-card">
                 <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                    <div class="terminal-dots"><span class="dot dot-red"></span><span
+                            class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
                     <span>nano bio.md</span>
                 </div>
                 <div class="p-7">
                     <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
-                        I am a <strong class="text-emerald-400">final-year Computer Engineering undergraduate</strong> at St. John College of Engineering and Management, Palghar. I specialize in software design, problem-solving, and computational logic.
+                        I am a <strong class="text-emerald-400">final-year Computer Engineering undergraduate</strong>
+                        at St. John College of Engineering and Management, Palghar. I specialize in software
+                        architecture, intelligent algorithms, and computational systems.
                     </p>
                     <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
-                        Driven by a self-motivated, can-do attitude, my core focus is building native <strong class="text-cyan-400">Android Applications with Kotlin</strong> along with clean architecture patterns (MVVM, REST APIs, Room DB).
+                        Driven by a self-motivated, can-do attitude, my core focus lies at the intersection of <strong
+                            class="text-cyan-400">Artificial Intelligence &amp; Agentic AI Systems</strong> alongside
+                        native <strong class="text-emerald-400">Android Applications with Kotlin</strong> (MVVM, LLM
+                        Workflows, REST APIs, Room DB).
                     </p>
 
                     <div class="grid sm:grid-cols-3 gap-3">
@@ -201,10 +221,10 @@
                             <p class="text-xs text-slate-300">Saphale, Palghar, MH</p>
                         </div>
                         <div class="p-3 rounded bg-black/60 border border-emerald-500/20">
-                            <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs mb-1">
-                                <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> MAIN FOCUS
+                            <div class="flex items-center gap-2 text-cyan-400 font-bold text-xs mb-1">
+                                <i data-lucide="bot" class="w-3.5 h-3.5"></i> MAIN FOCUS
                             </div>
-                            <p class="text-xs text-slate-300">Android & Kotlin</p>
+                            <p class="text-xs text-slate-300">AI, Agents &amp; Android</p>
                         </div>
                         <div class="p-3 rounded bg-black/60 border border-emerald-500/20">
                             <div class="flex items-center gap-2 text-emerald-400 font-bold text-xs mb-1">
@@ -218,30 +238,33 @@
 
             <div class="md:col-span-5 hacker-card">
                 <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                    <div class="terminal-dots"><span class="dot dot-red"></span><span
+                            class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
                     <span>./verify_credentials.sh</span>
                 </div>
                 <div class="p-7 text-center sm:text-left">
-                    <div class="w-24 h-24 mx-auto sm:mx-0 rounded-xl overflow-hidden mb-4 border border-emerald-400/40 bg-black/80">
+                    <div
+                        class="w-24 h-24 mx-auto sm:mx-0 rounded-xl overflow-hidden mb-4 border border-emerald-400/40 bg-black/80">
                         <img src="pics/edited-photo.png" alt="Chinmay Gawad" class="profile-avatar-img">
                     </div>
-                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-4">[SYSTEM_VERIFICATION_LOG]</h3>
+                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-4">
+                        [SYSTEM_VERIFICATION_LOG]</h3>
                     <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
                         <li class="flex items-start gap-2.5">
                             <i data-lucide="check-square" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                            <span>Java, C++, Python, Kotlin, and JavaScript proficiency.</span>
+                            <span>AI &amp; Agentic AI Systems (LLM Workflows, Autonomous Agents).</span>
                         </li>
                         <li class="flex items-start gap-2.5">
                             <i data-lucide="check-square" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                            <span>Data Structures, Algorithms & OOP Architecture.</span>
+                            <span>Kotlin, Java, Python, C++, and JavaScript proficiency.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
                             <i data-lucide="check-square" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                            <span>Android Studio, Git/GitHub, Postman API, MySQL DB.</span>
+                            <span>Data Structures, Algorithms &amp; OOP Architecture.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
                             <i data-lucide="check-square" class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                            <span>Academic Excellence: 9.29 BE SGPA & 88.00% Diploma.</span>
+                            <span>Academic Excellence: 9.29 BE SGPA &amp; 88.00% Diploma.</span>
                         </li>
                     </ul>
                 </div>
@@ -251,80 +274,153 @@
 
     <!-- ══════════ SKILLS SECTION ══════════ -->
     <section id="skills" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <div class="section-tag">$ ./skills.sh --list</div>
-        <h2 class="section-heading">Technical Arsenal</h2>
+        <div class="section-tag">$ ./skills_roadmap.sh --tree</div>
+        <h2 class="section-heading">Technical Arsenal &amp; Skill Progression</h2>
 
-        <div class="grid md:grid-cols-3 gap-6">
-            <!-- Programming Languages -->
-            <div class="hacker-card">
-                <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span>languages.json</span>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                            <i data-lucide="code-2" class="w-4 h-4"></i>
-                        </div>
-                        <h3 class="font-bold text-base text-slate-100">Languages</h3>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="tech-pill">Kotlin</span>
-                        <span class="tech-pill">Java</span>
-                        <span class="tech-pill">C++</span>
-                        <span class="tech-pill">C</span>
-                        <span class="tech-pill">Python</span>
-                        <span class="tech-pill">C#</span>
-                        <span class="tech-pill">JavaScript</span>
-                    </div>
-                </div>
+        <!-- Main Hacker Card Container for Skill Roadmap -->
+        <div class="hacker-card">
+            <div class="terminal-bar">
+                <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span
+                        class="dot dot-green"></span></div>
+                <span>tech_stack_roadmap.sys</span>
             </div>
+            <div class="p-6 sm:p-8">
 
-            <!-- Core CS Concepts -->
-            <div class="hacker-card">
-                <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span>core_cs.sys</span>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                            <i data-lucide="cpu" class="w-4 h-4"></i>
-                        </div>
-                        <h3 class="font-bold text-base text-slate-100">Core CS</h3>
+                <!-- Header / Overview -->
+                <div class="flex items-center gap-4 mb-6 pb-6 border-b border-emerald-500/20">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-black/80 border-2 border-cyan-400 flex items-center justify-center text-cyan-400 shadow-lg shadow-cyan-500/20 flex-shrink-0">
+                        <i data-lucide="cpu" class="w-7 h-7"></i>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="tech-pill">Android Dev</span>
-                        <span class="tech-pill">DS & Algorithms</span>
-                        <span class="tech-pill">DBMS</span>
-                        <span class="tech-pill">OOP</span>
-                        <span class="tech-pill">Operating Systems</span>
-                        <span class="tech-pill">Computer Architecture</span>
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-bold text-slate-100 leading-tight">Engineering Capabilities &amp; Stack
+                            Progression</h3>
+                        <p class="text-xs font-mono text-cyan-400 mt-1 flex flex-wrap items-center gap-2">
+                            <span>Layered Skill Roadmap</span>
+                            <span>•</span>
+                            <span class="text-slate-400">Agentic AI &amp; Software Systems</span>
+                        </p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Tools & Technologies -->
-            <div class="hacker-card">
-                <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span>tools.cfg</span>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-9 h-9 rounded bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
-                            <i data-lucide="wrench" class="w-4 h-4"></i>
+                <!-- Skill Stack Categories (Clean Card Blocks without Timeline Connector Lines) -->
+                <div class="space-y-6">
+
+                    <!-- Level 1: Agentic AI & Intelligence Layer -->
+                    <div
+                        class="p-5 rounded-lg bg-black/50 border border-cyan-500/25 hover:border-cyan-400/50 transition-colors">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                <i data-lucide="bot" class="w-5 h-5 text-cyan-400"></i>
+                                Agentic AI &amp; Intelligence Systems
+                            </h4>
+                            <span class="skills-timeline-level level-ai">
+                                <i data-lucide="sparkles" class="w-3 h-3"></i> PRIMARY_FOCUS
+                            </span>
                         </div>
-                        <h3 class="font-bold text-base text-slate-100">Tools & Stack</h3>
+
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+                            Architecting autonomous AI agent pipelines, multi-step LLM workflows, context
+                            management, prompt engineering strategies, and RAG retrieval pipelines.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill active">Agentic AI</span>
+                            <span class="tech-pill active">Autonomous Agents</span>
+                            <span class="tech-pill">LLM Workflows</span>
+                            <span class="tech-pill">Prompt Engineering</span>
+                            <span class="tech-pill">Python AI Stack</span>
+                            <span class="tech-pill">RAG &amp; Vector Embeddings</span>
+                        </div>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="tech-pill">Android Studio</span>
-                        <span class="tech-pill">Git / GitHub</span>
-                        <span class="tech-pill">MySQL</span>
-                        <span class="tech-pill">Postman API</span>
-                        <span class="tech-pill">.NET Framework</span>
-                        <span class="tech-pill">VS Code</span>
+
+                    <!-- Level 2: Mobile & Native Engineering Layer -->
+                    <div
+                        class="p-5 rounded-lg bg-black/50 border border-emerald-500/25 hover:border-emerald-400/50 transition-colors">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                <i data-lucide="smartphone" class="w-5 h-5 text-emerald-400"></i>
+                                Native Android &amp; Mobile Architecture
+                            </h4>
+                            <span class="skills-timeline-level level-mobile">
+                                <i data-lucide="zap" class="w-3 h-3"></i> ADVANCED_STACK
+                            </span>
+                        </div>
+
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+                            Building native Android mobile applications with Kotlin, clean software architecture
+                            (MVVM), offline database persistence with Room DB, and REST API integrations.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill active">Kotlin</span>
+                            <span class="tech-pill">Android Studio</span>
+                            <span class="tech-pill">MVVM Architecture</span>
+                            <span class="tech-pill">Room DB</span>
+                            <span class="tech-pill">REST APIs</span>
+                            <span class="tech-pill">Jetpack Components</span>
+                        </div>
                     </div>
+
+                    <!-- Level 3: Core CS & Programming Languages Layer -->
+                    <div
+                        class="p-5 rounded-lg bg-black/50 border border-amber-500/25 hover:border-amber-400/50 transition-colors">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                <i data-lucide="code-2" class="w-5 h-5 text-amber-400"></i>
+                                Core CS &amp; Programming Languages
+                            </h4>
+                            <span class="skills-timeline-level level-core">
+                                <i data-lucide="shield" class="w-3 h-3"></i> FOUNDATION
+                            </span>
+                        </div>
+
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+                            Solid foundations in computer science theory, efficient algorithm design, memory
+                            management, data structures, and multi-language development.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">Java</span>
+                            <span class="tech-pill">C++</span>
+                            <span class="tech-pill">C</span>
+                            <span class="tech-pill">C#</span>
+                            <span class="tech-pill">JavaScript</span>
+                            <span class="tech-pill">DS &amp; Algorithms</span>
+                            <span class="tech-pill">DBMS</span>
+                            <span class="tech-pill">Operating Systems</span>
+                        </div>
+                    </div>
+
+                    <!-- Level 4: Tools & Infrastructure Layer -->
+                    <div
+                        class="p-5 rounded-lg bg-black/50 border border-purple-500/25 hover:border-purple-400/50 transition-colors">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                <i data-lucide="wrench" class="w-5 h-5 text-purple-400"></i>
+                                Developer Tools &amp; Environment
+                            </h4>
+                            <span class="skills-timeline-level level-tools">
+                                <i data-lucide="layers" class="w-3 h-3"></i> ECOSYSTEM
+                            </span>
+                        </div>
+
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+                            Essential developer tooling for version control, continuous API verification, database
+                            management, and software build pipelines.
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-pill">Git / GitHub</span>
+                            <span class="tech-pill">MySQL</span>
+                            <span class="tech-pill">Postman API</span>
+                            <span class="tech-pill">VS Code</span>
+                            <span class="tech-pill">.NET Framework</span>
+                            <span class="tech-pill">Gradle</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -338,21 +434,49 @@
                 <h2 class="section-heading mb-1">GitHub Repositories</h2>
                 <p class="text-xs text-emerald-400 font-mono"><span id="repo-count">[FETCHING...]</span></p>
             </div>
-            
+
             <!-- Language Filter Pills -->
             <div id="filter-container" class="flex flex-wrap gap-2">
                 <!-- Injected via JavaScript -->
             </div>
         </div>
 
-        <!-- Hacker Projects Grid -->
-        <div id="proj-grid" class="projects-grid mb-10">
-            <!-- Skeleton Loaders or Repos Injected JS -->
+        <!-- Terminal IDE Split-Pane Window -->
+        <div class="hacker-card mb-10 overflow-hidden">
+            <div class="terminal-bar">
+                <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                <span>zsh — root@chinmay: ~/github_workspace</span>
+            </div>
+
+            <div id="ide-container" class="grid md:grid-cols-12 min-h-[460px]">
+                
+                <!-- Left Pane: Repository Directory List -->
+                <div class="md:col-span-5 border-r border-emerald-500/20 flex flex-col bg-black/40">
+                    <div class="p-3 border-b border-emerald-500/20 bg-black/60 flex items-center justify-between text-xs font-mono text-slate-400">
+                        <span class="flex items-center gap-1.5 text-emerald-400 font-bold">
+                            <i data-lucide="folder-git-2" class="w-4 h-4"></i> REPOSITORY_TREE
+                        </span>
+                        <span class="text-[10px] text-slate-500">$ ls -la ~/repos</span>
+                    </div>
+                    
+                    <!-- Scrollable Repo List -->
+                    <div id="repo-list-pane" class="overflow-y-auto max-h-[440px] p-2 space-y-1">
+                        <!-- Injected via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Right Pane: Live Code & Repo Inspector -->
+                <div class="md:col-span-7 flex flex-col justify-between p-6 sm:p-8 bg-black/20" id="repo-inspector-pane">
+                    <!-- Injected via JavaScript -->
+                </div>
+
+            </div>
         </div>
 
         <!-- GitHub External CTA -->
         <div class="text-center fade-up">
-            <a id="github-repos-cta" href="https://github.com/ChinmayGawad?tab=repositories" target="_blank" class="cyber-btn-outline">
+            <a id="github-repos-cta" href="https://github.com/ChinmayGawad?tab=repositories" target="_blank"
+                class="cyber-btn-outline">
                 [OPEN_ALL_GITHUB_REPOSITORIES]
                 <i data-lucide="external-link" class="w-4 h-4"></i>
             </a>
@@ -374,72 +498,171 @@
         <div class="section-tag">$ cat education_timeline.log</div>
         <h2 class="section-heading">Academic Journey</h2>
 
-        <div class="space-y-6">
-            <!-- BE Degree -->
+        <div class="space-y-8">
+            <!-- Institution Card 1: St. John College of Engineering & Management -->
             <div class="hacker-card">
                 <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span>degree_be.log</span>
+                    <div class="terminal-dots"><span class="dot dot-red"></span><span
+                            class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                    <span>st_john_college.sys</span>
                 </div>
-                <div class="p-7">
-                    <div class="flex flex-wrap items-start justify-between gap-4 mb-3">
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-100">BE in Computer Engineering</h3>
-                            <p class="text-emerald-400 text-xs font-semibold">St. John College of Engineering & Management, Palghar</p>
+                <div class="p-6 sm:p-8">
+                    <!-- Institution Header -->
+                    <div class="flex items-center gap-4 mb-6 pb-6 border-b border-emerald-500/20">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-black/80 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-500/20 flex-shrink-0">
+                            <i data-lucide="graduation-cap" class="w-7 h-7"></i>
                         </div>
-                        <span class="code-badge">2024 — 2027</span>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold text-slate-100 leading-tight">St. John College of Engineering
+                                &amp; Management</h3>
+                            <p class="text-xs font-mono text-emerald-400 mt-1 flex flex-wrap items-center gap-2">
+                                <span>Palghar, Maharashtra</span>
+                                <span>•</span>
+                                <span class="text-slate-400">2021 — Present (5+ yrs)</span>
+                            </p>
+                        </div>
                     </div>
-                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
-                        Studying DSA, Design Analysis & Algorithms, Operating Systems, Computer Architecture, DBMS, and software architecture. Focused on native Android App Development with Kotlin.
-                    </p>
-                    <div class="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded">
-                        <i data-lucide="award" class="w-4 h-4"></i> SGPA: 9.29 [EXCELLENT]
+
+                    <!-- Connected Vertical Timeline -->
+                    <div class="edu-timeline">
+
+                        <!-- Milestone 1: BE Degree -->
+                        <div class="edu-timeline-item">
+                            <div class="edu-timeline-node active-node" title="Currently Pursuing BE Degree"></div>
+                            <div class="pl-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                        BE in Computer Engineering
+                                        <span
+                                            class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Pursuing</span>
+                                    </h4>
+                                    <span class="code-badge">2024 — 2027</span>
+                                </div>
+
+                                <div
+                                    class="text-xs font-mono text-slate-400 mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+                                    <span class="flex items-center gap-1"><i data-lucide="award"
+                                            class="w-3.5 h-3.5 text-emerald-400"></i> SGPA: <strong
+                                            class="text-emerald-400">9.29 / 10.0 [EXCELLENT]</strong></span>
+                                    <span class="flex items-center gap-1"><i data-lucide="map-pin"
+                                            class="w-3.5 h-3.5 text-slate-400"></i> Palghar, MH</span>
+                                </div>
+
+                                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
+                                    Advanced study in Data Structures &amp; Algorithms, Artificial Intelligence Systems,
+                                    Operating Systems, DBMS, and Computer Architecture. Specializing in Agentic AI
+                                    Systems, LLM Workflows, and native Android App Development with Kotlin.
+                                </p>
+
+                                <div class="edu-skills-badge">
+                                    <i data-lucide="gem" class="w-3.5 h-3.5 text-cyan-400 flex-shrink-0"></i>
+                                    <span class="text-xs text-slate-300 font-mono"><strong class="text-cyan-400">Agentic
+                                            AI</strong>, LLM Workflows, <strong
+                                            class="text-emerald-400">Kotlin</strong>, Android App Dev, DSA, DBMS &amp;
+                                        OOP Architecture</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 2: Diploma -->
+                        <div class="edu-timeline-item">
+                            <div class="edu-timeline-node" title="Completed Diploma"></div>
+                            <div class="pl-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                        Diploma in Computer Engineering
+                                        <span
+                                            class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Completed</span>
+                                    </h4>
+                                    <span class="code-badge">2021 — 2024</span>
+                                </div>
+
+                                <div
+                                    class="text-xs font-mono text-slate-400 mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+                                    <span class="flex items-center gap-1"><i data-lucide="award"
+                                            class="w-3.5 h-3.5 text-emerald-400"></i> Score: <strong
+                                            class="text-emerald-400">88.00% [DISTINCTION]</strong></span>
+                                    <span class="flex items-center gap-1"><i data-lucide="map-pin"
+                                            class="w-3.5 h-3.5 text-slate-400"></i> Palghar, MH</span>
+                                </div>
+
+                                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
+                                    Comprehensive engineering diploma providing a strong core in C, C++, Java, Advanced
+                                    Java, Python, C#, database management, and computer hardware systems.
+                                </p>
+
+                                <div class="edu-skills-badge">
+                                    <i data-lucide="gem" class="w-3.5 h-3.5 text-cyan-400 flex-shrink-0"></i>
+                                    <span class="text-xs text-slate-300 font-mono"><strong class="text-cyan-400">Java
+                                            &amp; C++</strong>, Python, C#, Software Engineering, Relational DBs &amp;
+                                        Hardware</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
-            <!-- Diploma Degree -->
+            <!-- Institution Card 2: Sacred Heart High School -->
             <div class="hacker-card">
                 <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span>degree_diploma.log</span>
+                    <div class="terminal-dots"><span class="dot dot-red"></span><span
+                            class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                    <span>high_school.sys</span>
                 </div>
-                <div class="p-7">
-                    <div class="flex flex-wrap items-start justify-between gap-4 mb-3">
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-100">Diploma in Computer Engineering</h3>
-                            <p class="text-emerald-400 text-xs font-semibold">St. John College of Engineering & Management, Palghar</p>
+                <div class="p-6 sm:p-8">
+                    <!-- Institution Header -->
+                    <div class="flex items-center gap-4 mb-6 pb-6 border-b border-emerald-500/20">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-black/80 border border-slate-700 flex items-center justify-center text-cyan-400 flex-shrink-0">
+                            <i data-lucide="school" class="w-7 h-7"></i>
                         </div>
-                        <span class="code-badge">2021 — 2024</span>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-bold text-slate-100 leading-tight">Sacred Heart High School</h3>
+                            <p class="text-xs font-mono text-slate-400 mt-1 flex flex-wrap items-center gap-2">
+                                <span>High School Education</span>
+                                <span>•</span>
+                                <span class="text-slate-400">2021</span>
+                            </p>
+                        </div>
                     </div>
-                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
-                        Gained a solid programming foundation in C, C++, Java, Advanced Java, C#, Python, and computer hardware systems.
-                    </p>
-                    <div class="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded">
-                        <i data-lucide="award" class="w-4 h-4"></i> SCORE: 88.00% [DISTINCTION]
-                    </div>
-                </div>
-            </div>
 
-            <!-- SSC High School -->
-            <div class="hacker-card">
-                <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
-                    <span>ssc_10th.log</span>
-                </div>
-                <div class="p-7">
-                    <div class="flex flex-wrap items-start justify-between gap-4 mb-3">
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-100">SSC (Class 10th)</h3>
-                            <p class="text-emerald-400 text-xs font-semibold">Sacred Heart High School</p>
+                    <!-- Connected Vertical Timeline -->
+                    <div class="edu-timeline">
+                        <!-- Milestone 1: SSC Class 10th -->
+                        <div class="edu-timeline-item">
+                            <div class="edu-timeline-node"></div>
+                            <div class="pl-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h4 class="text-base sm:text-lg font-bold text-slate-100 flex items-center gap-2">
+                                        SSC (Class 10th)
+                                        <span
+                                            class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Matriculation</span>
+                                    </h4>
+                                    <span class="code-badge">2021</span>
+                                </div>
+
+                                <div
+                                    class="text-xs font-mono text-slate-400 mb-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+                                    <span class="flex items-center gap-1"><i data-lucide="award"
+                                            class="w-3.5 h-3.5 text-slate-400"></i> Score: <strong
+                                            class="text-slate-200">65.20%</strong></span>
+                                </div>
+
+                                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
+                                    Secondary school education covering fundamental scientific principles, mathematical
+                                    logic, language arts, and social sciences.
+                                </p>
+
+                                <div class="edu-skills-badge">
+                                    <i data-lucide="gem" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
+                                    <span class="text-xs text-slate-300 font-mono">Science, Mathematics, English,
+                                        Computer Basics &amp; Social Sciences</span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="code-badge">2021</span>
-                    </div>
-                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
-                        Completed secondary education focusing on Science, Mathematics, English, and Social Sciences.
-                    </p>
-                    <div class="inline-flex items-center gap-2 text-xs font-bold text-slate-400 bg-black/60 border border-emerald-500/20 px-3 py-1 rounded">
-                        <i data-lucide="award" class="w-4 h-4"></i> SCORE: 65.20%
                     </div>
                 </div>
             </div>
@@ -455,7 +678,8 @@
             <!-- Contact Info Cards -->
             <div class="md:col-span-5 space-y-4">
                 <a href="tel:8446595303" class="hacker-card p-5 flex items-center gap-4 block">
-                    <div class="w-11 h-11 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <div
+                        class="w-11 h-11 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                         <i data-lucide="phone" class="w-5 h-5"></i>
                     </div>
                     <div>
@@ -465,7 +689,8 @@
                 </a>
 
                 <a href="mailto:chinmaygawad365@gmail.com" class="hacker-card p-5 flex items-center gap-4 block">
-                    <div class="w-11 h-11 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                    <div
+                        class="w-11 h-11 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
                         <i data-lucide="mail" class="w-5 h-5"></i>
                     </div>
                     <div>
@@ -474,8 +699,10 @@
                     </div>
                 </a>
 
-                <a href="https://wa.me/918446595303" target="_blank" class="hacker-card p-5 flex items-center gap-4 block">
-                    <div class="w-11 h-11 rounded bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
+                <a href="https://wa.me/918446595303" target="_blank"
+                    class="hacker-card p-5 flex items-center gap-4 block">
+                    <div
+                        class="w-11 h-11 rounded bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
                         <i data-lucide="message-square" class="w-5 h-5"></i>
                     </div>
                     <div>
@@ -485,7 +712,8 @@
                 </a>
 
                 <div class="hacker-card p-5 flex items-center gap-4">
-                    <div class="w-11 h-11 rounded bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                    <div
+                        class="w-11 h-11 rounded bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
                         <i data-lucide="map-pin" class="w-5 h-5"></i>
                     </div>
                     <div>
@@ -498,19 +726,22 @@
             <!-- Contact Form Terminal -->
             <div class="md:col-span-7 hacker-card">
                 <div class="terminal-bar">
-                    <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                    <div class="terminal-dots"><span class="dot dot-red"></span><span
+                            class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
                     <span>send_message.sh</span>
                 </div>
                 <div class="p-7">
                     <form id="contact-form" onsubmit="handleForm(event)" class="space-y-4">
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-mono uppercase text-slate-400 mb-1">$ SENDER_NAME</label>
+                                <label class="block text-xs font-mono uppercase text-slate-400 mb-1">$
+                                    SENDER_NAME</label>
                                 <input type="text" name="name" required placeholder="John Doe"
                                     class="w-full bg-black/70 border border-emerald-500/30 rounded px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-emerald-400 transition-colors">
                             </div>
                             <div>
-                                <label class="block text-xs font-mono uppercase text-slate-400 mb-1">$ SENDER_EMAIL</label>
+                                <label class="block text-xs font-mono uppercase text-slate-400 mb-1">$
+                                    SENDER_EMAIL</label>
                                 <input type="email" name="email" required placeholder="user@domain.com"
                                     class="w-full bg-black/70 border border-emerald-500/30 rounded px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-emerald-400 transition-colors">
                             </div>
@@ -521,7 +752,8 @@
                                 class="w-full bg-black/70 border border-emerald-500/30 rounded px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-emerald-400 transition-colors">
                         </div>
                         <div>
-                            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">$ PAYLOAD_MESSAGE</label>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-1">$
+                                PAYLOAD_MESSAGE</label>
                             <textarea name="message" required rows="4" placeholder="Enter your message transmission..."
                                 class="w-full bg-black/70 border border-emerald-500/30 rounded px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-emerald-400 transition-colors resize-none"></textarea>
                         </div>
@@ -536,13 +768,15 @@
 
     <!-- ══════════ FOOTER ══════════ -->
     <footer class="relative z-10 border-t border-emerald-500/20 mt-20 py-10">
-        <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
+        <div
+            class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
             <div>
                 <p>&copy; 2026 <strong class="text-emerald-400">Chinmay Gawad</strong>. All systems nominal.</p>
             </div>
             <div class="flex items-center gap-4">
                 <a href="https://github.com/ChinmayGawad" target="_blank" class="hover:text-emerald-400">GitHub</a>
-                <a href="https://www.linkedin.com/in/chinmay-gawad-7b3172256/" target="_blank" class="hover:text-emerald-400">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/chinmay-gawad-7b3172256/" target="_blank"
+                    class="hover:text-emerald-400">LinkedIn</a>
                 <a href="mailto:chinmaygawad365@gmail.com" class="hover:text-emerald-400">Email</a>
             </div>
         </div>
@@ -555,9 +789,49 @@
     </button>
 
     <!-- System Toast Notification -->
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-black/90 border border-emerald-400 px-5 py-3 text-xs font-mono text-emerald-400 flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 shadow-xl shadow-emerald-500/20">
+    <div id="toast"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-black/90 border border-emerald-400 px-5 py-3 text-xs font-mono text-emerald-400 flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 shadow-xl shadow-emerald-500/20">
         <i data-lucide="terminal" class="w-4 h-4"></i>
         <span id="toast-msg"></span>
+    </div>
+
+    <!-- ══════════ TERMINAL COMMAND PALETTE MODAL (Ctrl + K) ══════════ -->
+    <div id="cmd-palette-backdrop" onclick="closeCmdPalette()"
+        class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 transition-opacity">
+        
+        <div onclick="event.stopPropagation()"
+            class="w-full max-w-xl hacker-card overflow-hidden shadow-2xl shadow-emerald-500/20 border border-emerald-500/40">
+            
+            <!-- Window Header Bar -->
+            <div class="terminal-bar flex items-center justify-between">
+                <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                <span class="font-mono text-xs text-emerald-400">terminal_cli_palette.sys (Ctrl+K)</span>
+                <button onclick="closeCmdPalette()" class="text-xs text-slate-400 hover:text-rose-400 font-mono">ESC</button>
+            </div>
+
+            <!-- Search Input Bar -->
+            <div class="p-3 border-b border-emerald-500/20 bg-black/70 flex items-center gap-3">
+                <span class="text-emerald-400 font-bold font-mono text-sm">$</span>
+                <input type="text" id="cmd-input" oninput="filterCmds(this.value)" onkeydown="handleCmdKeyDown(event)"
+                    placeholder="Type command or search sections..."
+                    class="w-full bg-transparent text-slate-100 placeholder:text-slate-500 font-mono text-xs sm:text-sm focus:outline-none"
+                    autocomplete="off">
+            </div>
+
+            <!-- Commands List Options -->
+            <div id="cmd-list" class="max-h-72 overflow-y-auto p-2 space-y-1">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Modal Footer Tip -->
+            <div class="px-4 py-2 bg-black/80 border-t border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                <span class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">↑↓</span> Navigate
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">↵</span> Select
+                </span>
+                <span>[ESC] Close</span>
+            </div>
+        </div>
     </div>
 
     <!-- Application Scripts -->
