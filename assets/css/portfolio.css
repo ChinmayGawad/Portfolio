@@ -1,72 +1,108 @@
 /* ==========================================================================
-   DARK HACKER / CYBER TERMINAL DESIGN SYSTEM
+   GALAXY / DEEP SPACE DESIGN SYSTEM
    ========================================================================== */
 
 :root {
-  /* Color Palette - Ultra Dark Void & Neon Hacker Green/Cyan */
-  --bg-main: #030712;
-  --bg-surface: rgba(10, 15, 26, 0.85);
-  --bg-card: rgba(8, 14, 24, 0.8);
-  --bg-card-hover: rgba(13, 23, 38, 0.95);
-  --border-subtle: rgba(0, 255, 102, 0.18);
-  --border-glow: #00ff66;
-  
-  --text-main: #f0fdf4;
-  --text-muted: #86efac;
-  --text-subtle: #4ade80;
-  
-  --accent-green: #00ff66;
-  --accent-cyan: #00f0ff;
-  --accent-amber: #ffb703;
-  --accent-rose: #ff0055;
+  /* Color Palette - Deep Indigo Void & Neon Nebula Violet/Cyan */
+  --bg-main: #0a0a1f;
+  --bg-surface: rgba(13, 10, 34, 0.85);
+  --bg-card: rgba(17, 13, 43, 0.8);
+  --bg-card-hover: rgba(29, 22, 66, 0.95);
+  --border-subtle: rgba(167, 139, 250, 0.18);
+  --border-glow: #a78bfa;
 
-  --gradient-brand: linear-gradient(135deg, #00ff66 0%, #00f0ff 50%, #3b82f6 100%);
-  --gradient-hacker: linear-gradient(90deg, #00ff66 0%, #00f0ff 100%);
-  
-  --shadow-glow: 0 0 25px rgba(0, 255, 102, 0.35);
-  --shadow-cyan-glow: 0 0 25px rgba(0, 240, 255, 0.3);
+  --text-main: #f5f3ff;
+  --text-muted: #c4b5fd;
+  --text-subtle: #a78bfa;
+
+  --accent-violet: #a78bfa;
+  --accent-cyan: #22d3ee;
+  --accent-gold: #fde047;
+  --accent-magenta: #e879f9;
+
+  --gradient-brand: linear-gradient(135deg, #a78bfa 0%, #e879f9 50%, #22d3ee 100%);
+  --gradient-galaxy: linear-gradient(90deg, #a78bfa 0%, #22d3ee 100%);
+
+  --shadow-glow: 0 0 25px rgba(167, 139, 250, 0.35);
+  --shadow-cyan-glow: 0 0 25px rgba(34, 211, 238, 0.3);
   --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
-  
+
   --radius-sm: 4px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-full: 9999px;
-  
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  
+  --font-display: 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Constellation Bento — accent rgb triplets & component tokens (dark) */
+  --accent-violet-rgb: 167 139 250;
+  --accent-cyan-rgb: 34 211 238;
+  --accent-magenta-rgb: 232 121 249;
+  --accent-gold-rgb: 253 224 71;
+  --accent-purple: #c084fc;
+  --accent-purple-rgb: 192 132 252;
+  --accent-rose-rgb: 244 63 94;
+  --star-color: 255 255 255;
+  --tile-bg: rgba(0, 0, 0, 0.55);
+  --pane-bg: rgba(10, 8, 30, 0.35);
+  --on-accent: #000000;
 }
 
-/* Light Theme Override (High-Contrast Cyber Light Vibe) */
+/* Light Theme Override (High-Contrast Galaxy Light Vibe) */
 html.light-theme {
-  --bg-main: #f8fafc;
+  --bg-main: #f8f7ff;
   --bg-surface: rgba(255, 255, 255, 0.95);
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --border-subtle: #cbd5e1;
-  --border-glow: #059669;
-  
-  --text-main: #0f172a;
-  --text-muted: #1e293b;
-  --text-subtle: #334155;
-  
-  --accent-green: #047857;
-  --accent-cyan: #0284c7;
-  
-  --shadow-glow: 0 0 20px rgba(5, 150, 105, 0.15);
+  --bg-card-hover: #f3f0ff;
+  --border-subtle: #ddd6fe;
+  --border-glow: #7c3aed;
+
+  --text-main: #1e1b4b;
+  --text-muted: #312e81;
+  --text-subtle: #4338ca;
+
+  --accent-violet: #7c3aed;
+  --accent-cyan: #0891b2;
+  --accent-gold: #b45309;
+  --accent-magenta: #c026d3;
+
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.15);
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+  /* Constellation Bento — accent rgb triplets & component tokens (light) */
+  --accent-violet-rgb: 124 58 237;
+  --accent-cyan-rgb: 8 145 178;
+  --accent-magenta-rgb: 192 38 211;
+  --accent-gold-rgb: 180 83 9;
+  --accent-purple: #7e22ce;
+  --accent-purple-rgb: 126 34 206;
+  --accent-rose-rgb: 190 18 60;
+  --star-color: 99 102 241;
+  --tile-bg: #f3f0ff;
+  --pane-bg: rgba(243, 240, 255, 0.6);
+  --on-accent: #ffffff;
 }
 
 /* Light Mode Comprehensive Typography & Component Overrides */
 html.light-theme body {
-  background-color: #f8fafc !important;
+  background-color: #f8f7ff !important;
   color: #0f172a !important;
 }
 
+html.light-theme body {
+  background-image:
+    radial-gradient(1100px 750px at 12% 8%, rgba(167, 139, 250, 0.14), transparent 60%),
+    radial-gradient(950px 700px at 88% 18%, rgba(232, 121, 249, 0.10), transparent 60%),
+    radial-gradient(900px 900px at 50% 115%, rgba(34, 211, 238, 0.08), transparent 60%) !important;
+}
+
 html.light-theme body::after {
-  opacity: 0.15 !important;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(99, 90, 160, 0.14) 100%) !important;
 }
 
 html.light-theme .text-slate-100,
@@ -87,50 +123,26 @@ html.light-theme .section-heading {
 
 html.light-theme .section-tag {
   background: #e2e8f0 !important;
-  color: #047857 !important;
+  color: #7c3aed !important;
   border-color: #cbd5e1 !important;
 }
 
-html.light-theme .hacker-card {
-  background: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  border-left-color: #047857 !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-  color: #0f172a !important;
-}
-
-html.light-theme .hacker-card:hover {
-  background: #f8fafc !important;
-  border-color: #047857 !important;
-}
-
-html.light-theme .terminal-bar {
-  background: #e2e8f0 !important;
-  color: #1e293b !important;
-  border-bottom: 1px solid #cbd5e1 !important;
-}
-
-html.light-theme .terminal-bar span {
-  color: #047857 !important;
-  font-weight: 700 !important;
-}
-
-html.light-theme .neon-text-green {
-  color: #047857 !important;
+html.light-theme .neon-text-violet {
+  color: #7c3aed !important;
   text-shadow: none !important;
 }
 
 html.light-theme .neon-text-cyan {
-  color: #0284c7 !important;
+  color: #0891b2 !important;
   text-shadow: none !important;
 }
 
-html.light-theme .text-emerald-400 {
-  color: #047857 !important;
+html.light-theme .text-violet-400 {
+  color: #7c3aed !important;
 }
 
-html.light-theme .text-emerald-500\/70 {
-  color: #059669 !important;
+html.light-theme .text-violet-500\/70 {
+  color: #8b5cf6 !important;
 }
 
 html.light-theme .bg-black\/60,
@@ -138,31 +150,14 @@ html.light-theme .bg-black\/70,
 html.light-theme .bg-black\/80,
 html.light-theme .bg-black\/90,
 html.light-theme .bg-black {
-  background-color: #f1f5f9 !important;
+  background-color: #f3f0ff !important;
   border-color: #cbd5e1 !important;
   color: #0f172a !important;
-}
-
-html.light-theme input,
-html.light-theme textarea {
-  background-color: #ffffff !important;
-  color: #0f172a !important;
-  border-color: #cbd5e1 !important;
-}
-
-html.light-theme input::placeholder,
-html.light-theme textarea::placeholder {
-  color: #64748b !important;
-}
-
-html.light-theme input:focus,
-html.light-theme textarea:focus {
-  border-color: #047857 !important;
 }
 
 html.light-theme .code-badge {
   background: #e2e8f0 !important;
-  color: #047857 !important;
+  color: #7c3aed !important;
   border-color: #cbd5e1 !important;
 }
 
@@ -174,32 +169,32 @@ html.light-theme .tech-pill {
 
 html.light-theme .tech-pill:hover,
 html.light-theme .tech-pill.active {
-  background: #047857 !important;
+  background: #7c3aed !important;
   color: #ffffff !important;
-  border-color: #047857 !important;
+  border-color: #7c3aed !important;
   box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2) !important;
 }
 
-html.light-theme .cyber-btn {
-  background: #047857 !important;
+html.light-theme .cosmic-btn {
+  background: #7c3aed !important;
   color: #ffffff !important;
-  border-color: #047857 !important;
+  border-color: #7c3aed !important;
   box-shadow: 0 4px 14px rgba(4, 120, 87, 0.2) !important;
 }
 
-html.light-theme .cyber-btn:hover {
-  background: #065f46 !important;
+html.light-theme .cosmic-btn:hover {
+  background: #6d28d9 !important;
   color: #ffffff !important;
 }
 
-html.light-theme .cyber-btn-outline {
+html.light-theme .cosmic-btn-outline {
   background: #ffffff !important;
-  color: #047857 !important;
-  border-color: #047857 !important;
+  color: #7c3aed !important;
+  border-color: #7c3aed !important;
 }
 
-html.light-theme .cyber-btn-outline:hover {
-  background: #047857 !important;
+html.light-theme .cosmic-btn-outline:hover {
+  background: #7c3aed !important;
   color: #ffffff !important;
 }
 
@@ -216,9 +211,9 @@ html.light-theme .nav-box {
 
 html.light-theme .nav-box:hover,
 html.light-theme .nav-box.active {
-  background: #047857 !important;
+  background: #7c3aed !important;
   color: #ffffff !important;
-  border-color: #047857 !important;
+  border-color: #7c3aed !important;
   box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2) !important;
 }
 
@@ -236,13 +231,13 @@ html.light-theme footer {
 html.light-theme #scrollTop {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
-  color: #047857 !important;
+  color: #7c3aed !important;
 }
 
 html.light-theme #toast {
   background: #ffffff !important;
-  border-color: #047857 !important;
-  color: #047857 !important;
+  border-color: #7c3aed !important;
+  color: #7c3aed !important;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
 }
 
@@ -253,7 +248,7 @@ html.light-theme #toast {
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   background-color: var(--bg-main);
   color: var(--text-main);
   transition: background-color var(--transition-normal), color var(--transition-normal);
@@ -264,22 +259,27 @@ body {
   padding: 0;
   overflow-x: hidden;
   line-height: 1.6;
+  /* Soft nebula backdrop drifting behind all content */
+  background-image:
+    radial-gradient(1100px 750px at 12% 8%, rgba(167, 139, 250, 0.16), transparent 60%),
+    radial-gradient(950px 700px at 88% 18%, rgba(232, 121, 249, 0.12), transparent 60%),
+    radial-gradient(900px 900px at 50% 115%, rgba(34, 211, 238, 0.08), transparent 60%);
+  background-attachment: fixed;
 }
 
-/* Subtle CRT Scanline Overlay Effect */
+/* Subtle Cinematic Vignette Overlay */
 body::after {
   content: " ";
   display: block;
   position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(5, 2, 20, 0.45) 100%);
   z-index: 99;
-  background-size: 100% 3px, 6px 100%;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 1;
 }
 
-/* Custom Cyber Green Scrollbar */
+/* Custom Galaxy Violet Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -287,23 +287,23 @@ body::after {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 255, 102, 0.3);
+  background: rgba(167, 139, 250, 0.3);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 255, 102, 0.5);
+  border: 1px solid rgba(167, 139, 250, 0.5);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-green);
-  box-shadow: 0 0 10px var(--accent-green);
+  background: var(--accent-violet);
+  box-shadow: 0 0 10px var(--accent-violet);
 }
 
-/* Cyber Selection Highlight */
+/* Galaxy Selection Highlight */
 ::selection {
-  background: var(--accent-green);
+  background: var(--accent-violet);
   color: #000000;
 }
 
-/* Matrix Canvas */
-#matrix-canvas {
+/* Galaxy Supernova Canvas */
+#galaxy-canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -311,7 +311,7 @@ body::after {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.75;
+  opacity: 0.9;
 }
 
 .profile-avatar-img {
@@ -321,71 +321,28 @@ body::after {
   object-position: 50% 15%;
 }
 
-/* Hacker Glass Card & Terminal Window Frame */
-.hacker-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-left: 3px solid var(--accent-green);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal), background var(--transition-normal);
-  position: relative;
-  overflow: hidden;
+/* Space Display Headings (Orbitron) */
+h1, h2, h3 {
+  font-family: var(--font-display);
 }
 
-.hacker-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent-green);
-  box-shadow: var(--shadow-glow), var(--shadow-card);
-  background: var(--bg-card-hover);
-}
-
-/* Terminal Window Header Bar */
-.terminal-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 0.85rem;
-  background: rgba(0, 0, 0, 0.6);
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.terminal-dots {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.dot-red { background: #ff5f56; }
-.dot-yellow { background: #ffbd2e; }
-.dot-green { background: #27c93f; }
-
-/* Hacker Monospace Utilities */
+/* Monospace Utilities */
 .font-mono {
   font-family: var(--font-mono);
 }
 
-.neon-text-green {
-  color: var(--accent-green);
-  text-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+.neon-text-violet {
+  color: var(--accent-violet);
+  text-shadow: 0 0 12px rgba(167, 139, 250, 0.6);
 }
 
 .neon-text-cyan {
   color: var(--accent-cyan);
-  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
 }
 
-.gradient-hacker-text {
-  background: var(--gradient-hacker);
+.gradient-galaxy-text {
+  background: var(--gradient-galaxy);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -397,9 +354,9 @@ body::after {
   font-weight: 600;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-sm);
-  background: rgba(0, 255, 102, 0.1);
-  color: var(--accent-green);
-  border: 1px solid rgba(0, 255, 102, 0.3);
+  background: rgba(167, 139, 250, 0.1);
+  color: var(--accent-violet);
+  border: 1px solid rgba(167, 139, 250, 0.3);
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -420,41 +377,41 @@ body::after {
 
 .tech-pill:hover, .tech-pill.active {
   color: #000000;
-  background: var(--accent-green);
-  border-color: var(--accent-green);
-  box-shadow: 0 0 15px rgba(0, 255, 102, 0.5);
+  background: var(--accent-violet);
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.5);
   font-weight: 700;
   transform: translateY(-2px);
 }
 
-/* Hacker Status Badge */
-.hacker-status {
+/* Cosmic Status Badge */
+.cosmic-status {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-sm);
-  background: rgba(0, 255, 102, 0.08);
-  border: 1px solid rgba(0, 255, 102, 0.4);
-  color: var(--accent-green);
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  color: var(--accent-violet);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
-  box-shadow: 0 0 15px rgba(0, 255, 102, 0.15);
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.15);
 }
 
-.hacker-dot {
+.cosmic-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent-green);
-  box-shadow: 0 0 10px var(--accent-green);
+  background: var(--accent-violet);
+  box-shadow: 0 0 10px var(--accent-violet);
   animation: pulse-dot 1.5s infinite alternate;
 }
 
 @keyframes pulse-dot {
   0% { transform: scale(0.9); opacity: 0.6; }
-  100% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 15px var(--accent-green); }
+  100% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 15px var(--accent-violet); }
 }
 
 /* Section Header Styling */
@@ -465,20 +422,20 @@ body::after {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--accent-green);
+  color: var(--accent-violet);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 0.5rem;
-  background: rgba(0, 255, 102, 0.08);
+  background: rgba(167, 139, 250, 0.08);
   padding: 0.2rem 0.6rem;
-  border: 1px solid rgba(0, 255, 102, 0.2);
+  border: 1px solid rgba(167, 139, 250, 0.2);
   border-radius: var(--radius-sm);
 }
 
 .section-heading {
   font-size: 2.25rem;
   font-weight: 800;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
   color: var(--text-main);
@@ -521,9 +478,9 @@ body::after {
 
 .nav-box:hover, .nav-box.active {
   color: #000000;
-  border-color: var(--accent-green);
-  background: var(--accent-green);
-  box-shadow: 0 0 20px rgba(0, 255, 102, 0.6);
+  border-color: var(--accent-violet);
+  background: var(--accent-violet);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.6);
 }
 
 .nav-box .tip {
@@ -532,8 +489,8 @@ body::after {
   left: 50%;
   transform: translateX(-50%) translateY(4px);
   background: #000000;
-  border: 1px solid var(--accent-green);
-  color: var(--accent-green);
+  border: 1px solid var(--accent-violet);
+  color: var(--accent-violet);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
@@ -550,33 +507,33 @@ body::after {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Cyber Button Styling */
-.cyber-btn {
+/* Cosmic Button Styling */
+.cosmic-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-sm);
-  background: var(--accent-green);
+  background: var(--accent-violet);
   color: #000000;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.875rem;
-  border: 1px solid var(--accent-green);
-  box-shadow: 0 0 20px rgba(0, 255, 102, 0.35);
+  border: 1px solid var(--accent-violet);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.35);
   transition: all var(--transition-fast);
   cursor: pointer;
   text-decoration: none;
 }
 
-.cyber-btn:hover {
+.cosmic-btn:hover {
   background: #000000;
-  color: var(--accent-green);
-  box-shadow: 0 0 25px rgba(0, 255, 102, 0.6);
+  color: var(--accent-violet);
+  box-shadow: 0 0 25px rgba(167, 139, 250, 0.6);
   transform: translateY(-2px);
 }
 
-.cyber-btn-outline {
+.cosmic-btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -593,10 +550,10 @@ body::after {
   text-decoration: none;
 }
 
-.cyber-btn-outline:hover {
+.cosmic-btn-outline:hover {
   border-color: var(--accent-cyan);
   color: var(--accent-cyan);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
   transform: translateY(-2px);
 }
 
@@ -611,7 +568,7 @@ body::after {
 }
 
 /* ==========================================================================
-   CONNECTED TIMELINE COMPONENT (LINKEDIN & CYBER TERMINAL HYBRID)
+   CONNECTED TIMELINE COMPONENT (LINKEDIN & MISSION CONSOLE HYBRID)
    ========================================================================== */
 .edu-timeline {
   position: relative;
@@ -627,13 +584,13 @@ body::after {
   bottom: 0.75rem;
   left: 0.625rem;
   width: 2px;
-  background: linear-gradient(180deg, var(--accent-green) 0%, rgba(0, 240, 255, 0.4) 50%, rgba(0, 255, 102, 0.15) 100%);
+  background: linear-gradient(180deg, var(--accent-violet) 0%, rgba(34, 211, 238, 0.4) 50%, rgba(167, 139, 250, 0.15) 100%);
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.3);
 }
 
 html.light-theme .edu-timeline::before {
-  background: linear-gradient(180deg, #047857 0%, #0284c7 50%, rgba(4, 120, 87, 0.2) 100%);
+  background: linear-gradient(180deg, #7c3aed 0%, #0891b2 50%, rgba(4, 120, 87, 0.2) 100%);
   box-shadow: none;
 }
 
@@ -656,32 +613,32 @@ html.light-theme .edu-timeline::before {
   height: 16px;
   border-radius: 50%;
   background: var(--bg-main);
-  border: 3px solid var(--accent-green);
-  box-shadow: 0 0 12px var(--accent-green);
+  border: 3px solid var(--accent-violet);
+  box-shadow: 0 0 12px var(--accent-violet);
   z-index: 2;
   transition: all var(--transition-normal);
 }
 
 .edu-timeline-node.active-node {
-  background: var(--accent-green);
-  box-shadow: 0 0 16px var(--accent-green), inset 0 0 6px #ffffff;
+  background: var(--accent-violet);
+  box-shadow: 0 0 16px var(--accent-violet), inset 0 0 6px #ffffff;
 }
 
 html.light-theme .edu-timeline-node {
   background: #ffffff;
-  border-color: #047857;
+  border-color: #7c3aed;
   box-shadow: 0 0 6px rgba(4, 120, 87, 0.3);
 }
 
 html.light-theme .edu-timeline-node.active-node {
-  background: #047857;
-  border-color: #047857;
+  background: #7c3aed;
+  border-color: #7c3aed;
   box-shadow: 0 0 10px rgba(4, 120, 87, 0.4);
 }
 
 .edu-timeline-item:hover .edu-timeline-node {
   transform: translateX(0.18rem) scale(1.3);
-  box-shadow: 0 0 20px var(--accent-green);
+  box-shadow: 0 0 20px var(--accent-violet);
 }
 
 /* Skills/Highlights pill badge inside timeline item */
@@ -698,18 +655,18 @@ html.light-theme .edu-timeline-node.active-node {
 }
 
 .edu-skills-badge:hover {
-  border-color: var(--accent-green);
-  box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.2);
 }
 
 html.light-theme .edu-skills-badge {
-  background: #f1f5f9;
+  background: #f3f0ff;
   border-color: #cbd5e1;
   box-shadow: none;
 }
 
 html.light-theme .edu-skills-badge:hover {
-  border-color: #047857;
+  border-color: #7c3aed;
   background: #e2e8f0;
 }
 
@@ -728,20 +685,20 @@ html.light-theme .edu-skills-badge:hover {
 }
 
 .skills-timeline-level.level-ai {
-  background: rgba(0, 240, 255, 0.12);
+  background: rgba(34, 211, 238, 0.12);
   color: var(--accent-cyan);
-  border: 1px solid rgba(0, 240, 255, 0.35);
+  border: 1px solid rgba(34, 211, 238, 0.35);
 }
 
 .skills-timeline-level.level-mobile {
-  background: rgba(0, 255, 102, 0.12);
-  color: var(--accent-green);
-  border: 1px solid rgba(0, 255, 102, 0.35);
+  background: rgba(167, 139, 250, 0.12);
+  color: var(--accent-violet);
+  border: 1px solid rgba(167, 139, 250, 0.35);
 }
 
 .skills-timeline-level.level-core {
   background: rgba(255, 183, 3, 0.12);
-  color: var(--accent-amber);
+  color: var(--accent-gold);
   border: 1px solid rgba(255, 183, 3, 0.35);
 }
 
@@ -753,14 +710,14 @@ html.light-theme .edu-skills-badge:hover {
 
 html.light-theme .skills-timeline-level.level-ai {
   background: #e0f2fe;
-  color: #0284c7;
+  color: #0891b2;
   border-color: #bae6fd;
 }
 
 html.light-theme .skills-timeline-level.level-mobile {
-  background: #d1fae5;
-  color: #047857;
-  border-color: #a7f3d0;
+  background: #ede9fe;
+  color: #7c3aed;
+  border-color: #ddd6fe;
 }
 
 html.light-theme .skills-timeline-level.level-core {
@@ -792,12 +749,12 @@ html.light-theme .skills-timeline-level.level-tools {
 }
 
 .repo-item:hover {
-  background: rgba(0, 255, 102, 0.08);
-  border-color: rgba(0, 255, 102, 0.2);
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.2);
 }
 
 .repo-item.active-repo {
-  background: rgba(0, 240, 255, 0.12) !important;
+  background: rgba(34, 211, 238, 0.12) !important;
   border-color: var(--accent-cyan) !important;
   box-shadow: inset 4px 0 0 var(--accent-cyan);
 }
@@ -807,14 +764,14 @@ html.light-theme .repo-item {
 }
 
 html.light-theme .repo-item:hover {
-  background: #f1f5f9;
+  background: #f3f0ff;
   border-color: #cbd5e1;
 }
 
 html.light-theme .repo-item.active-repo {
   background: #e0f2fe !important;
-  border-color: #0284c7 !important;
-  box-shadow: inset 4px 0 0 #0284c7;
+  border-color: #0891b2 !important;
+  box-shadow: inset 4px 0 0 #0891b2;
 }
 
 /* ==========================================================================
@@ -837,9 +794,9 @@ html.light-theme .repo-item.active-repo {
 
 .cmd-item:hover,
 .cmd-item.selected {
-  background: rgba(0, 255, 102, 0.12) !important;
-  border-color: var(--accent-green) !important;
-  color: var(--accent-green) !important;
+  background: rgba(167, 139, 250, 0.12) !important;
+  border-color: var(--accent-violet) !important;
+  color: var(--accent-violet) !important;
 }
 
 html.light-theme .cmd-item {
@@ -849,8 +806,234 @@ html.light-theme .cmd-item {
 html.light-theme .cmd-item:hover,
 html.light-theme .cmd-item.selected {
   background: #e0f2fe !important;
-  border-color: #0284c7 !important;
-  color: #0284c7 !important;
+  border-color: #0891b2 !important;
+  color: #0891b2 !important;
+}
+
+/* ==========================================================================
+   CONSTELLATION BENTO DESIGN SYSTEM
+   (nebula glass cards · accent-tinted tiles · star speckles)
+   ========================================================================== */
+
+/* Card base — dark cosmic glass, accent-driven border & glow */
+.nebula-card {
+  --card-accent: var(--accent-violet);
+  --card-accent-rgb: var(--accent-violet-rgb);
+  position: relative;
+  isolation: isolate;                 /* keeps z-index:-1 pseudos behind content */
+  overflow: hidden;                   /* clips wash/speckles to rounded corners */
+  background-color: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.22);
+  border-radius: var(--radius-lg);    /* 14px — modern vs old 10px */
+  box-shadow: var(--shadow-card);
+  color: var(--text-main);
+  transition: transform var(--transition-normal), border-color var(--transition-normal),
+              box-shadow var(--transition-normal), background-color var(--transition-normal);
+}
+
+/* Per-card nebula accent modifiers */
+.nebula-card--violet  { --card-accent: var(--accent-violet);  --card-accent-rgb: var(--accent-violet-rgb); }
+.nebula-card--cyan    { --card-accent: var(--accent-cyan);    --card-accent-rgb: var(--accent-cyan-rgb); }
+.nebula-card--magenta { --card-accent: var(--accent-magenta); --card-accent-rgb: var(--accent-magenta-rgb); }
+.nebula-card--gold    { --card-accent: var(--accent-gold);    --card-accent-rgb: var(--accent-gold-rgb); }
+.nebula-card--purple  { --card-accent: var(--accent-purple);  --card-accent-rgb: var(--accent-purple-rgb); }
+.nebula-card--rose    { --card-accent: var(--accent-rose);    --card-accent-rgb: var(--accent-rose-rgb); }
+
+/* Nebula color wash (top-right + bottom-left radial, tinted by accent) */
+.nebula-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(560px 220px at 82% -8%, rgba(var(--card-accent-rgb), 0.20), transparent 70%),
+    radial-gradient(420px 180px at 0% 108%, rgba(var(--card-accent-rgb), 0.10), transparent 70%);
+}
+
+/* Star speckles — pure-CSS layered radial dots, theme-aware via --star-color */
+.nebula-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image:
+    radial-gradient(1px 1px at 12% 24%, rgba(var(--star-color), 0.7), transparent 100%),
+    radial-gradient(1px 1px at 38% 62%, rgba(var(--star-color), 0.45), transparent 100%),
+    radial-gradient(1.5px 1.5px at 66% 18%, rgba(var(--star-color), 0.5), transparent 100%),
+    radial-gradient(1px 1px at 82% 44%, rgba(var(--star-color), 0.4), transparent 100%),
+    radial-gradient(1px 1px at 22% 82%, rgba(var(--star-color), 0.35), transparent 100%),
+    radial-gradient(1.5px 1.5px at 54% 90%, rgba(var(--star-color), 0.4), transparent 100%),
+    radial-gradient(1px 1px at 92% 78%, rgba(var(--star-color), 0.45), transparent 100%);
+}
+
+.nebula-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--card-accent-rgb), 0.55);
+  box-shadow: 0 0 30px rgba(var(--card-accent-rgb), 0.30), var(--shadow-card);
+  background-color: var(--bg-card-hover);
+}
+
+/* Card header — replaces every .terminal-bar */
+.nebula-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.15rem 1.5rem;
+  border-bottom: 1px solid rgba(var(--card-accent-rgb), 0.15);
+  background: rgba(var(--card-accent-rgb), 0.05);
+}
+
+.nebula-card__icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(var(--card-accent-rgb), 0.12);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.35);
+  color: var(--card-accent);
+  box-shadow: 0 0 14px rgba(var(--card-accent-rgb), 0.25);
+}
+
+.nebula-card__icon svg { width: 20px; height: 20px; }
+
+.nebula-card__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-main);
+  letter-spacing: 0.01em;
+}
+
+.nebula-card__sub {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--card-accent);
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+/* Metric / fact tile — replaces `bg-black/70 border-violet-500/30` etc. */
+.nebula-tile {
+  background: var(--tile-bg);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.28);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.nebula-tile:hover {
+  border-color: rgba(var(--card-accent-rgb), 0.5);
+  box-shadow: 0 0 12px rgba(var(--card-accent-rgb), 0.15);
+}
+
+/* Form input — replaces the 5-utility Tailwind combo */
+.nebula-input {
+  width: 100%;
+  background: var(--tile-bg);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.3);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.9rem;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.nebula-input:focus {
+  outline: none;
+  border-color: var(--card-accent);
+  box-shadow: 0 0 0 3px rgba(var(--card-accent-rgb), 0.15);
+}
+
+.nebula-input::placeholder { color: var(--text-subtle); }
+
+/* Split-pane surfaces */
+.nebula-pane { background: var(--pane-bg); }
+
+.nebula-pane--head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(var(--card-accent-rgb), 0.18);
+}
+
+/* Cosmic copy-chip (replaces the JS-injected git-clone box) */
+.nebula-copy-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-md);
+  background: var(--tile-bg);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.25);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.nebula-copy-chip__btn {
+  margin-left: auto;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: rgba(var(--card-accent-rgb), 0.18);
+  color: var(--card-accent);
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-fast);
+}
+
+.nebula-copy-chip__btn:hover,
+.nebula-copy-chip__btn.is-copied {
+  background: var(--card-accent);
+  color: var(--on-accent);
+}
+
+/* Nav status chip (replaces `chinmay@galaxy:~#`)
+   NOTE: display is set by caller utilities (e.g. `hidden sm:inline-flex`) so
+   Tailwind show/hide variants are not overridden by this component. */
+.cosmic-chip {
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--tile-bg);
+  border: 1px solid rgba(var(--accent-violet-rgb), 0.3);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  transition: all var(--transition-fast);
+}
+
+.cosmic-chip:hover {
+  color: var(--accent-violet);
+  border-color: var(--accent-violet);
+}
+
+/* Accent-aware tech pills inside cards (inherits --card-accent) */
+.nebula-card .tech-pill { border-color: rgba(var(--card-accent-rgb), 0.3); }
+
+.nebula-card .tech-pill:hover,
+.nebula-card .tech-pill.active {
+  background: var(--card-accent);
+  border-color: var(--card-accent);
+  color: var(--on-accent);
+  box-shadow: 0 0 14px rgba(var(--card-accent-rgb), 0.5);
+}
+
+/* Skeleton placeholder for repo panes */
+.nebula-skeleton {
+  background: rgba(var(--card-accent-rgb), 0.08);
+  border-radius: var(--radius-sm);
 }
 
 

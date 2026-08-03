@@ -1,11 +1,11 @@
 # ⚡ Chinmay Gawad — Developer Portfolio
 
-![License](https://img.shields.io/badge/License-MIT-00ff66?style=for-the-badge&logo=github)
-![Status](https://img.shields.io/badge/Status-Online_//_Active-00f0ff?style=for-the-badge&logo=matrix)
+![License](https://img.shields.io/badge/License-MIT-a78bfa?style=for-the-badge&logo=github)
+![Status](https://img.shields.io/badge/Status-Online_//_Active-22d3ee?style=for-the-badge&logo=rocket)
 ![Focus](https://img.shields.io/badge/Focus-Android_&_Kotlin-38bdf8?style=for-the-badge&logo=android)
-![Theme](https://img.shields.io/badge/Theme-Dark_Hacker_CLI-10b981?style=for-the-badge&logo=terminal)
+![Theme](https://img.shields.io/badge/Theme-Galaxy_Nebula-8b5cf6?style=for-the-badge&logo=sparkles)
 
-A high-performance, developer-centric, **Dark Hacker / Terminal Aesthetic** personal portfolio built with pure HTML5, vanilla JavaScript, CSS custom properties, and dynamic GitHub REST API integration.
+A high-performance, developer-centric, **Galaxy / Deep Space Aesthetic** personal portfolio built with pure HTML5, vanilla JavaScript, CSS custom properties, and dynamic GitHub REST API integration.
 
 🔗 **Live Demo**: [https://chinmaygawad.github.io/Portfolio/](https://chinmaygawad.github.io/Portfolio/)
 
@@ -13,20 +13,20 @@ A high-performance, developer-centric, **Dark Hacker / Terminal Aesthetic** pers
 
 ## 🚀 Features
 
-- **⚡ Dark Hacker & Cyberpunk Theme**: Ultra-dark void background (`#030712`) featuring CRT scanline overlays, neon green accents (`#00ff66`), and terminal window headers with OS control dots (`● ● ● bash`).
-- **🟢 Canvas Matrix Code Rain**: Lightweight canvas animation rendering falling developer glyphs (`assets/js/matrix-bg.js`) with automatic tab visibility power savings.
-- **🖥️ Dynamic CLI Typing Subtitle**: Simulates real terminal execution lines (`./run_android_dev.sh --lang=Kotlin`, `cat /etc/skills/computer_engineering.txt`, `ssh root@chinmay.dev`).
+- **🌌 Galaxy & Deep Space Theme**: Deep indigo void background (`#0a0a1f`) featuring nebula gradients, violet accents (`#a78bfa`), cinematic vignette, and mission-window headers with galaxy control dots.
+- **✨ Interactive Galaxy Starfield**: Lightweight canvas animation rendering twinkling stars, drifting depth, occasional shooting stars, mouse parallax, and click-to-launch meteors (`assets/js/galaxy-bg.js`) with automatic tab visibility power savings.
+- **🖥️ Dynamic Mission Console Typing Subtitle**: Simulates real execution lines (`./launch_agentic_ai.py --mode=autonomous_agents`, `cat /etc/galaxy/skills/…`, `git commit -m "Launching intelligent agentic systems"`).
 - **📦 Dynamic GitHub API Integration**: Automatically queries GitHub REST API to display real-time repository metrics (size, star/fork count, language badges, update timestamps) with language filtering.
-- **🌓 Dual Theme Engine**: High-contrast theme switcher supporting Dark Matrix mode (default) and crisp Cyber Light mode with complete text visibility.
+- **🌓 Dual Theme Engine**: High-contrast theme switcher supporting Starfield Dark mode (default) and crisp Galaxy Light mode with complete text visibility.
 - **📱 Responsive & Optimized**: High performance with zero heavy JavaScript frameworks (< 20 KB total JS bundle).
-- **✉️ Working Contact Socket**: Integrated with Web3Forms for direct email transmissions.
+- **✉️ Contact Channel**: Integrated with Web3Forms for direct email transmissions.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Core**: HTML5, Vanilla JavaScript (ES6+), CSS3
-- **Design & Typography**: Custom CSS Variables, JetBrains Mono, Fira Code, Inter
+- **Design & Typography**: Custom CSS Variables, Orbitron, JetBrains Mono, Fira Code, Inter
 - **Icons**: Lucide Icons CDN
 - **API**: GitHub REST API (`https://api.github.com/users/ChinmayGawad/repos`)
 - **Forms**: Web3Forms API
@@ -38,15 +38,15 @@ A high-performance, developer-centric, **Dark Hacker / Terminal Aesthetic** pers
 
 ```
 Portfolio/
-├── index.html              # Main single-page terminal application
+├── index.html              # Main single-page galaxy application
 ├── normalize.css           # Cross-browser CSS reset
 ├── README.md               # Repository documentation
 ├── assets/
 │   ├── css/
-│   │   └── portfolio.css   # Hacker design system & theme rules
+│   │   └── portfolio.css   # Galaxy design system & theme rules
 │   └── js/
 │       ├── main.js         # Application logic, API fetcher, theme toggle
-│       └── matrix-bg.js    # Canvas matrix rain background animation
+│       └── galaxy-bg.js    # Canvas galaxy starfield background animation
 └── pics/                   # Profile photos, resume PDF, and static assets
 ```
 

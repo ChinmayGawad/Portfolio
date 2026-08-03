@@ -1,5 +1,5 @@
 // ==========================================================================
-// MAIN HACKER PORTFOLIO APPLICATION LOGIC
+// MAIN GALAXY PORTFOLIO APPLICATION LOGIC
 // ==========================================================================
 
 const GITHUB_USERNAME = 'ChinmayGawad';
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --------------------------------------------------------------------------
-// 1. Theme Management (Dark Hacker Default + Cyber Light Toggle)
+// 1. Theme Management (Starfield Dark Default + Galaxy Light Toggle)
 // --------------------------------------------------------------------------
 function initTheme() {
     const savedTheme = localStorage.getItem('portfolio-theme');
@@ -41,7 +41,7 @@ function toggleTheme() {
     const isLight = document.documentElement.classList.toggle('light-theme');
     localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
     updateThemeToggleIcon(isLight);
-    showToast(isLight ? '[SYS_THEME]: CYBER_LIGHT_ENABLED' : '[SYS_THEME]: MATRIX_DARK_ENABLED');
+    showToast(isLight ? 'Light mode active · galaxy light' : 'Starfield mode active · galaxy dark');
 }
 
 function updateThemeToggleIcon(isLight) {
@@ -53,18 +53,18 @@ function updateThemeToggleIcon(isLight) {
 }
 
 // --------------------------------------------------------------------------
-// 2. Terminal CLI Typing Effect
+// 2. Mission Console Typing Effect
 // --------------------------------------------------------------------------
 function initTypingEffect() {
     const target = document.getElementById('typing-text');
     if (!target) return;
 
     const commands = [
-        './run_agentic_ai.py --mode=autonomous_agents',
-        'exec deploy_llm_workflows --stack=python_kotlin',
-        './run_android_dev.sh --lang=Kotlin',
-        'cat /etc/skills/ai_and_computer_engineering.txt',
-        'git commit -m "Building intelligent agentic systems"'
+        'booting agentic-ai core v2.0',
+        'deploying llm workflows · kotlin stack',
+        'scanning constellation of skills',
+        'calibrating deep-space comm channel',
+        'system nominal · standing by'
     ];
 
     let cmdIndex = 0;
@@ -115,27 +115,27 @@ function initGithubLinks() {
     });
 
     if (reposCta) reposCta.href = GITHUB_REPOS_URL;
-    if (handle) handle.textContent = `root@${GITHUB_USERNAME}`;
+    if (handle) handle.textContent = `@${GITHUB_USERNAME}`;
 }
 
 // --------------------------------------------------------------------------
-// 4. GitHub Repos Fetch & Hacker Cards Renderer
+// 4. GitHub Repos Fetch & Galaxy Cards Renderer
 // --------------------------------------------------------------------------
 const LANG_COLORS = {
     'JavaScript': '#f1e05a', 'TypeScript': '#3178c6', 'Python': '#3572A5', 'Java': '#b07219',
-    'Kotlin': '#00ff66', 'C': '#555555', 'C++': '#f34b7d', 'C#': '#178600', 'HTML': '#e34c26',
+    'Kotlin': '#a78bfa', 'C': '#555555', 'C++': '#f34b7d', 'C#': '#178600', 'HTML': '#e34c26',
     'CSS': '#563d7c', 'Dart': '#00B4AB', 'Go': '#00ADD8', 'Rust': '#dea584'
 };
 
 function getLangColor(lang) {
-    return LANG_COLORS[lang] || '#00ff66';
+    return LANG_COLORS[lang] || '#a78bfa';
 }
 
 function getRepoIcon(repo) {
     const lang = repo.language || '';
     const name = repo.name.toLowerCase();
     if (lang === 'Kotlin' || name.includes('android')) return 'smartphone';
-    if (lang === 'Java' || lang === 'C++' || lang === 'C') return 'terminal';
+    if (lang === 'Java' || lang === 'C++' || lang === 'C') return 'code-2';
     if (name.includes('portfolio') || name.includes('website')) return 'globe';
     return 'folder-git-2';
 }
@@ -167,7 +167,7 @@ async function fetchRepos() {
     if (errorEl) errorEl.classList.add('hidden');
     ideContainer.classList.remove('hidden');
     showSkeletons();
-    if (countEl) countEl.textContent = '[FETCHING...]';
+    if (countEl) countEl.textContent = 'Scanning...';
 
     try {
         const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100&type=owner`);
@@ -179,7 +179,7 @@ async function fetchRepos() {
         if (heroRepos) heroRepos.textContent = allRepos.length + '+';
         const totalStars = allRepos.reduce((s, r) => s + r.stargazers_count, 0);
         if (heroStars) heroStars.textContent = totalStars;
-        if (countEl) countEl.textContent = allRepos.length + ' REPOS';
+        if (countEl) countEl.textContent = allRepos.length + ' repos';
 
         buildFilters();
 
@@ -194,7 +194,7 @@ async function fetchRepos() {
         console.error('GitHub API fetch error:', err);
         if (ideContainer) ideContainer.classList.add('hidden');
         if (errorEl) errorEl.classList.remove('hidden');
-        if (countEl) countEl.textContent = '[OFFLINE]';
+        if (countEl) countEl.textContent = 'Signal lost';
         if (heroRepos) heroRepos.textContent = '—';
         if (heroStars) heroStars.textContent = '—';
     }
@@ -207,17 +207,17 @@ function showSkeletons() {
         listPane.innerHTML = '';
         for (let i = 0; i < 5; i++) {
             const div = document.createElement('div');
-            div.className = 'p-3 rounded bg-emerald-500/10 animate-pulse mb-2';
-            div.innerHTML = `<div class="h-4 w-3/4 bg-emerald-500/20 rounded"></div>`;
+            div.className = 'p-3 rounded nebula-skeleton animate-pulse mb-2';
+            div.innerHTML = `<div class="h-4 w-3/4 nebula-skeleton rounded"></div>`;
             listPane.appendChild(div);
         }
     }
     if (inspectPane) {
         inspectPane.innerHTML = `
             <div class="space-y-4 animate-pulse p-4">
-                <div class="h-6 w-1/2 bg-emerald-500/10 rounded"></div>
-                <div class="h-4 w-full bg-emerald-500/10 rounded"></div>
-                <div class="h-4 w-3/4 bg-emerald-500/10 rounded"></div>
+                <div class="h-6 w-1/2 nebula-skeleton rounded"></div>
+                <div class="h-4 w-full nebula-skeleton rounded"></div>
+                <div class="h-4 w-3/4 nebula-skeleton rounded"></div>
             </div>`;
     }
 }
@@ -226,19 +226,104 @@ function getRepoTopics(repo) {
     const topics = [];
     const name = (repo.name || '').toLowerCase();
     const desc = (repo.description || '').toLowerCase();
+    const lang = (repo.language || '').toLowerCase();
+    const allText = name + ' ' + desc;
 
-    if (name.includes('android') || desc.includes('android')) topics.push('Android App');
-    if (name.includes('kotlin') || desc.includes('kotlin') || repo.language === 'Kotlin') topics.push('Kotlin');
-    if (name.includes('ai') || desc.includes('ai') || desc.includes('agent') || name.includes('agent')) topics.push('Agentic AI');
-    if (name.includes('java') || desc.includes('java')) topics.push('Java');
-    if (name.includes('python') || desc.includes('python') || repo.language === 'Python') topics.push('Python');
-    if (name.includes('dsa') || desc.includes('algorithm') || desc.includes('data structure')) topics.push('Algorithms');
-
-    if (topics.length === 0) {
-        topics.push('Software Module');
+    // 1. GitHub native topics (if the repo owner set them)
+    if (repo.topics && repo.topics.length > 0) {
+        repo.topics.slice(0, 3).forEach(t => topics.push(t));
     }
 
-    return Array.from(new Set(topics)).slice(0, 3);
+    // 2. Programming language (always show the actual language)
+    if (repo.language) topics.push(repo.language);
+
+    // 3. Framework / library detection from name + description
+    const frameworks = [
+        ['react', 'React'], ['next\.?js', 'Next.js'], ['vue', 'Vue.js'], ['angular', 'Angular'],
+        ['svelte', 'Svelte'], ['node\.?js', 'Node.js'], ['express', 'Express'],
+        ['django', 'Django'], ['flask', 'Flask'], ['fastapi', 'FastAPI'],
+        ['spring', 'Spring Boot'], ['laravel', 'Laravel'], ['rails', 'Ruby on Rails'],
+        ['flutter', 'Flutter'], ['dart', 'Dart'], ['swift', 'Swift'],
+        ['tailwind', 'Tailwind CSS'], ['bootstrap', 'Bootstrap'],
+        ['tensorflow', 'TensorFlow'], ['pytorch', 'PyTorch'], ['keras', 'Keras'],
+        ['opencv', 'OpenCV'], ['pandas', 'Pandas'], ['numpy', 'NumPy'],
+        ['llm', 'LLM'], ['gpt', 'GPT'], ['gemini', 'Gemini'],
+        ['rag', 'RAG'], ['langchain', 'LangChain'],
+        ['room db', 'Room DB'], ['jetpack', 'Jetpack'], ['compose', 'Jetpack Compose'],
+        ['retrofit', 'Retrofit'], ['okhttp', 'OkHttp'],
+        ['firebase', 'Firebase'], ['supabase', 'Supabase'],
+        ['docker', 'Docker'], ['kubernetes', 'Kubernetes'], ['aws', 'AWS'],
+        ['graphql', 'GraphQL'], ['rest api', 'REST API'], ['websocket', 'WebSocket'],
+        ['sqlite', 'SQLite'], ['mongodb', 'MongoDB'], ['postgresql', 'PostgreSQL'], ['mysql', 'MySQL'],
+        ['git', 'Git'], ['github actions', 'GitHub Actions'], ['cicd', 'CI/CD'],
+        ['web scraping', 'Web Scraping'], ['beautifulsoup', 'BeautifulSoup'], ['selenium', 'Selenium'],
+        ['tkinter', 'Tkinter'], ['pygame', 'Pygame'],
+    ];
+
+    // 4. Project type detection
+    const projectTypes = [
+        ['cli', 'CLI Tool'], ['command.?line', 'CLI Tool'],
+        ['library', 'Library'], ['package', 'Package'], ['module', 'Module'],
+        ['api', 'API'], ['server', 'Server'], ['backend', 'Backend'],
+        ['frontend', 'Frontend'], ['web.?app', 'Web App'], ['website', 'Website'],
+        ['mobile.?app', 'Mobile App'], ['android.?app', 'Android App'],
+        ['game', 'Game'], ['bot', 'Bot'], ['automation', 'Automation'],
+        ['portfolio', 'Portfolio'], ['blog', 'Blog'], ['dashboard', 'Dashboard'],
+        ['chatbot', 'Chatbot'], ['extension', 'Extension'], ['plugin', 'Plugin'],
+    ];
+
+    // 5. Domain / topic detection
+    const domains = [
+        ['ai', 'Artificial Intelligence'], ['artificial.?intelligence', 'Artificial Intelligence'],
+        ['machine.?learn', 'Machine Learning'], ['deep.?learn', 'Deep Learning'],
+        ['neural.?net', 'Neural Network'], ['nlp', 'NLP'],
+        ['agent', 'Agentic AI'], ['agentic', 'Agentic AI'],
+        ['dsa', 'Data Structures & Algorithms'], ['algorithm', 'Algorithms'],
+        ['data.?structure', 'Data Structures'],
+        ['security', 'Security'], ['cybersecurity', 'Cybersecurity'],
+        ['blockchain', 'Blockchain'], ['crypto', 'Cryptocurrency'],
+        ['iot', 'IoT'], ['embedded', 'Embedded'],
+        ['compiler', 'Compiler'], ['interpreter', 'Interpreter'],
+        ['os', 'Operating Systems'], ['networking', 'Networking'],
+        ['database', 'Database'], ['dbms', 'DBMS'],
+        ['design.?pattern', 'Design Patterns'], ['oop', 'OOP'], ['architecture', 'Architecture'],
+        ['testing', 'Testing'], ['unit.?test', 'Testing'],
+        ['multithreading', 'Concurrency'], ['concurrency', 'Concurrency'],
+    ];
+
+    // Apply frameworks (check name + desc)
+    for (const [pattern, label] of frameworks) {
+        if (new RegExp(pattern).test(allText)) {
+            if (!topics.includes(label)) topics.push(label);
+        }
+    }
+
+    // Apply project type
+    for (const [pattern, label] of projectTypes) {
+        if (new RegExp(pattern).test(allText)) {
+            if (!topics.includes(label)) topics.push(label);
+        }
+    }
+
+    // Apply domain (only if no topics yet from frameworks/types)
+    if (topics.length < 3) {
+        for (const [pattern, label] of domains) {
+            if (new RegExp(pattern).test(allText)) {
+                if (!topics.includes(label)) topics.push(label);
+            }
+        }
+    }
+
+    // Final fallback: just show language + a short description snippet
+    if (topics.length === 0) {
+        if (repo.language) topics.push(repo.language);
+        if (desc.length > 0) {
+            const snippet = desc.length > 35 ? desc.substring(0, 35).trim() + '…' : desc;
+            topics.push(snippet);
+        }
+    }
+
+    return Array.from(new Set(topics)).slice(0, 4);
 }
 
 function buildFilters() {
@@ -248,9 +333,9 @@ function buildFilters() {
     allRepos.forEach(r => { if (r.language) langs.add(r.language); });
     const langArr = Array.from(langs).sort();
 
-    let html = `<button class="tech-pill active" onclick="filterProj('All',this)">$ ALL</button>`;
+    let html = `<button class="tech-pill active" onclick="filterProj('All',this)">ALL</button>`;
     langArr.forEach(l => {
-        html += `<button class="tech-pill" onclick="filterProj('${l}',this)">$ ${l}</button>`;
+        html += `<button class="tech-pill" onclick="filterProj('${l}',this)">${l}</button>`;
     });
     container.innerHTML = html;
 }
@@ -260,7 +345,7 @@ function renderIDEPane(repos) {
     if (!listPane) return;
 
     if (repos.length === 0) {
-        listPane.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">$ no repos match filter</p>`;
+        listPane.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">No repositories in this sector</p>`;
         renderEmptyIDE();
         return;
     }
@@ -277,11 +362,11 @@ function renderIDEPane(repos) {
         listHtml += `
             <div onclick="selectRepo(${repo.id})" class="repo-item ${isActive ? 'active-repo' : ''}">
                 <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                    <i data-lucide="${icon}" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                    <i data-lucide="${icon}" class="w-4 h-4 text-violet-400 flex-shrink-0"></i>
                     <span class="font-mono text-xs font-bold truncate">${repo.name}</span>
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0 text-[10px] font-mono">
-                    <span class="text-amber-400 font-semibold">★ ${repo.stargazers_count}</span>
+                    <span class="text-fuchsia-400 font-semibold">★ ${repo.stargazers_count}</span>
                 </div>
             </div>
         `;
@@ -317,11 +402,11 @@ function inspectRepo(repo) {
 
     inspectPane.innerHTML = `
         <div>
-            <!-- Terminal Breadcrumb Bar -->
-            <div class="flex items-center justify-between pb-4 mb-5 border-b border-emerald-500/20 text-xs font-mono">
-                <div class="flex items-center gap-2 text-emerald-400 font-bold">
-                    <i data-lucide="terminal" class="w-4 h-4"></i>
-                    <span>nano README.md --target="${repo.name}.git"</span>
+            <!-- Repository Inspector Bar -->
+            <div class="flex items-center justify-between pb-4 mb-5 border-b border-violet-500/20 text-xs font-mono">
+                <div class="flex items-center gap-2 text-violet-400 font-bold">
+                    <i data-lucide="book" class="w-4 h-4"></i>
+                    <span>Repository Inspector</span>
                 </div>
                 <span class="text-slate-400 text-[11px]">UPDATED: ${updated}</span>
             </div>
@@ -329,52 +414,50 @@ function inspectRepo(repo) {
             <!-- Title & Language Badge -->
             <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-md">
+                    <div class="w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-md">
                         <i data-lucide="${icon}" class="w-5 h-5"></i>
                     </div>
                     <div>
                         <h3 class="text-xl font-bold font-mono text-slate-100">${repo.name}</h3>
-                        <p class="text-xs font-mono text-slate-400">Owner: root@${GITHUB_USERNAME}</p>
+                        <p class="text-xs font-mono text-slate-400">Owner: @${GITHUB_USERNAME}</p>
                     </div>
                 </div>
 
                 <span class="code-badge text-xs">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block mr-1"></span>
+                    <span class="w-2 h-2 rounded-full bg-violet-400 inline-block mr-1"></span>
                     ${lang}
                 </span>
             </div>
 
-            <!-- Simulated CLI Copy Box -->
-            <div class="mb-5 p-3 rounded bg-black/70 border border-emerald-500/30 flex items-center justify-between gap-2 text-xs font-mono text-slate-200">
-                <div class="flex items-center gap-2 overflow-hidden">
-                    <span class="text-emerald-400 font-bold">$</span>
-                    <span class="truncate text-slate-300">git clone ${cloneUrl}</span>
-                </div>
-                <button onclick="copyCloneCmd('${cloneUrl}', this)" class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-400 hover:text-black transition-colors flex-shrink-0 text-[11px] font-bold">
+            <!-- Clone URL Copy Chip -->
+            <div class="nebula-copy-chip mb-5">
+                <i data-lucide="copy" class="w-3.5 h-3.5" style="color:var(--card-accent)"></i>
+                <span class="truncate text-slate-300">git clone ${cloneUrl}</span>
+                <button onclick="copyCloneCmd('${cloneUrl}', this)" class="nebula-copy-chip__btn">
                     COPY
                 </button>
             </div>
 
             <!-- Project Description -->
-            <div class="p-4 rounded bg-black/40 border border-emerald-500/10 mb-5">
+            <div class="p-4 rounded nebula-pane border border-violet-500/10 mb-5">
                 <p class="text-xs sm:text-sm font-mono text-slate-300 leading-relaxed">${desc}</p>
             </div>
 
             <!-- Topic Pills -->
             <div class="flex flex-wrap gap-2 mb-6">
-                ${topics.map(t => `<span class="tech-pill text-xs">$ ${t}</span>`).join('')}
+                ${topics.map(t => `<span class="tech-pill text-xs">${t}</span>`).join('')}
             </div>
         </div>
 
         <div>
-            <!-- Telemetry & Metrics Header -->
-            <div class="grid grid-cols-3 gap-3 p-3 rounded bg-black/60 border border-emerald-500/20 mb-6 text-center text-xs font-mono">
+            <!-- Repository Telemetry & Metrics -->
+            <div class="grid grid-cols-3 gap-3 p-3 rounded nebula-pane border border-violet-500/20 mb-6 text-center text-xs font-mono">
                 <div>
-                    <span class="text-amber-400 font-bold text-sm block">★ ${stars}</span>
+                    <span class="text-fuchsia-400 font-bold text-sm block">★ ${stars}</span>
                     <span class="text-[10px] text-slate-400 uppercase">STARS</span>
                 </div>
                 <div>
-                    <span class="text-emerald-400 font-bold text-sm block">⑂ ${forks}</span>
+                    <span class="text-violet-400 font-bold text-sm block">⑂ ${forks}</span>
                     <span class="text-[10px] text-slate-400 uppercase">FORKS</span>
                 </div>
                 <div>
@@ -384,8 +467,8 @@ function inspectRepo(repo) {
             </div>
 
             <!-- Launch Button -->
-            <a href="${url}" target="_blank" class="cyber-btn w-full justify-center">
-                <span>[OPEN_GITHUB_REPOSITORY]</span>
+            <a href="${url}" target="_blank" class="cosmic-btn w-full justify-center">
+                <span>OPEN REPOSITORY</span>
                 <i data-lucide="external-link" class="w-4 h-4"></i>
             </a>
         </div>
@@ -399,9 +482,9 @@ function renderEmptyIDE() {
     if (!inspectPane) return;
     inspectPane.innerHTML = `
         <div class="flex flex-col items-center justify-center h-full py-12 text-slate-400 font-mono text-center">
-            <i data-lucide="terminal" class="w-10 h-10 text-emerald-400 mb-3 opacity-60"></i>
-            <p class="text-sm font-bold text-slate-200">[SYSTEM_MSG]: NO REPOSITORIES FOUND</p>
-            <p class="text-xs text-slate-500 mt-1">Try selecting a different filter category above.</p>
+            <i data-lucide="satellite" class="w-10 h-10 text-violet-400 mb-3 opacity-60"></i>
+            <p class="text-sm font-bold text-slate-200">No repositories in this sector</p>
+            <p class="text-xs text-slate-500 mt-1">Try scanning a different sector above.</p>
         </div>
     `;
     if (window.lucide) lucide.createIcons();
@@ -418,11 +501,11 @@ function filterProj(cat, btn) {
 function copyCloneCmd(url, btn) {
     navigator.clipboard.writeText(`git clone ${url}`);
     const originalText = btn.textContent;
-    btn.textContent = 'COPIED!';
-    btn.classList.add('bg-emerald-400', 'text-black');
+    btn.textContent = 'COPIED ✓';
+    btn.classList.add('is-copied');
     setTimeout(() => {
         btn.textContent = originalText;
-        btn.classList.remove('bg-emerald-400', 'text-black');
+        btn.classList.remove('is-copied');
     }, 2000);
 }
 
@@ -492,7 +575,7 @@ async function handleForm(e) {
 
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<span>[SENDING_PACKET...]</span>';
+    submitBtn.innerHTML = '<span>Transmitting...</span>';
     submitBtn.disabled = true;
 
     try {
@@ -503,13 +586,13 @@ async function handleForm(e) {
         const data = await response.json();
 
         if (data.success) {
-            showToast('[SYS_MSG]: MESSAGE TRANSMITTED SUCCESSFULLY! 🚀');
+            showToast('Signal: message delivered successfully 🚀');
             form.reset();
         } else {
-            showToast('[SYS_ERR]: TRANSMISSION FAILED. RETRY.');
+            showToast('Signal lost: not delivered · retry.');
         }
     } catch (error) {
-        showToast('[SYS_ERR]: NETWORK UNREACHABLE.');
+        showToast('Signal lost: network offline.');
     } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
@@ -518,7 +601,7 @@ async function handleForm(e) {
 }
 
 // --------------------------------------------------------------------------
-// 7. System Toast Notification
+// 7. Galaxy Toast Notification
 // --------------------------------------------------------------------------
 function showToast(msg) {
     const toast = document.getElementById('toast');
@@ -532,22 +615,22 @@ function showToast(msg) {
 }
 
 // --------------------------------------------------------------------------
-// 8. Terminal Command Palette (Ctrl + K)
+// 8. Galaxy Command Palette (Ctrl + K)
 // --------------------------------------------------------------------------
 let activeCmdIndex = 0;
 let filteredCmdsList = [];
 
 const paletteCommands = [
-    { label: '~/home — Jump to Hero / Overview', action: () => scrollToId('home'), icon: 'terminal', tag: 'SECTION' },
-    { label: '~/about — View Bio, Focus & Checklist', action: () => scrollToId('about'), icon: 'user-check', tag: 'SECTION' },
-    { label: '~/skills — Open Technical Arsenal', action: () => scrollToId('skills'), icon: 'cpu', tag: 'SECTION' },
-    { label: '~/projects — Open GitHub Repositories IDE', action: () => scrollToId('projects'), icon: 'folder-git-2', tag: 'SECTION' },
-    { label: '~/journey — Open Academic Journey Timeline', action: () => scrollToId('education'), icon: 'graduation-cap', tag: 'SECTION' },
-    { label: '~/contact — Open Message Transmission Terminal', action: () => scrollToId('contact'), icon: 'mail', tag: 'SECTION' },
-    { label: '> execute toggle_theme.sh', action: () => toggleTheme(), icon: 'sun', tag: 'ACTION' },
-    { label: '> open github_profile', action: () => window.open('https://github.com/ChinmayGawad', '_blank'), icon: 'github', tag: 'EXTERNAL' },
-    { label: '> open linkedin_profile', action: () => window.open('https://www.linkedin.com/in/chinmay-gawad-7b3172256/', '_blank'), icon: 'linkedin', tag: 'EXTERNAL' },
-    { label: '> send direct_email', action: () => window.location.href = 'mailto:chinmaygawad365@gmail.com', icon: 'send', tag: 'ACTION' },
+    { label: '◈ home — Jump to Hero / Overview', action: () => scrollToId('home'), icon: 'rocket', tag: 'SECTION' },
+    { label: '◈ about — View Bio, Focus & Checklist', action: () => scrollToId('about'), icon: 'user-check', tag: 'SECTION' },
+    { label: '◈ skills — Open Technical Arsenal', action: () => scrollToId('skills'), icon: 'cpu', tag: 'SECTION' },
+    { label: '◈ projects — Open GitHub Repositories IDE', action: () => scrollToId('projects'), icon: 'folder-git-2', tag: 'SECTION' },
+    { label: '◈ journey — Open Academic Journey Timeline', action: () => scrollToId('education'), icon: 'graduation-cap', tag: 'SECTION' },
+    { label: '◈ contact — Open Message Channel', action: () => scrollToId('contact'), icon: 'mail', tag: 'SECTION' },
+    { label: '✦ toggle starfield mode', action: () => toggleTheme(), icon: 'sun', tag: 'ACTION' },
+    { label: '✦ open github profile', action: () => window.open('https://github.com/ChinmayGawad', '_blank'), icon: 'github', tag: 'EXTERNAL' },
+    { label: '✦ open linkedin profile', action: () => window.open('https://www.linkedin.com/in/chinmay-gawad-7b3172256/', '_blank'), icon: 'linkedin', tag: 'EXTERNAL' },
+    { label: '✦ send direct email', action: () => window.location.href = 'mailto:chinmaygawad365@gmail.com', icon: 'send', tag: 'ACTION' },
 ];
 
 function scrollToId(id) {
@@ -592,7 +675,7 @@ function renderCmdList() {
     if (!listEl) return;
 
     if (filteredCmdsList.length === 0) {
-        listEl.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">$ command not found</p>`;
+        listEl.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">No matching command in this sector</p>`;
         return;
     }
 
@@ -602,10 +685,10 @@ function renderCmdList() {
         html += `
             <div onclick="executeCmdIndex(${idx})" class="cmd-item ${isSelected ? 'selected' : ''}">
                 <div class="flex items-center gap-2.5 min-w-0">
-                    <i data-lucide="${cmd.icon}" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                    <i data-lucide="${cmd.icon}" class="w-4 h-4 text-violet-400 flex-shrink-0"></i>
                     <span class="truncate font-bold">${cmd.label}</span>
                 </div>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono">${cmd.tag}</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-violet-500/10 border border-violet-500/20 text-violet-400 font-mono">${cmd.tag}</span>
             </div>
         `;
     });
