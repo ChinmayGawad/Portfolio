@@ -20,6 +20,9 @@
         content="Final-year BE Computer Engineering undergraduate specializing in Artificial Intelligence, Agentic AI Systems, Android development with Kotlin, DSA, and computer science fundamentals.">
     <meta property="og:image" content="pics/IMG_6884.jpg">
 
+    <!-- Preload Hero Avatar for Instant Load -->
+    <link rel="preload" href="pics/IMG_6884.webp" as="image" type="image/webp">
+
     <!-- Google Fonts: Orbitron & Inter & JetBrains Mono & Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -158,7 +161,10 @@
                     <div class="p-6 text-center">
                         <div
                             class="w-36 h-36 mx-auto rounded-xl overflow-hidden mb-5 border-2 border-violet-400 shadow-xl shadow-violet-500/20 bg-black/80">
-                            <img src="pics/IMG_6884.jpg" alt="Chinmay Gawad" class="profile-avatar-img">
+                            <picture>
+                                <source srcset="pics/IMG_6884.webp" type="image/webp">
+                                <img src="pics/IMG_6884.jpg" alt="Chinmay Gawad" class="profile-avatar-img" width="144" height="144" decoding="async" fetchpriority="high">
+                            </picture>
                         </div>
                         <h3 class="text-xl font-bold text-slate-100 mb-1">Chinmay Gawad</h3>
                         <p class="font-mono text-xs text-violet-400 mb-6" id="github-handle">@ChinmayGawad</p>
@@ -254,7 +260,10 @@
                 <div class="p-7 text-center sm:text-left">
                     <div
                         class="w-24 h-24 mx-auto sm:mx-0 rounded-xl overflow-hidden mb-4 border border-violet-400/40 bg-black/80">
-                        <img src="pics/edited-photo.png" alt="Chinmay Gawad" class="profile-avatar-img">
+                        <picture>
+                            <source srcset="pics/edited-photo.webp" type="image/webp">
+                            <img src="pics/edited-photo.jpg" alt="Chinmay Gawad" class="profile-avatar-img" width="96" height="96" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                     <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
                         <li class="flex items-start gap-2.5">
