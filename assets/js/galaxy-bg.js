@@ -34,6 +34,8 @@
     let height = 0;
     let stars = [];
     let supernovae = [];
+    let meteors = [];
+    let meteorTimer = 80 + Math.floor(Math.random() * 100);
 
     // Exposure wash (full-screen camera blowout) — decays ×0.88 per frame.
     let sceneFlash = 0;
@@ -94,9 +96,23 @@
         mouse.active = false;
     });
 
-    // Click anywhere: ignite a supernova right at the cursor (scaled up for extra drama).
+    // Click anywhere: ignite a supernova, or intercept an oncoming meteor to detonate it
     window.addEventListener('click', (e) => {
+        // Intercept meteor click
+        for (let i = meteors.length - 1; i >= 0; i--) {
+            const m = meteors[i];
+            const dist = Math.hypot(e.clientX - m.x, e.clientY - m.y);
+            if (dist < 55) {
+                detonateMeteor(i, true);
+                return;
+            }
+        }
         spawnSupernova(e.clientX, e.clientY, 1.95);
+    });
+
+    // Double-click anywhere: trigger a meteor shower across the sky
+    window.addEventListener('dblclick', (e) => {
+        triggerMeteorShower(4 + Math.floor(Math.random() * 4), e.clientX, e.clientY);
     });
 
     // ── Math helpers ──────────────────────────────────────────────────────────
@@ -213,6 +229,289 @@
                 ctx.fillStyle = `rgba(${rgb}, ${alpha * 0.14})`;
                 ctx.fill();
                 ctx.globalCompositeOperation = 'source-over';
+            }
+        }
+    }
+
+    // ── Meteorites & Shooting Stars System ───────────────────────────────────
+    const meteorPalettesDark = [
+        { head: '255, 255, 255', mid: '167, 139, 250', tail: '34, 211, 238' },  // White -> Violet -> Cyan
+        { head: '255, 255, 255', mid: '232, 121, 249', tail: '167, 139, 250' }, // White -> Magenta -> Violet
+        { head: '255, 255, 255', mid: '253, 224, 71',  tail: '251, 146, 60' },  // White -> Gold -> Amber
+        { head: '255, 255, 255', mid: '56, 189, 248',  tail: '99, 102, 241' }   // White -> Sky Blue -> Indigo
+    ];
+
+    const meteorPalettesLight = [
+        { head: '124, 58, 237', mid: '192, 38, 211', tail: '8, 145, 178' },   // Purple -> Pink -> Teal
+        { head: '79, 70, 229',  mid: '147, 51, 234', tail: '219, 39, 119' },  // Indigo -> Purple -> Rose
+        { head: '217, 119, 6',  mid: '225, 29, 72',  tail: '147, 51, 234' }   // Amber -> Crimson -> Purple
+    ];
+
+    function spawnMeteor(options = {}) {
+        if (meteors.length >= (isMobile ? 5 : 10)) return;
+
+        let angle = options.angle !== undefined ? options.angle : (Math.PI * 0.15 + Math.random() * Math.PI * 0.22);
+        const speed = options.speed !== undefined ? options.speed : (13 + Math.random() * 11);
+        const len = options.length !== undefined ? options.length : (110 + Math.random() * 150);
+        const thickness = options.thickness !== undefined ? options.thickness : (1.3 + Math.random() * 1.5);
+
+        let startX, startY;
+        if (options.x !== undefined && options.y !== undefined) {
+            startX = options.x;
+            startY = options.y;
+        } else {
+            if (Math.random() < 0.65) {
+                startX = Math.random() * width * 1.1 - width * 0.1;
+                startY = -40;
+            } else {
+                startX = -40;
+                startY = Math.random() * height * 0.65;
+            }
+        }
+
+        let isTargeted = options.isTargeted;
+        let targetX = options.targetX;
+        let targetY = options.targetY;
+
+        // 28% chance of spawning a targeted cosmic impact meteor
+        if (isTargeted === undefined && Math.random() < 0.28) {
+            const margin = 100;
+            targetX = margin + Math.random() * (width - margin * 2);
+            targetY = margin + Math.random() * (height - margin * 2);
+            isTargeted = true;
+        }
+
+        let vx = Math.cos(angle) * speed;
+        let vy = Math.sin(angle) * speed;
+
+        if (isTargeted && targetX !== undefined && targetY !== undefined) {
+            const dx = targetX - startX;
+            const dy = targetY - startY;
+            const dist = Math.hypot(dx, dy);
+            if (dist > 60) {
+                angle = Math.atan2(dy, dx);
+                vx = Math.cos(angle) * speed;
+                vy = Math.sin(angle) * speed;
+            }
+        }
+
+        const maxLife = Math.ceil((Math.max(width, height) + len * 2) / speed);
+        const darkPal = meteorPalettesDark[Math.floor(Math.random() * meteorPalettesDark.length)];
+        const lightPal = meteorPalettesLight[Math.floor(Math.random() * meteorPalettesLight.length)];
+
+        meteors.push({
+            x: startX,
+            y: startY,
+            vx,
+            vy,
+            speed,
+            length: len,
+            thickness,
+            age: 0,
+            maxLife,
+            darkPal,
+            lightPal,
+            isTargeted,
+            targetX,
+            targetY,
+            sparks: []
+        });
+    }
+
+    function triggerImpactExplosion(x, y, scale = 1.2) {
+        sceneFlash = Math.min(1.0, sceneFlash + 0.6);
+        shakeFrames = 14;
+        shakeAmp = 11;
+        shakeMax = 14;
+
+        const sparkCount = isMobile ? 16 : 32;
+        for (let i = 0; i < sparkCount; i++) {
+            const p = acquireParticle();
+            if (p) {
+                p.active = true;
+                p.x = x;
+                p.y = y;
+                const spd = (3.5 + Math.random() * 8.5) * scale;
+                const ang = Math.random() * Math.PI * 2;
+                p.vx = Math.cos(ang) * spd;
+                p.vy = Math.sin(ang) * spd;
+                p.size = (1.0 + Math.random() * 2.2) * scale;
+                p.age = 0;
+                p.maxAge = 16 + Math.floor(Math.random() * 22);
+                p.rgb = '255, 235, 190';
+            }
+        }
+    }
+
+    function detonateMeteor(index, triggerSupernova = true) {
+        if (index < 0 || index >= meteors.length) return;
+        const m = meteors[index];
+
+        triggerImpactExplosion(m.x, m.y, 1.2);
+
+        for (let k = 0; k < m.sparks.length; k++) {
+            releaseParticle(m.sparks[k]);
+        }
+        meteors.splice(index, 1);
+
+        if (triggerSupernova && supernovae.length < MAX_CONCURRENT + 1) {
+            spawnSupernova(m.x, m.y, 1.35 + Math.random() * 0.4);
+        }
+    }
+
+    function triggerMeteorShower(count = 5, originX, originY) {
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                const ox = originX !== undefined ? originX + (Math.random() - 0.5) * 300 : undefined;
+                const oy = originY !== undefined ? originY + (Math.random() - 0.5) * 200 : undefined;
+                spawnMeteor({
+                    x: ox,
+                    y: oy,
+                    speed: 15 + Math.random() * 12,
+                    length: 120 + Math.random() * 160,
+                    thickness: 1.5 + Math.random() * 1.8
+                });
+            }, i * (120 + Math.random() * 150));
+        }
+    }
+
+    function maybeSpawnMeteor() {
+        meteorTimer -= 1;
+        if (meteorTimer <= 0) {
+            spawnMeteor();
+
+            // 18% chance for an automatic mini meteor shower
+            if (Math.random() < 0.18) {
+                triggerMeteorShower(2 + Math.floor(Math.random() * 3));
+            }
+
+            // Interval between meteor spawns: ~2.5s to ~6.5s
+            meteorTimer = 150 + Math.floor(Math.random() * 240);
+        }
+    }
+
+    function drawMeteors(isLight) {
+        for (let i = meteors.length - 1; i >= 0; i--) {
+            const m = meteors[i];
+            m.age++;
+
+            m.x += m.vx;
+            m.y += m.vy;
+
+            // Emit micro-sparks trailing off the meteor core
+            if (Math.random() < 0.75) {
+                const sparkDist = Math.random() * m.length * 0.55;
+                const ratio = sparkDist / m.speed;
+                const p = acquireParticle();
+                if (p) {
+                    p.active = true;
+                    p.x = m.x - m.vx * ratio + (Math.random() - 0.5) * 4;
+                    p.y = m.y - m.vy * ratio + (Math.random() - 0.5) * 4;
+                    p.vx = -m.vx * 0.04 + (Math.random() - 0.5) * 0.9;
+                    p.vy = -m.vy * 0.04 + (Math.random() - 0.5) * 0.9;
+                    p.size = 0.5 + Math.random() * 1.2;
+                    p.age = 0;
+                    p.maxAge = 12 + Math.floor(Math.random() * 18);
+                    const pal = isLight ? m.lightPal : m.darkPal;
+                    p.rgb = pal.mid;
+                    m.sparks.push(p);
+                }
+            }
+
+            const tailX = m.x - m.vx * (m.length / m.speed);
+            const tailY = m.y - m.vy * (m.length / m.speed);
+            const pal = isLight ? m.lightPal : m.darkPal;
+
+            let alpha = 1.0;
+            if (m.x > width + m.length || m.y > height + m.length) {
+                alpha = 0;
+            } else if (m.age > m.maxLife - 20) {
+                alpha = (m.maxLife - m.age) / 20;
+            }
+
+            if (alpha > 0.01) {
+                ctx.save();
+                ctx.globalCompositeOperation = isLight ? 'source-over' : 'lighter';
+
+                // Tapered luminous tail gradient
+                const grad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
+                grad.addColorStop(0, `rgba(${pal.tail}, 0)`);
+                grad.addColorStop(0.45, `rgba(${pal.mid}, ${0.45 * alpha})`);
+                grad.addColorStop(0.85, `rgba(${pal.head}, ${0.85 * alpha})`);
+                grad.addColorStop(1, `rgba(255, 255, 255, ${0.98 * alpha})`);
+
+                ctx.beginPath();
+                ctx.moveTo(tailX, tailY);
+                ctx.lineTo(m.x, m.y);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = m.thickness;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+
+                // Luminous head core & radial halo
+                const headGlowRadius = m.thickness * 3.8;
+                const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, headGlowRadius);
+                headGrad.addColorStop(0, `rgba(255, 255, 255, ${0.98 * alpha})`);
+                headGrad.addColorStop(0.35, `rgba(${pal.head}, ${0.65 * alpha})`);
+                headGrad.addColorStop(1, `rgba(${pal.mid}, 0)`);
+
+                ctx.beginPath();
+                ctx.arc(m.x, m.y, headGlowRadius, 0, Math.PI * 2);
+                ctx.fillStyle = headGrad;
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            // Render micro-sparks
+            for (let j = m.sparks.length - 1; j >= 0; j--) {
+                const sp = m.sparks[j];
+                sp.age++;
+                sp.x += sp.vx;
+                sp.y += sp.vy;
+                const spAlpha = (1 - sp.age / sp.maxAge) * alpha * 0.8;
+
+                if (sp.age >= sp.maxAge || spAlpha <= 0) {
+                    releaseParticle(sp);
+                    m.sparks.splice(j, 1);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${sp.rgb}, ${spAlpha})`;
+                    ctx.fill();
+                }
+            }
+
+            // Check collision with active supernovae fields
+            let collided = false;
+            for (let sIdx = 0; sIdx < supernovae.length; sIdx++) {
+                const sn = supernovae[sIdx];
+                const d = Math.hypot(m.x - sn.x, m.y - sn.y);
+                const snRadius = (sn.phase === 'build') ? 50 * sn.scale : Math.min(220, (55 + sn.age * 1.3) * sn.scale);
+                if (d < snRadius) {
+                    detonateMeteor(i, false);
+                    collided = true;
+                    break;
+                }
+            }
+
+            if (collided) continue;
+
+            // Check if targeted cosmic impact meteor reached its impact point
+            if (m.isTargeted && m.targetX !== undefined) {
+                const distToTarget = Math.hypot(m.x - m.targetX, m.y - m.targetY);
+                if (distToTarget < m.speed * 1.3) {
+                    detonateMeteor(i, true);
+                    continue;
+                }
+            }
+
+            // Cleanup expired meteor
+            if (alpha <= 0 || (m.x > width + m.length * 1.5 && m.y > height + m.length * 1.5)) {
+                for (let k = 0; k < m.sparks.length; k++) {
+                    releaseParticle(m.sparks[k]);
+                }
+                meteors.splice(i, 1);
             }
         }
     }
@@ -1084,6 +1383,9 @@
 
         drawStars(isLight);
 
+        // Meteorites & Shooting Stars layer
+        drawMeteors(isLight);
+
         // Supernova events
         for (let i = supernovae.length - 1; i >= 0; i--) {
             const alive = drawSupernova(supernovae[i], isLight);
@@ -1106,6 +1408,7 @@
         sceneFlash *= 0.88;
 
         maybeSpawnBurst();
+        maybeSpawnMeteor();
 
         animationFrameId = requestAnimationFrame(draw);
     }
