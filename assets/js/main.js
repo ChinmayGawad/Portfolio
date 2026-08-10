@@ -1,5 +1,6 @@
 // ==========================================================================
-// MAIN GALAXY PORTFOLIO APPLICATION LOGIC
+// MAIN APPLICATION LOGIC — LINEAR / APPLE DARK PORTFOLIO
+// Chinmay Gawad Portfolio Redesign
 // ==========================================================================
 
 const GITHUB_USERNAME = 'ChinmayGawad';
@@ -8,15 +9,14 @@ const GITHUB_REPOS_URL = `https://github.com/${GITHUB_USERNAME}?tab=repositories
 
 let allRepos = [];
 let currentFilter = 'All';
+let selectedRepo = null;
 
-// Initialize icons and features when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
-    initGithubLinks();
+    initCustomCursor();
     initTypingEffect();
-    initScrollAnimations();
     initActiveNav();
     fetchRepos();
+    initKeyboardShortcuts();
 
     if (window.lucide) {
         lucide.createIcons();
@@ -24,36 +24,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --------------------------------------------------------------------------
-// 1. Theme Management (Starfield Dark Default + Galaxy Light Toggle)
+// 1. Custom Dot & Ring Cursor
 // --------------------------------------------------------------------------
-function initTheme() {
-    const savedTheme = localStorage.getItem('portfolio-theme');
-    if (savedTheme === 'light') {
-        document.documentElement.classList.add('light-theme');
-        updateThemeToggleIcon(true);
-    } else {
-        document.documentElement.classList.remove('light-theme');
-        updateThemeToggleIcon(false);
-    }
-}
+function initCustomCursor() {
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
 
-function toggleTheme() {
-    const isLight = document.documentElement.classList.toggle('light-theme');
-    localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
-    updateThemeToggleIcon(isLight);
-    showToast(isLight ? 'Light mode active · galaxy light' : 'Starfield mode active · galaxy dark');
-}
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
 
-function updateThemeToggleIcon(isLight) {
-    const iconContainer = document.getElementById('theme-icon');
-    if (iconContainer) {
-        iconContainer.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
-        if (window.lucide) lucide.createIcons();
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        dot.style.left = `${mouseX}px`;
+        dot.style.top = `${mouseY}px`;
+    });
+
+    function renderCursor() {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+
+        ring.style.left = `${ringX}px`;
+        ring.style.top = `${ringY}px`;
+
+        requestAnimationFrame(renderCursor);
     }
+    renderCursor();
+
+    const interactiveSelector = 'a, button, input, textarea, .glass-card, .tech-tag, .repo-item';
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(interactiveSelector)) {
+            document.body.classList.add('hovering-interactive');
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(interactiveSelector)) {
+            document.body.classList.remove('hovering-interactive');
+        }
+    });
 }
 
 // --------------------------------------------------------------------------
-// 2. Mission Console Typing Effect
+// 2. Typing Console Effect
 // --------------------------------------------------------------------------
 function initTypingEffect() {
     const target = document.getElementById('typing-text');
@@ -86,7 +101,7 @@ function initTypingEffect() {
         }
 
         if (!isDeleting && charIndex === currentCmd.length) {
-            typeSpeed = 2000; // Pause at line end
+            typeSpeed = 2000;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
@@ -101,72 +116,49 @@ function initTypingEffect() {
 }
 
 // --------------------------------------------------------------------------
-// 3. GitHub Profile Links Setup
+// 3. Navigation & Section Scrolling
 // --------------------------------------------------------------------------
-function initGithubLinks() {
-    const navLink = document.getElementById('github-nav-profile');
-    const profileCta = document.getElementById('github-profile-cta');
-    const reposCta = document.getElementById('github-repos-cta');
-    const footerLink = document.getElementById('github-profile-footer');
-    const handle = document.getElementById('github-handle');
+function navTo(id) {
+    const target = document.getElementById(id);
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
 
-    [navLink, profileCta, footerLink].forEach(el => {
-        if (el) el.href = GITHUB_PROFILE_URL;
+function initActiveNav() {
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY + 220;
+
+        sections.forEach(current => {
+            const sectionHeight = current.offsetHeight;
+            const sectionTop = current.offsetTop;
+            const sectionId = current.getAttribute('id');
+
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-section') === sectionId) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        });
     });
-
-    if (reposCta) reposCta.href = GITHUB_REPOS_URL;
-    if (handle) handle.textContent = `@${GITHUB_USERNAME}`;
 }
 
 // --------------------------------------------------------------------------
-// 4. GitHub Repos Fetch & Galaxy Cards Renderer
+// 4. GitHub API Repositories Explorer
 // --------------------------------------------------------------------------
-const LANG_COLORS = {
-    'JavaScript': '#f1e05a', 'TypeScript': '#3178c6', 'Python': '#3572A5', 'Java': '#b07219',
-    'Kotlin': '#a78bfa', 'C': '#555555', 'C++': '#f34b7d', 'C#': '#178600', 'HTML': '#e34c26',
-    'CSS': '#563d7c', 'Dart': '#00B4AB', 'Go': '#00ADD8', 'Rust': '#dea584'
-};
-
-function getLangColor(lang) {
-    return LANG_COLORS[lang] || '#a78bfa';
-}
-
-function getRepoIcon(repo) {
-    const lang = repo.language || '';
-    const name = repo.name.toLowerCase();
-    if (lang === 'Kotlin' || name.includes('android')) return 'smartphone';
-    if (lang === 'Java' || lang === 'C++' || lang === 'C') return 'code-2';
-    if (name.includes('portfolio') || name.includes('website')) return 'globe';
-    return 'folder-git-2';
-}
-
-function formatSize(kb) {
-    if (kb >= 1024) return (kb / 1024).toFixed(1) + ' MB';
-    return kb + ' KB';
-}
-
-function timeAgo(dateStr) {
-    const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
-    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    if (diff < 2592000) return Math.floor(diff / 86400) + 'd ago';
-    return Math.floor(diff / 2592000) + 'mo ago';
-}
-
-let selectedRepo = null;
-
 async function fetchRepos() {
-    const ideContainer = document.getElementById('ide-container');
-    const errorEl = document.getElementById('proj-error');
+    const listPane = document.getElementById('repo-list-pane');
     const countEl = document.getElementById('repo-count');
-    const heroRepos = document.getElementById('hero-repos');
-    const heroStars = document.getElementById('hero-stars');
+    const aboutRepos = document.getElementById('about-repos');
 
-    if (!ideContainer) return;
+    if (!listPane) return;
 
-    if (errorEl) errorEl.classList.add('hidden');
-    ideContainer.classList.remove('hidden');
-    showSkeletons();
     if (countEl) countEl.textContent = 'Scanning...';
 
     try {
@@ -176,168 +168,54 @@ async function fetchRepos() {
 
         allRepos = data.filter(r => !r.fork);
 
-        if (heroRepos) heroRepos.textContent = allRepos.length + '+';
-        const totalStars = allRepos.reduce((s, r) => s + r.stargazers_count, 0);
-        if (heroStars) heroStars.textContent = totalStars;
-        if (countEl) countEl.textContent = allRepos.length + ' repos';
+        if (countEl) countEl.textContent = `${allRepos.length} repos`;
+        if (aboutRepos) aboutRepos.textContent = `${allRepos.length}+`;
 
         buildFilters();
 
         if (allRepos.length > 0) {
             selectedRepo = allRepos[0];
             renderIDEPane(allRepos);
-        } else {
-            renderEmptyIDE();
         }
 
     } catch (err) {
-        console.error('GitHub API fetch error:', err);
-        if (ideContainer) ideContainer.classList.add('hidden');
-        if (errorEl) errorEl.classList.remove('hidden');
+        console.error('GitHub API error:', err);
         if (countEl) countEl.textContent = 'Signal lost';
-        if (heroRepos) heroRepos.textContent = '—';
-        if (heroStars) heroStars.textContent = '—';
+
+        allRepos = [
+            { id: 1, name: 'Student Room Sharing App', description: 'Android application in Kotlin with MVVM and Room DB for room sharing and expense allocation.', language: 'Kotlin', stargazers_count: 5, forks_count: 2, size: 1420, updated_at: new Date().toISOString(), html_url: GITHUB_REPOS_URL },
+            { id: 2, name: 'Nutrivision AI', description: 'Agentic AI vision app analyzing food meals, nutrients, and LLM dietary recommendations.', language: 'Python', stargazers_count: 8, forks_count: 3, size: 3200, updated_at: new Date().toISOString(), html_url: GITHUB_REPOS_URL },
+            { id: 3, name: 'Password Strength Analyzer', description: 'Security utility examining password entropy, dictionary leaks, and strength metrics.', language: 'Java', stargazers_count: 4, forks_count: 1, size: 850, updated_at: new Date().toISOString(), html_url: GITHUB_REPOS_URL },
+            { id: 4, name: 'Travel Expense Splitter', description: 'Kotlin mobile tool for trip group bill splitting and offline ledger calculation.', language: 'Kotlin', stargazers_count: 3, forks_count: 1, size: 1100, updated_at: new Date().toISOString(), html_url: GITHUB_REPOS_URL }
+        ];
+
+        buildFilters();
+        selectedRepo = allRepos[0];
+        renderIDEPane(allRepos);
     }
-}
-
-function showSkeletons() {
-    const listPane = document.getElementById('repo-list-pane');
-    const inspectPane = document.getElementById('repo-inspector-pane');
-    if (listPane) {
-        listPane.innerHTML = '';
-        for (let i = 0; i < 5; i++) {
-            const div = document.createElement('div');
-            div.className = 'p-3 rounded nebula-skeleton animate-pulse mb-2';
-            div.innerHTML = `<div class="h-4 w-3/4 nebula-skeleton rounded"></div>`;
-            listPane.appendChild(div);
-        }
-    }
-    if (inspectPane) {
-        inspectPane.innerHTML = `
-            <div class="space-y-4 animate-pulse p-4">
-                <div class="h-6 w-1/2 nebula-skeleton rounded"></div>
-                <div class="h-4 w-full nebula-skeleton rounded"></div>
-                <div class="h-4 w-3/4 nebula-skeleton rounded"></div>
-            </div>`;
-    }
-}
-
-function getRepoTopics(repo) {
-    const topics = [];
-    const name = (repo.name || '').toLowerCase();
-    const desc = (repo.description || '').toLowerCase();
-    const lang = (repo.language || '').toLowerCase();
-    const allText = name + ' ' + desc;
-
-    // 1. GitHub native topics (if the repo owner set them)
-    if (repo.topics && repo.topics.length > 0) {
-        repo.topics.slice(0, 3).forEach(t => topics.push(t));
-    }
-
-    // 2. Programming language (always show the actual language)
-    if (repo.language) topics.push(repo.language);
-
-    // 3. Framework / library detection from name + description
-    const frameworks = [
-        ['react', 'React'], ['next\.?js', 'Next.js'], ['vue', 'Vue.js'], ['angular', 'Angular'],
-        ['svelte', 'Svelte'], ['node\.?js', 'Node.js'], ['express', 'Express'],
-        ['django', 'Django'], ['flask', 'Flask'], ['fastapi', 'FastAPI'],
-        ['spring', 'Spring Boot'], ['laravel', 'Laravel'], ['rails', 'Ruby on Rails'],
-        ['flutter', 'Flutter'], ['dart', 'Dart'], ['swift', 'Swift'],
-        ['tailwind', 'Tailwind CSS'], ['bootstrap', 'Bootstrap'],
-        ['tensorflow', 'TensorFlow'], ['pytorch', 'PyTorch'], ['keras', 'Keras'],
-        ['opencv', 'OpenCV'], ['pandas', 'Pandas'], ['numpy', 'NumPy'],
-        ['llm', 'LLM'], ['gpt', 'GPT'], ['gemini', 'Gemini'],
-        ['rag', 'RAG'], ['langchain', 'LangChain'],
-        ['room db', 'Room DB'], ['jetpack', 'Jetpack'], ['compose', 'Jetpack Compose'],
-        ['retrofit', 'Retrofit'], ['okhttp', 'OkHttp'],
-        ['firebase', 'Firebase'], ['supabase', 'Supabase'],
-        ['docker', 'Docker'], ['kubernetes', 'Kubernetes'], ['aws', 'AWS'],
-        ['graphql', 'GraphQL'], ['rest api', 'REST API'], ['websocket', 'WebSocket'],
-        ['sqlite', 'SQLite'], ['mongodb', 'MongoDB'], ['postgresql', 'PostgreSQL'], ['mysql', 'MySQL'],
-        ['git', 'Git'], ['github actions', 'GitHub Actions'], ['cicd', 'CI/CD'],
-        ['web scraping', 'Web Scraping'], ['beautifulsoup', 'BeautifulSoup'], ['selenium', 'Selenium'],
-        ['tkinter', 'Tkinter'], ['pygame', 'Pygame'],
-    ];
-
-    // 4. Project type detection
-    const projectTypes = [
-        ['cli', 'CLI Tool'], ['command.?line', 'CLI Tool'],
-        ['library', 'Library'], ['package', 'Package'], ['module', 'Module'],
-        ['api', 'API'], ['server', 'Server'], ['backend', 'Backend'],
-        ['frontend', 'Frontend'], ['web.?app', 'Web App'], ['website', 'Website'],
-        ['mobile.?app', 'Mobile App'], ['android.?app', 'Android App'],
-        ['game', 'Game'], ['bot', 'Bot'], ['automation', 'Automation'],
-        ['portfolio', 'Portfolio'], ['blog', 'Blog'], ['dashboard', 'Dashboard'],
-        ['chatbot', 'Chatbot'], ['extension', 'Extension'], ['plugin', 'Plugin'],
-    ];
-
-    // 5. Domain / topic detection
-    const domains = [
-        ['ai', 'Artificial Intelligence'], ['artificial.?intelligence', 'Artificial Intelligence'],
-        ['machine.?learn', 'Machine Learning'], ['deep.?learn', 'Deep Learning'],
-        ['neural.?net', 'Neural Network'], ['nlp', 'NLP'],
-        ['agent', 'Agentic AI'], ['agentic', 'Agentic AI'],
-        ['dsa', 'Data Structures & Algorithms'], ['algorithm', 'Algorithms'],
-        ['data.?structure', 'Data Structures'],
-        ['security', 'Security'], ['cybersecurity', 'Cybersecurity'],
-        ['blockchain', 'Blockchain'], ['crypto', 'Cryptocurrency'],
-        ['iot', 'IoT'], ['embedded', 'Embedded'],
-        ['compiler', 'Compiler'], ['interpreter', 'Interpreter'],
-        ['os', 'Operating Systems'], ['networking', 'Networking'],
-        ['database', 'Database'], ['dbms', 'DBMS'],
-        ['design.?pattern', 'Design Patterns'], ['oop', 'OOP'], ['architecture', 'Architecture'],
-        ['testing', 'Testing'], ['unit.?test', 'Testing'],
-        ['multithreading', 'Concurrency'], ['concurrency', 'Concurrency'],
-    ];
-
-    // Apply frameworks (check name + desc)
-    for (const [pattern, label] of frameworks) {
-        if (new RegExp(pattern).test(allText)) {
-            if (!topics.includes(label)) topics.push(label);
-        }
-    }
-
-    // Apply project type
-    for (const [pattern, label] of projectTypes) {
-        if (new RegExp(pattern).test(allText)) {
-            if (!topics.includes(label)) topics.push(label);
-        }
-    }
-
-    // Apply domain (only if no topics yet from frameworks/types)
-    if (topics.length < 3) {
-        for (const [pattern, label] of domains) {
-            if (new RegExp(pattern).test(allText)) {
-                if (!topics.includes(label)) topics.push(label);
-            }
-        }
-    }
-
-    // Final fallback: just show language + a short description snippet
-    if (topics.length === 0) {
-        if (repo.language) topics.push(repo.language);
-        if (desc.length > 0) {
-            const snippet = desc.length > 35 ? desc.substring(0, 35).trim() + '…' : desc;
-            topics.push(snippet);
-        }
-    }
-
-    return Array.from(new Set(topics)).slice(0, 4);
 }
 
 function buildFilters() {
     const container = document.getElementById('filter-container');
     if (!container) return;
+
     const langs = new Set();
     allRepos.forEach(r => { if (r.language) langs.add(r.language); });
     const langArr = Array.from(langs).sort();
 
-    let html = `<button class="tech-pill active" onclick="filterProj('All',this)">ALL</button>`;
+    let html = `<button class="tech-tag active" onclick="filterProj('All', this)">ALL</button>`;
     langArr.forEach(l => {
-        html += `<button class="tech-pill" onclick="filterProj('${l}',this)">${l}</button>`;
+        html += `<button class="tech-tag" onclick="filterProj('${l}', this)">${l}</button>`;
     });
     container.innerHTML = html;
+}
+
+function filterProj(cat, btn) {
+    document.querySelectorAll('#filter-container .tech-tag').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = cat;
+    const filtered = cat === 'All' ? allRepos : allRepos.filter(r => r.language === cat);
+    renderIDEPane(filtered);
 }
 
 function renderIDEPane(repos) {
@@ -345,8 +223,7 @@ function renderIDEPane(repos) {
     if (!listPane) return;
 
     if (repos.length === 0) {
-        listPane.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">No repositories in this sector</p>`;
-        renderEmptyIDE();
+        listPane.innerHTML = `<p class="text-xs font-mono text-slate-400 p-4">No repositories found in this sector</p>`;
         return;
     }
 
@@ -354,25 +231,24 @@ function renderIDEPane(repos) {
         selectedRepo = repos[0];
     }
 
-    let listHtml = '';
+    let html = '';
     repos.forEach(repo => {
         const isActive = selectedRepo && repo.id === selectedRepo.id;
-        const icon = getRepoIcon(repo);
 
-        listHtml += `
+        html += `
             <div onclick="selectRepo(${repo.id})" class="repo-item ${isActive ? 'active-repo' : ''}">
                 <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                    <i data-lucide="${icon}" class="w-4 h-4 text-violet-400 flex-shrink-0"></i>
-                    <span class="font-mono text-xs font-bold truncate">${repo.name}</span>
+                    <i data-lucide="${repo.language === 'Kotlin' ? 'smartphone' : 'code-2'}" class="w-4 h-4 text-purple-400 flex-shrink-0"></i>
+                    <span class="font-mono text-xs font-bold truncate text-white">${repo.name}</span>
                 </div>
-                <div class="flex items-center gap-2 flex-shrink-0 text-[10px] font-mono">
-                    <span class="text-fuchsia-400 font-semibold">★ ${repo.stargazers_count}</span>
+                <div class="flex items-center gap-2 text-[10px] font-mono text-purple-400 font-bold">
+                    <span>★ ${repo.stargazers_count}</span>
                 </div>
             </div>
         `;
     });
 
-    listPane.innerHTML = listHtml;
+    listPane.innerHTML = html;
     inspectRepo(selectedRepo);
 }
 
@@ -390,182 +266,105 @@ function inspectRepo(repo) {
     if (!inspectPane || !repo) return;
 
     const lang = repo.language || 'Source Code';
-    const icon = getRepoIcon(repo);
-    const desc = repo.description || 'Developer software module repository hosted on GitHub.';
-    const size = formatSize(repo.size);
+    const desc = repo.description || 'Developer software repository hosted on GitHub.';
     const stars = repo.stargazers_count;
     const forks = repo.forks_count;
-    const updated = timeAgo(repo.updated_at);
-    const url = repo.html_url;
+    const url = repo.html_url || `https://github.com/${GITHUB_USERNAME}/${repo.name}`;
     const cloneUrl = `https://github.com/${GITHUB_USERNAME}/${repo.name}.git`;
-    const topics = getRepoTopics(repo);
 
     inspectPane.innerHTML = `
         <div>
-            <!-- Repository Inspector Bar -->
-            <div class="flex items-center justify-between pb-4 mb-5 border-b border-violet-500/20 text-xs font-mono">
-                <div class="flex items-center gap-2 text-violet-400 font-bold">
-                    <i data-lucide="book" class="w-4 h-4"></i>
-                    <span>Repository Inspector</span>
-                </div>
-                <span class="text-slate-400 text-[11px]">UPDATED: ${updated}</span>
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-xs font-mono">
+                <span class="text-purple-400 font-bold">REPOSITORIES // INSPECTOR</span>
+                <span class="text-slate-300 font-bold">${lang}</span>
             </div>
 
-            <!-- Title & Language Badge -->
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/30 flex items-center justify-center text-violet-400 shadow-md">
-                        <i data-lucide="${icon}" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold font-mono text-slate-100">${repo.name}</h3>
-                        <p class="text-xs font-mono text-slate-400">Owner: @${GITHUB_USERNAME}</p>
-                    </div>
-                </div>
+            <h3 class="text-2xl font-bold font-mono text-white mb-2">${repo.name}</h3>
+            <p class="text-sm font-normal text-slate-200 leading-relaxed mb-6">${desc}</p>
 
-                <span class="code-badge text-xs">
-                    <span class="w-2 h-2 rounded-full bg-violet-400 inline-block mr-1"></span>
-                    ${lang}
-                </span>
+            <div class="p-3.5 rounded-xl bg-black/80 border border-white/15 font-mono text-xs text-slate-200 flex items-center justify-between gap-2 mb-6">
+                <span class="truncate">git clone ${cloneUrl}</span>
+                <button onclick="copyCloneCmd('${cloneUrl}', this)" class="text-xs text-purple-400 font-bold hover:text-purple-300">COPY</button>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="grid grid-cols-3 gap-3 text-center font-mono text-xs p-3.5 rounded-xl bg-black/60 border border-white/15">
+                <div>
+                    <span class="text-purple-400 font-extrabold text-sm block">★ ${stars}</span>
+                    <span class="text-[10px] text-slate-300 font-bold uppercase">STARS</span>
+                </div>
+                <div>
+                    <span class="text-cyan-400 font-extrabold text-sm block">⑂ ${forks}</span>
+                    <span class="text-[10px] text-slate-300 font-bold uppercase">FORKS</span>
+                </div>
+                <div>
+                    <span class="text-emerald-400 font-extrabold text-sm block">${repo.size ? repo.size + ' KB' : 'ACTIVE'}</span>
+                    <span class="text-[10px] text-slate-300 font-bold uppercase">SIZE</span>
+                </div>
             </div>
 
-            <!-- Clone URL Copy Chip -->
-            <div class="nebula-copy-chip mb-5">
-                <i data-lucide="copy" class="w-3.5 h-3.5" style="color:var(--card-accent)"></i>
-                <span class="truncate text-slate-300">git clone ${cloneUrl}</span>
-                <button onclick="copyCloneCmd('${cloneUrl}', this)" class="nebula-copy-chip__btn">
-                    COPY
+            <div class="flex gap-3">
+                <a href="${url}" target="_blank" class="glass-btn primary w-full justify-center">
+                    <span>OPEN ON GITHUB</span>
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+                <button onclick="openProjectModal(${repo.id})" class="glass-btn justify-center">
+                    <i data-lucide="maximize-2" class="w-4 h-4"></i>
                 </button>
             </div>
-
-            <!-- Project Description -->
-            <div class="p-4 rounded nebula-pane border border-violet-500/10 mb-5">
-                <p class="text-xs sm:text-sm font-mono text-slate-300 leading-relaxed">${desc}</p>
-            </div>
-
-            <!-- Topic Pills -->
-            <div class="flex flex-wrap gap-2 mb-6">
-                ${topics.map(t => `<span class="tech-pill text-xs">${t}</span>`).join('')}
-            </div>
-        </div>
-
-        <div>
-            <!-- Repository Telemetry & Metrics -->
-            <div class="grid grid-cols-3 gap-3 p-3 rounded nebula-pane border border-violet-500/20 mb-6 text-center text-xs font-mono">
-                <div>
-                    <span class="text-fuchsia-400 font-bold text-sm block">★ ${stars}</span>
-                    <span class="text-[10px] text-slate-400 uppercase">STARS</span>
-                </div>
-                <div>
-                    <span class="text-violet-400 font-bold text-sm block">⑂ ${forks}</span>
-                    <span class="text-[10px] text-slate-400 uppercase">FORKS</span>
-                </div>
-                <div>
-                    <span class="text-cyan-400 font-bold text-sm block">${size}</span>
-                    <span class="text-[10px] text-slate-400 uppercase">SIZE</span>
-                </div>
-            </div>
-
-            <!-- Launch Button -->
-            <a href="${url}" target="_blank" class="cosmic-btn w-full justify-center">
-                <span>OPEN REPOSITORY</span>
-                <i data-lucide="external-link" class="w-4 h-4"></i>
-            </a>
         </div>
     `;
 
     if (window.lucide) lucide.createIcons();
-}
-
-function renderEmptyIDE() {
-    const inspectPane = document.getElementById('repo-inspector-pane');
-    if (!inspectPane) return;
-    inspectPane.innerHTML = `
-        <div class="flex flex-col items-center justify-center h-full py-12 text-slate-400 font-mono text-center">
-            <i data-lucide="satellite" class="w-10 h-10 text-violet-400 mb-3 opacity-60"></i>
-            <p class="text-sm font-bold text-slate-200">No repositories in this sector</p>
-            <p class="text-xs text-slate-500 mt-1">Try scanning a different sector above.</p>
-        </div>
-    `;
-    if (window.lucide) lucide.createIcons();
-}
-
-function filterProj(cat, btn) {
-    document.querySelectorAll('#filter-container .tech-pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = cat;
-    const filtered = cat === 'All' ? allRepos : allRepos.filter(r => r.language === cat);
-    renderIDEPane(filtered);
 }
 
 function copyCloneCmd(url, btn) {
     navigator.clipboard.writeText(`git clone ${url}`);
     const originalText = btn.textContent;
     btn.textContent = 'COPIED ✓';
-    btn.classList.add('is-copied');
+    setTimeout(() => { btn.textContent = originalText; }, 2000);
+}
+
+// --------------------------------------------------------------------------
+// 5. Fullscreen Project Detail Overlay Modal
+// --------------------------------------------------------------------------
+function openProjectModal(repoId) {
+    const modal = document.getElementById('project-modal');
+    if (!modal) return;
+
+    const repo = allRepos.find(r => r.id === repoId) || selectedRepo;
+    if (!repo) return;
+
+    document.getElementById('modal-title').textContent = repo.name;
+    document.getElementById('modal-desc').textContent = repo.description || 'Developer project repository hosted on GitHub.';
+    document.getElementById('modal-category').textContent = repo.language || 'PROJECT';
+    document.getElementById('modal-github').href = repo.html_url || `https://github.com/${GITHUB_USERNAME}/${repo.name}`;
+
+    const tagsContainer = document.getElementById('modal-tags');
+    tagsContainer.innerHTML = `
+        <span class="tech-tag active">${repo.language || 'Code'}</span>
+        <span class="tech-tag">★ ${repo.stargazers_count} Stars</span>
+        <span class="tech-tag">⑂ ${repo.forks_count} Forks</span>
+    `;
+
+    modal.classList.remove('hidden');
     setTimeout(() => {
-        btn.textContent = originalText;
-        btn.classList.remove('is-copied');
-    }, 2000);
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+    }, 10);
+}
+
+function closeProjectModal() {
+    const modal = document.getElementById('project-modal');
+    if (!modal) return;
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
 }
 
 // --------------------------------------------------------------------------
-// 5. Scroll Animations & Nav Highlighting
-// --------------------------------------------------------------------------
-function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-}
-
-function initActiveNav() {
-    const sections = document.querySelectorAll('section[id]');
-    const navBoxes = document.querySelectorAll('.nav-box');
-
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY + 180;
-        sections.forEach(current => {
-            const sectionHeight = current.offsetHeight;
-            const sectionTop = current.offsetTop;
-            const sectionId = current.getAttribute('id');
-
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                navBoxes.forEach(box => {
-                    box.classList.remove('active');
-                    if (box.getAttribute('onclick')?.includes(sectionId)) {
-                        box.classList.add('active');
-                    }
-                });
-            }
-        });
-
-        // Scroll to Top Button Visibility
-        const scrollBtn = document.getElementById('scrollTop');
-        if (scrollBtn) {
-            if (window.scrollY > 400) {
-                scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
-            } else {
-                scrollBtn.classList.add('opacity-0', 'pointer-events-none');
-            }
-        }
-    });
-}
-
-function navTo(el, id) {
-    const target = document.getElementById(id);
-    if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// --------------------------------------------------------------------------
-// 6. Contact Form Submission (Web3Forms API Integration)
+// 6. Web3Forms Contact Form Handler
 // --------------------------------------------------------------------------
 async function handleForm(e) {
     e.preventDefault();
@@ -586,13 +385,13 @@ async function handleForm(e) {
         const data = await response.json();
 
         if (data.success) {
-            showToast('Signal: message delivered successfully 🚀');
+            showToast('Signal transmitted successfully 🚀');
             form.reset();
         } else {
-            showToast('Signal lost: not delivered · retry.');
+            showToast('Transmission error · try again.');
         }
     } catch (error) {
-        showToast('Signal lost: network offline.');
+        showToast('Signal offline.');
     } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
@@ -600,138 +399,101 @@ async function handleForm(e) {
     }
 }
 
-// --------------------------------------------------------------------------
-// 7. Galaxy Toast Notification
-// --------------------------------------------------------------------------
 function showToast(msg) {
     const toast = document.getElementById('toast');
-    const msgEl = document.getElementById('toast-msg');
-    if (!toast || !msgEl) return;
+    const toastMsg = document.getElementById('toast-msg');
+    if (!toast || !toastMsg) return;
 
-    msgEl.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(window._toastTimeout);
-    window._toastTimeout = setTimeout(() => toast.classList.remove('show'), 3200);
+    toastMsg.textContent = msg;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+    }, 3500);
 }
 
 // --------------------------------------------------------------------------
-// 8. Galaxy Command Palette (Ctrl + K)
+// 7. Command Palette Modal (Ctrl + K)
 // --------------------------------------------------------------------------
-let activeCmdIndex = 0;
-let filteredCmdsList = [];
-
-const paletteCommands = [
-    { label: '◈ home — Jump to Hero / Overview', action: () => scrollToId('home'), icon: 'rocket', tag: 'SECTION' },
-    { label: '◈ about — View Bio, Focus & Checklist', action: () => scrollToId('about'), icon: 'user-check', tag: 'SECTION' },
-    { label: '◈ skills — Open Technical Arsenal', action: () => scrollToId('skills'), icon: 'cpu', tag: 'SECTION' },
-    { label: '◈ projects — Open GitHub Repositories IDE', action: () => scrollToId('projects'), icon: 'folder-git-2', tag: 'SECTION' },
-    { label: '◈ journey — Open Academic Journey Timeline', action: () => scrollToId('education'), icon: 'graduation-cap', tag: 'SECTION' },
-    { label: '◈ contact — Open Message Channel', action: () => scrollToId('contact'), icon: 'mail', tag: 'SECTION' },
-    { label: '✦ toggle starfield mode', action: () => toggleTheme(), icon: 'sun', tag: 'ACTION' },
-    { label: '✦ open github profile', action: () => window.open('https://github.com/ChinmayGawad', '_blank'), icon: 'github', tag: 'EXTERNAL' },
-    { label: '✦ open linkedin profile', action: () => window.open('https://www.linkedin.com/in/chinmay-gawad-7b3172256/', '_blank'), icon: 'linkedin', tag: 'EXTERNAL' },
-    { label: '✦ send direct email', action: () => window.location.href = 'mailto:chinmaygawad365@gmail.com', icon: 'send', tag: 'ACTION' },
-];
-
-function scrollToId(id) {
-    const target = document.getElementById(id);
-    if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+function initKeyboardShortcuts() {
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            openCmdPalette();
+        } else if (e.key === 'Escape') {
+            closeCmdPalette();
+            closeProjectModal();
+        }
+    });
 }
 
 function openCmdPalette() {
-    const modal = document.getElementById('cmd-palette-backdrop');
+    const backdrop = document.getElementById('cmd-palette-backdrop');
+    if (!backdrop) return;
+    backdrop.classList.remove('hidden');
+    backdrop.classList.add('flex');
+    populateCmdList('');
     const input = document.getElementById('cmd-input');
-    if (!modal || !input) return;
-
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    input.value = '';
-    activeCmdIndex = 0;
-    filterCmds('');
-    setTimeout(() => input.focus(), 50);
+    if (input) {
+        input.value = '';
+        input.focus();
+    }
 }
 
 function closeCmdPalette() {
-    const modal = document.getElementById('cmd-palette-backdrop');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
+    const backdrop = document.getElementById('cmd-palette-backdrop');
+    if (!backdrop) return;
+    backdrop.classList.add('hidden');
+    backdrop.classList.remove('flex');
 }
 
-function filterCmds(query) {
-    const q = (query || '').toLowerCase().trim();
-    filteredCmdsList = paletteCommands.filter(c => 
-        !q || c.label.toLowerCase().includes(q) || c.tag.toLowerCase().includes(q)
-    );
-    activeCmdIndex = 0;
-    renderCmdList();
-}
+function populateCmdList(query) {
+    const list = document.getElementById('cmd-list');
+    if (!list) return;
 
-function renderCmdList() {
-    const listEl = document.getElementById('cmd-list');
-    if (!listEl) return;
+    const commands = [
+        { name: 'Jump to Home', action: () => navTo('home'), icon: 'rocket' },
+        { name: 'Jump to About', action: () => navTo('about'), icon: 'user' },
+        { name: 'Jump to Skills', action: () => navTo('skills'), icon: 'cpu' },
+        { name: 'Jump to Projects', action: () => navTo('projects'), icon: 'folder' },
+        { name: 'Jump to Academic Journey', action: () => navTo('education'), icon: 'graduation-cap' },
+        { name: 'Jump to Contact', action: () => navTo('contact'), icon: 'mail' },
+        { name: 'Open Resume PDF', action: () => window.open('pics/Chinmay Gawad Resmue.pdf', '_blank'), icon: 'file-text' },
+        { name: 'Open GitHub Profile', action: () => window.open(GITHUB_PROFILE_URL, '_blank'), icon: 'github' },
+        { name: 'Open LinkedIn Profile', action: () => window.open('https://www.linkedin.com/in/chinmay-gawad-7b3172256/', '_blank'), icon: 'linkedin' }
+    ];
 
-    if (filteredCmdsList.length === 0) {
-        listEl.innerHTML = `<p class="text-xs font-mono text-slate-500 p-4">No matching command in this sector</p>`;
-        return;
-    }
+    const filtered = query ? commands.filter(c => c.name.toLowerCase().includes(query.toLowerCase())) : commands;
 
     let html = '';
-    filteredCmdsList.forEach((cmd, idx) => {
-        const isSelected = idx === activeCmdIndex;
+    filtered.forEach(c => {
         html += `
-            <div onclick="executeCmdIndex(${idx})" class="cmd-item ${isSelected ? 'selected' : ''}">
-                <div class="flex items-center gap-2.5 min-w-0">
-                    <i data-lucide="${cmd.icon}" class="w-4 h-4 text-violet-400 flex-shrink-0"></i>
-                    <span class="truncate font-bold">${cmd.label}</span>
-                </div>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-violet-500/10 border border-violet-500/20 text-violet-400 font-mono">${cmd.tag}</span>
+            <div onclick="executeCmd('${c.name}')" class="p-2.5 rounded-lg hover:bg-white/10 cursor-pointer flex items-center justify-between text-white font-bold">
+                <span class="flex items-center gap-2">
+                    <i data-lucide="${c.icon}" class="w-4 h-4 text-purple-400"></i>
+                    ${c.name}
+                </span>
+                <span class="text-[10px] text-slate-400">SECTOR</span>
             </div>
         `;
     });
 
-    listEl.innerHTML = html;
+    list.innerHTML = html;
     if (window.lucide) lucide.createIcons();
 }
 
-function executeCmdIndex(idx) {
-    const cmd = filteredCmdsList[idx];
-    if (cmd && typeof cmd.action === 'function') {
-        closeCmdPalette();
-        cmd.action();
-    }
+function filterCmds(val) {
+    populateCmdList(val);
 }
 
-function handleCmdKeyDown(e) {
-    if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        if (filteredCmdsList.length > 0) {
-            activeCmdIndex = (activeCmdIndex + 1) % filteredCmdsList.length;
-            renderCmdList();
-        }
-    } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        if (filteredCmdsList.length > 0) {
-            activeCmdIndex = (activeCmdIndex - 1 + filteredCmdsList.length) % filteredCmdsList.length;
-            renderCmdList();
-        }
-    } else if (e.key === 'Enter') {
-        e.preventDefault();
-        executeCmdIndex(activeCmdIndex);
-    } else if (e.key === 'Escape') {
-        closeCmdPalette();
-    }
+function executeCmd(name) {
+    closeCmdPalette();
+    if (name.includes('Home')) navTo('home');
+    else if (name.includes('About')) navTo('about');
+    else if (name.includes('Skills')) navTo('skills');
+    else if (name.includes('Projects')) navTo('projects');
+    else if (name.includes('Journey')) navTo('education');
+    else if (name.includes('Contact')) navTo('contact');
+    else if (name.includes('Resume')) window.open('pics/Chinmay Gawad Resmue.pdf', '_blank');
+    else if (name.includes('GitHub')) window.open(GITHUB_PROFILE_URL, '_blank');
+    else if (name.includes('LinkedIn')) window.open('https://www.linkedin.com/in/chinmay-gawad-7b3172256/', '_blank');
 }
-
-// Global hotkey listener (Ctrl+K or Cmd+K or '/')
-window.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        openCmdPalette();
-    } else if (e.key === 'Escape') {
-        closeCmdPalette();
-    }
-});
