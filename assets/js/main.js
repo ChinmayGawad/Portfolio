@@ -76,6 +76,7 @@ function initTypingEffect() {
 
     const commands = [
         'booting agentic-ai core v2.0',
+        'building native android apps · kotlin & mvvm',
         'deploying llm workflows · kotlin stack',
         'scanning constellation of skills',
         'calibrating deep-space comm channel',
@@ -415,7 +416,22 @@ function showToast(msg) {
 // 7. Command Palette Modal (Ctrl + K)
 // --------------------------------------------------------------------------
 function initKeyboardShortcuts() {
+    // Disable right-click context menu (Inspect panel)
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
     window.addEventListener('keydown', (e) => {
+        // Disable F12 and Inspect Developer Tool shortcuts
+        if (
+            e.key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+            (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+        ) {
+            e.preventDefault();
+            return;
+        }
+
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             openCmdPalette();
