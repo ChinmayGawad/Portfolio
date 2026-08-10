@@ -48,7 +48,7 @@ body {
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background-color 0.2s;
+    transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.15s ease-out;
     box-shadow: 0 0 12px var(--accent-violet);
 }
 
@@ -61,7 +61,7 @@ body {
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform 0.12s ease-out, width 0.25s, height 0.25s, border-color 0.25s;
+    transition: transform 0.15s ease-out, width 0.25s, height 0.25s, border-color 0.25s, background-color 0.25s;
 }
 
 body.hovering-interactive #cursor-ring {
@@ -74,6 +74,54 @@ body.hovering-interactive #cursor-ring {
 body.hovering-interactive #cursor-dot {
     background-color: var(--accent-cyan);
     box-shadow: 0 0 15px var(--accent-cyan);
+}
+
+/* Mouse Click Active & Pressing States */
+body.clicking #cursor-ring {
+    transform: translate(-50%, -50%) scale(0.65) !important;
+    border-color: rgba(236, 72, 153, 0.9) !important;
+    background-color: rgba(236, 72, 153, 0.25) !important;
+    box-shadow: 0 0 22px rgba(236, 72, 153, 0.7) !important;
+}
+
+body.clicking #cursor-dot {
+    transform: translate(-50%, -50%) scale(1.8) !important;
+    background-color: #f43f5e !important;
+    box-shadow: 0 0 20px #f43f5e !important;
+}
+
+/* Expanding Click Ripple Wave */
+.click-ripple {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    border: 2px solid rgba(192, 132, 252, 0.9);
+    background: radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, rgba(56, 189, 248, 0.2) 50%, transparent 80%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: cursorRippleAnim 0.55s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    z-index: 9997;
+}
+
+@keyframes cursorRippleAnim {
+    0% {
+        width: 12px;
+        height: 12px;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+    40% {
+        opacity: 0.85;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.2);
+    }
+}
+
+.glass-btn:active, .nav-item:active, .tech-tag:active, .repo-item:active {
+    transform: scale(0.96) !important;
 }
 
 @media (pointer: coarse) {

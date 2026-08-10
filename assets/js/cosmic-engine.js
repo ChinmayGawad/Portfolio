@@ -99,7 +99,9 @@ class CosmicEngine {
                 uProgress: { value: 0.0 },
                 uTime: { value: 0.0 },
                 uPixelRatio: { value: this.renderer.getPixelRatio() },
-                uMouse: { value: new THREE.Vector2(0, 0) }
+                uMouse: { value: new THREE.Vector2(0, 0) },
+                uClickPos: { value: new THREE.Vector2(0, 0) },
+                uClickTime: { value: 0.0 }
             },
             vertexShader: `
                 attribute float size;
@@ -125,6 +127,8 @@ class CosmicEngine {
                 uniform float uTime;
                 uniform float uPixelRatio;
                 uniform vec2 uMouse;
+                uniform vec2 uClickPos;
+                uniform float uClickTime;
 
                 vec3 getPos(float p) {
                     if (p <= 1.0) return mix(aPosHero, aPosAbout, p);
@@ -156,6 +160,20 @@ class CosmicEngine {
                         float pull = (1.0 - dist / 22.0) * 3.0;
                         vec3 dir = normalize(pos - mouseWorld);
                         pos += dir * pull;
+                    }
+
+                    // Dynamic Cosmic Shockwave on Mouse Click
+                    if (uClickTime > 0.001) {
+                        vec3 clickWorld = vec3(uClickPos.x * 40.0, uClickPos.y * 40.0, 0.0);
+                        float cDist = distance(pos, clickWorld);
+                        float waveRadius = (1.0 - uClickTime) * 60.0;
+                        float waveThickness = 14.0;
+                        float distFromWave = abs(cDist - waveRadius);
+                        if (distFromWave < waveThickness) {
+                            float force = (1.0 - distFromWave / waveThickness) * uClickTime * 14.0;
+                            vec3 pushDir = cDist > 0.001 ? normalize(pos - clickWorld) : vec3(0.0, 1.0, 0.0);
+                            pos += pushDir * force;
+                        }
                     }
 
                     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
@@ -341,6 +359,14 @@ class CosmicEngine {
         this.mouse.targetY = -(e.clientY / window.innerHeight - 0.5) * 2;
     }
 
+    triggerClickShockwave(clientX, clientY) {
+        if (!this.material || !this.material.uniforms) return;
+        const nx = (clientX / window.innerWidth - 0.5) * 2;
+        const ny = -(clientY / window.innerHeight - 0.5) * 2;
+        this.material.uniforms.uClickPos.value.set(nx, ny);
+        this.material.uniforms.uClickTime.value = 1.0;
+    }
+
     onWindowResize() {
         if (!this.renderer || !this.camera) return;
         this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -356,6 +382,12 @@ class CosmicEngine {
 
         this.time += 0.015;
         this.material.uniforms.uTime.value = this.time;
+
+        if (this.material && this.material.uniforms.uClickTime.value > 0.001) {
+            this.material.uniforms.uClickTime.value *= 0.93;
+        } else if (this.material) {
+            this.material.uniforms.uClickTime.value = 0.0;
+        }
 
         this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.08;
         this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.08;

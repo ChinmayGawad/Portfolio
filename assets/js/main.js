@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --------------------------------------------------------------------------
-// 1. Custom Dot & Ring Cursor
+// --------------------------------------------------------------------------
+// 1. Custom Dot & Ring Cursor with Interactive Click Mechanics
 // --------------------------------------------------------------------------
 function initCustomCursor() {
     const dot = document.getElementById('cursor-dot');
@@ -65,6 +66,36 @@ function initCustomCursor() {
             document.body.classList.remove('hovering-interactive');
         }
     });
+
+    // MOUSE CLICK LISTENERS FOR VISUAL FEEDBACK & COSMIC SHOCKWAVE
+    window.addEventListener('mousedown', () => {
+        document.body.classList.add('clicking');
+    });
+
+    window.addEventListener('mouseup', () => {
+        document.body.classList.remove('clicking');
+    });
+
+    window.addEventListener('click', (e) => {
+        createClickRipple(e.clientX, e.clientY);
+        if (window.cosmicEngineInstance && typeof window.cosmicEngineInstance.triggerClickShockwave === 'function') {
+            window.cosmicEngineInstance.triggerClickShockwave(e.clientX, e.clientY);
+        }
+    });
+}
+
+function createClickRipple(x, y) {
+    const ripple = document.createElement('div');
+    ripple.className = 'click-ripple';
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+    document.body.appendChild(ripple);
+
+    setTimeout(() => {
+        if (ripple.parentNode) {
+            ripple.parentNode.removeChild(ripple);
+        }
+    }, 600);
 }
 
 // --------------------------------------------------------------------------
@@ -416,9 +447,13 @@ function showToast(msg) {
 // 7. Command Palette Modal (Ctrl + K)
 // --------------------------------------------------------------------------
 function initKeyboardShortcuts() {
-    // Disable right-click context menu (Inspect panel)
+    // Disable default right-click context menu and trigger cosmic click shockwave instead
     document.addEventListener('contextmenu', (e) => {
         e.preventDefault();
+        createClickRipple(e.clientX, e.clientY);
+        if (window.cosmicEngineInstance && typeof window.cosmicEngineInstance.triggerClickShockwave === 'function') {
+            window.cosmicEngineInstance.triggerClickShockwave(e.clientX, e.clientY);
+        }
     });
 
     window.addEventListener('keydown', (e) => {
