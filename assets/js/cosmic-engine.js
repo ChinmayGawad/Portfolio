@@ -1,7 +1,7 @@
 /**
- * COSMIC ENGINE — Award-Winning Cinematic Space & Starfield Engine
- * Built with Three.js & GSAP ScrollTrigger
- * Chinmay Gawad Portfolio Redesign
+ * GOOGLE ANTIGRAVITY-INSPIRED DIGITAL GRAVITY ENGINE
+ * Built with Three.js WebGL & GSAP ScrollTrigger
+ * Developer: Chinmay Gawad
  */
 
 class CosmicEngine {
@@ -21,7 +21,7 @@ class CosmicEngine {
 
         this.scrollProgress = 0;
         this.time = 0;
-        this.mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+        this.mouse = { x: 0, y: 0, targetX: 0, targetY: 0, velX: 0, velY: 0, lastX: 0, lastY: 0 };
 
         this.states = {
             hero: new Float32Array(this.particleCount * 3),
@@ -57,12 +57,12 @@ class CosmicEngine {
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-        // 2. Camera & Scene
+        // 2. Camera & Scene Setup
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.position.set(0, 0, 80);
 
-        // 3. Generate State Geometries
+        // 3. Generate State Geometries & Colors
         this.generateHeroState();
         this.generateAboutState();
         this.generateSkillsState();
@@ -71,10 +71,10 @@ class CosmicEngine {
         this.generateContactState();
 
         for (let i = 0; i < this.particleCount; i++) {
-            this.sizes[i] = Math.random() * 2.4 + 1.1;
+            this.sizes[i] = Math.random() * 2.5 + 1.2;
         }
 
-        // 4. Build GPU Buffer Attributes
+        // 4. GPU Buffer Geometry
         this.geometry = new THREE.BufferGeometry();
         this.geometry.setAttribute('position', new THREE.BufferAttribute(this.states.hero, 3));
         this.geometry.setAttribute('size', new THREE.BufferAttribute(this.sizes, 1));
@@ -93,13 +93,14 @@ class CosmicEngine {
         this.geometry.setAttribute('aColJourney', new THREE.BufferAttribute(this.colorStates.journey, 3));
         this.geometry.setAttribute('aColContact', new THREE.BufferAttribute(this.colorStates.contact, 3));
 
-        // 5. GPU Shader Material
+        // 5. Antigravity GPU Shader Material
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 uProgress: { value: 0.0 },
                 uTime: { value: 0.0 },
                 uPixelRatio: { value: this.renderer.getPixelRatio() },
                 uMouse: { value: new THREE.Vector2(0, 0) },
+                uMouseVel: { value: new THREE.Vector2(0, 0) },
                 uClickPos: { value: new THREE.Vector2(0, 0) },
                 uClickTime: { value: 0.0 }
             },
@@ -127,6 +128,7 @@ class CosmicEngine {
                 uniform float uTime;
                 uniform float uPixelRatio;
                 uniform vec2 uMouse;
+                uniform vec2 uMouseVel;
                 uniform vec2 uClickPos;
                 uniform float uClickTime;
 
@@ -150,34 +152,37 @@ class CosmicEngine {
                     vec3 pos = getPos(uProgress);
                     vColor = getCol(uProgress);
 
-                    vTwinkle = sin(uTime * 2.2 + pos.x * 0.1 + pos.y * 0.1) * 0.35 + 0.65;
+                    vTwinkle = sin(uTime * 2.5 + pos.x * 0.12 + pos.y * 0.12) * 0.35 + 0.65;
 
-                    pos.y += sin(pos.x * 0.04 + uTime * 1.2) * 2.5;
+                    // Organic Zero-Gravity Drift
+                    pos.y += sin(pos.x * 0.04 + uTime * 1.4) * 2.8;
+                    pos.x += cos(pos.y * 0.04 + uTime * 1.1) * 1.8;
 
-                    vec3 mouseWorld = vec3(uMouse.x * 35.0, uMouse.y * 35.0, 0.0);
+                    // Interactive Antigravity Cursor Attraction & Inertia
+                    vec3 mouseWorld = vec3(uMouse.x * 38.0, uMouse.y * 38.0, 0.0);
                     float dist = distance(pos, mouseWorld);
-                    if (dist < 22.0) {
-                        float pull = (1.0 - dist / 22.0) * 3.0;
+                    if (dist < 26.0) {
+                        float pull = (1.0 - dist / 26.0) * 4.2;
                         vec3 dir = normalize(pos - mouseWorld);
-                        pos += dir * pull;
+                        pos += dir * pull + vec3(uMouseVel.x * 12.0, uMouseVel.y * 12.0, 0.0) * (1.0 - dist / 26.0);
                     }
 
-                    // Dynamic Cosmic Shockwave on Mouse Click
+                    // Click Shockwave Waves
                     if (uClickTime > 0.001) {
-                        vec3 clickWorld = vec3(uClickPos.x * 40.0, uClickPos.y * 40.0, 0.0);
+                        vec3 clickWorld = vec3(uClickPos.x * 42.0, uClickPos.y * 42.0, 0.0);
                         float cDist = distance(pos, clickWorld);
-                        float waveRadius = (1.0 - uClickTime) * 60.0;
-                        float waveThickness = 14.0;
+                        float waveRadius = (1.0 - uClickTime) * 65.0;
+                        float waveThickness = 15.0;
                         float distFromWave = abs(cDist - waveRadius);
                         if (distFromWave < waveThickness) {
-                            float force = (1.0 - distFromWave / waveThickness) * uClickTime * 14.0;
+                            float force = (1.0 - distFromWave / waveThickness) * uClickTime * 16.0;
                             vec3 pushDir = cDist > 0.001 ? normalize(pos - clickWorld) : vec3(0.0, 1.0, 0.0);
                             pos += pushDir * force;
                         }
                     }
 
                     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                    gl_PointSize = size * vTwinkle * (200.0 / -mvPosition.z) * uPixelRatio;
+                    gl_PointSize = size * vTwinkle * (220.0 / -mvPosition.z) * uPixelRatio;
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
@@ -190,9 +195,9 @@ class CosmicEngine {
                     if (dist > 0.5) discard;
 
                     float alpha = smoothstep(0.5, 0.0, dist) * vTwinkle;
-                    vec3 glowColor = vColor + vec3(0.2 * (1.0 - dist));
+                    vec3 glowColor = vColor + vec3(0.25 * (1.0 - dist));
 
-                    gl_FragColor = vec4(glowColor, alpha * 0.85);
+                    gl_FragColor = vec4(glowColor, alpha * 0.88);
                 }
             `,
             transparent: true,
@@ -203,7 +208,7 @@ class CosmicEngine {
         this.starPoints = new THREE.Points(this.geometry, this.material);
         this.scene.add(this.starPoints);
 
-        // 6. Listeners & GSAP ScrollTrigger
+        // 6. Listeners & ScrollTrigger setup
         window.addEventListener('mousemove', (e) => this.onMouseMove(e));
         window.addEventListener('resize', () => this.onWindowResize());
 
@@ -211,24 +216,24 @@ class CosmicEngine {
         this.animate();
     }
 
-    // ── STATE GENERATORS ───────────────────────────────────────────────────
+    // ── STATE GENERATORS FOR ANTIGRAVITY SECTIONS ───────────────────────────
 
     generateHeroState() {
         const count = this.particleCount;
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
-            const x = (Math.random() - 0.5) * 200;
-            const z = (Math.random() - 0.5) * 120 - 20;
-            const y = Math.sin(x * 0.04) * 12 + Math.cos(z * 0.05) * 8 - 20;
+            const x = (Math.random() - 0.5) * 220;
+            const z = (Math.random() - 0.5) * 130 - 20;
+            const y = Math.sin(x * 0.04) * 14 + Math.cos(z * 0.05) * 10 - 22;
 
             this.states.hero[i3] = x;
             this.states.hero[i3 + 1] = y;
             this.states.hero[i3 + 2] = z;
 
             const rChoice = Math.random();
-            if (rChoice < 0.4) {
-                this.colorStates.hero[i3] = 0.2; this.colorStates.hero[i3 + 1] = 0.6; this.colorStates.hero[i3 + 2] = 1.0;
-            } else if (rChoice < 0.75) {
+            if (rChoice < 0.45) {
+                this.colorStates.hero[i3] = 0.2; this.colorStates.hero[i3 + 1] = 0.65; this.colorStates.hero[i3 + 2] = 1.0;
+            } else if (rChoice < 0.8) {
                 this.colorStates.hero[i3] = 0.75; this.colorStates.hero[i3 + 1] = 0.35; this.colorStates.hero[i3 + 2] = 0.95;
             } else {
                 this.colorStates.hero[i3] = 0.95; this.colorStates.hero[i3 + 1] = 0.45; this.colorStates.hero[i3 + 2] = 0.75;
@@ -240,11 +245,11 @@ class CosmicEngine {
         const count = this.particleCount;
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
-            const radius = Math.pow(Math.random(), 0.7) * 55 + 5;
+            const radius = Math.pow(Math.random(), 0.75) * 58 + 6;
             const theta = Math.random() * Math.PI * 2;
             const phi = Math.random() * Math.PI;
 
-            const x = 30 + radius * Math.sin(phi) * Math.cos(theta);
+            const x = 32 + radius * Math.sin(phi) * Math.cos(theta);
             const y = radius * Math.sin(phi) * Math.sin(theta);
             const z = radius * Math.cos(phi);
 
@@ -252,24 +257,24 @@ class CosmicEngine {
             this.states.about[i3 + 1] = y;
             this.states.about[i3 + 2] = z;
 
-            this.colorStates.about[i3] = 0.45; this.colorStates.about[i3 + 1] = 0.2; this.colorStates.about[i3 + 2] = 0.9;
+            this.colorStates.about[i3] = 0.5; this.colorStates.about[i3 + 1] = 0.22; this.colorStates.about[i3 + 2] = 0.95;
         }
     }
 
     generateSkillsState() {
         const count = this.particleCount;
         const centers = [
-            { x: -40, y: 20, z: 0, c: [0.2, 0.8, 1.0] },
-            { x: 40, y: 20, z: 0, c: [0.75, 0.3, 0.95] },
-            { x: -40, y: -20, z: 0, c: [1.0, 0.75, 0.2] },
-            { x: 40, y: -20, z: 0, c: [0.2, 0.9, 0.6] }
+            { x: -42, y: 22, z: 0, c: [0.2, 0.85, 1.0] },  // Agentic AI Cluster
+            { x: 42, y: 22, z: 0, c: [0.75, 0.35, 0.95] }, // Android Cluster
+            { x: -42, y: -22, z: 0, c: [0.2, 0.95, 0.65] },// Core CS Cluster
+            { x: 42, y: -22, z: 0, c: [1.0, 0.75, 0.2] }   // Dev Tools Cluster
         ];
 
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
             const center = centers[i % 4];
 
-            const r = Math.pow(Math.random(), 2) * 20;
+            const r = Math.pow(Math.random(), 2) * 22;
             const phi = Math.random() * Math.PI * 2;
             const theta = Math.random() * Math.PI;
 
@@ -287,14 +292,14 @@ class CosmicEngine {
         const count = this.particleCount;
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
-            const r = Math.random() * 60 + 10;
+            const r = Math.random() * 65 + 12;
             const angle = Math.random() * Math.PI * 2;
 
             this.states.projects[i3] = Math.cos(angle) * r;
-            this.states.projects[i3 + 1] = (Math.random() - 0.5) * 12;
+            this.states.projects[i3 + 1] = (Math.random() - 0.5) * 14;
             this.states.projects[i3 + 2] = Math.sin(angle) * r;
 
-            this.colorStates.projects[i3] = 0.75; this.colorStates.projects[i3 + 1] = 0.25; this.colorStates.projects[i3 + 2] = 0.95;
+            this.colorStates.projects[i3] = 0.78; this.colorStates.projects[i3 + 1] = 0.28; this.colorStates.projects[i3 + 2] = 0.98;
         }
     }
 
@@ -303,14 +308,14 @@ class CosmicEngine {
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
             const progress = (i / count);
-            const angle = progress * Math.PI * 6;
-            const radius = 30;
+            const angle = progress * Math.PI * 6.5;
+            const radius = 32;
 
             this.states.journey[i3] = Math.cos(angle) * radius;
-            this.states.journey[i3 + 1] = (progress - 0.5) * 110;
+            this.states.journey[i3 + 1] = (progress - 0.5) * 115;
             this.states.journey[i3 + 2] = Math.sin(angle) * radius;
 
-            this.colorStates.journey[i3] = 0.3; this.colorStates.journey[i3 + 1] = 0.7; this.colorStates.journey[i3 + 2] = 0.9;
+            this.colorStates.journey[i3] = 0.3; this.colorStates.journey[i3 + 1] = 0.75; this.colorStates.journey[i3 + 2] = 0.95;
         }
     }
 
@@ -318,7 +323,7 @@ class CosmicEngine {
         const count = this.particleCount;
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
-            const r = Math.random() * 160 + 10;
+            const r = Math.random() * 170 + 12;
             const phi = Math.random() * Math.PI * 2;
             const theta = Math.random() * Math.PI;
 
@@ -326,11 +331,11 @@ class CosmicEngine {
             this.states.contact[i3 + 1] = r * Math.sin(theta) * Math.sin(phi);
             this.states.contact[i3 + 2] = r * Math.cos(theta);
 
-            this.colorStates.contact[i3] = 0.3; this.colorStates.contact[i3 + 1] = 0.4; this.colorStates.contact[i3 + 2] = 0.7;
+            this.colorStates.contact[i3] = 0.32; this.colorStates.contact[i3 + 1] = 0.42; this.colorStates.contact[i3 + 2] = 0.75;
         }
     }
 
-    // ── GSAP SCROLL TRIGGER ────────────────────────────────────────────────
+    // ── GSAP SCROLL TRIGGER INTEGRATION ────────────────────────────────────
 
     setupScrollTrigger() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
@@ -355,8 +360,17 @@ class CosmicEngine {
     // ── MOUSE INTERACTION & WINDOW RESIZE ──────────────────────────────────
 
     onMouseMove(e) {
-        this.mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 2;
-        this.mouse.targetY = -(e.clientY / window.innerHeight - 0.5) * 2;
+        const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+        const ny = -(e.clientY / window.innerHeight - 0.5) * 2;
+
+        this.mouse.velX = nx - this.mouse.lastX;
+        this.mouse.velY = ny - this.mouse.lastY;
+
+        this.mouse.lastX = nx;
+        this.mouse.lastY = ny;
+
+        this.mouse.targetX = nx;
+        this.mouse.targetY = ny;
     }
 
     triggerClickShockwave(clientX, clientY) {
@@ -370,7 +384,7 @@ class CosmicEngine {
     onWindowResize() {
         if (!this.renderer || !this.camera) return;
         this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
+        this.camera.updatePositionMatrix ? this.camera.updatePositionMatrix() : this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2);
     }
@@ -393,9 +407,10 @@ class CosmicEngine {
         this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.08;
 
         this.material.uniforms.uMouse.value.set(this.mouse.x, this.mouse.y);
+        this.material.uniforms.uMouseVel.value.set(this.mouse.velX, this.mouse.velY);
 
-        this.camera.position.x = this.mouse.x * 4;
-        this.camera.position.y = this.mouse.y * 4;
+        this.camera.position.x = this.mouse.x * 4.5;
+        this.camera.position.y = this.mouse.y * 4.5;
         this.camera.lookAt(0, 0, 0);
 
         this.renderer.render(this.scene, this.camera);

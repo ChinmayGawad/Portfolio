@@ -1,6 +1,6 @@
 // ==========================================================================
-// MAIN APPLICATION LOGIC — LINEAR / APPLE DARK PORTFOLIO
-// Chinmay Gawad Portfolio Redesign
+// GOOGLE ANTIGRAVITY EXPERIMENTAL PORTFOLIO LOGIC
+// Developer: Chinmay Gawad
 // ==========================================================================
 
 const GITHUB_USERNAME = 'ChinmayGawad';
@@ -13,6 +13,7 @@ let selectedRepo = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
+    init3DTiltCards();
     initTypingEffect();
     initActiveNav();
     fetchRepos();
@@ -24,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --------------------------------------------------------------------------
-// --------------------------------------------------------------------------
-// 1. Custom Dot & Ring Cursor with Interactive Click Mechanics
+// 1. Antigravity Dual-Ring Cursor & Click Shockwave Physics
 // --------------------------------------------------------------------------
 function initCustomCursor() {
     const dot = document.getElementById('cursor-dot');
@@ -67,7 +67,6 @@ function initCustomCursor() {
         }
     });
 
-    // MOUSE CLICK LISTENERS FOR VISUAL FEEDBACK & COSMIC SHOCKWAVE
     window.addEventListener('mousedown', () => {
         document.body.classList.add('clicking');
     });
@@ -99,7 +98,31 @@ function createClickRipple(x, y) {
 }
 
 // --------------------------------------------------------------------------
-// 2. Typing Console Effect
+// 2. Interactive 3D Bento Card Tilt Effect
+// --------------------------------------------------------------------------
+function init3DTiltCards() {
+    const cards = document.querySelectorAll('.glass-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            const rotateX = (-y / rect.height) * 12;
+            const rotateY = (x / rect.width) * 12;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+}
+
+// --------------------------------------------------------------------------
+// 3. Dynamic Terminal Typing Console
 // --------------------------------------------------------------------------
 function initTypingEffect() {
     const target = document.getElementById('typing-text');
@@ -148,7 +171,7 @@ function initTypingEffect() {
 }
 
 // --------------------------------------------------------------------------
-// 3. Navigation & Section Scrolling
+// 4. Navigation & Smooth Section Scrolling
 // --------------------------------------------------------------------------
 function navTo(id) {
     const target = document.getElementById(id);
@@ -182,7 +205,7 @@ function initActiveNav() {
 }
 
 // --------------------------------------------------------------------------
-// 4. GitHub API Repositories Explorer
+// 5. GitHub API Repositories Explorer
 // --------------------------------------------------------------------------
 async function fetchRepos() {
     const listPane = document.getElementById('repo-list-pane');
@@ -212,8 +235,9 @@ async function fetchRepos() {
 
     } catch (err) {
         console.error('GitHub API error:', err);
-        if (countEl) countEl.textContent = 'Signal lost';
+        if (countEl) countEl.textContent = 'Signal offline';
 
+        // Preserved Fallback Repositories
         allRepos = [
             { id: 1, name: 'Student Room Sharing App', description: 'Android application in Kotlin with MVVM and Room DB for room sharing and expense allocation.', language: 'Kotlin', stargazers_count: 5, forks_count: 2, size: 1420, updated_at: new Date().toISOString(), html_url: GITHUB_REPOS_URL },
             { id: 2, name: 'Nutrivision AI', description: 'Agentic AI vision app analyzing food meals, nutrients, and LLM dietary recommendations.', language: 'Python', stargazers_count: 8, forks_count: 3, size: 3200, updated_at: new Date().toISOString(), html_url: GITHUB_REPOS_URL },
@@ -359,7 +383,7 @@ function copyCloneCmd(url, btn) {
 }
 
 // --------------------------------------------------------------------------
-// 5. Fullscreen Project Detail Overlay Modal
+// 6. Fullscreen Detail Overlay Modal
 // --------------------------------------------------------------------------
 function openProjectModal(repoId) {
     const modal = document.getElementById('project-modal');
@@ -396,7 +420,7 @@ function closeProjectModal() {
 }
 
 // --------------------------------------------------------------------------
-// 6. Web3Forms Contact Form Handler
+// 7. Web3Forms Contact Form Handler
 // --------------------------------------------------------------------------
 async function handleForm(e) {
     e.preventDefault();
@@ -444,29 +468,10 @@ function showToast(msg) {
 }
 
 // --------------------------------------------------------------------------
-// 7. Command Palette Modal (Ctrl + K)
+// 8. Command Palette Modal (Ctrl + K) & Keyboard Shortcuts
 // --------------------------------------------------------------------------
 function initKeyboardShortcuts() {
-    // Disable default right-click context menu and trigger cosmic click shockwave instead
-    document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        createClickRipple(e.clientX, e.clientY);
-        if (window.cosmicEngineInstance && typeof window.cosmicEngineInstance.triggerClickShockwave === 'function') {
-            window.cosmicEngineInstance.triggerClickShockwave(e.clientX, e.clientY);
-        }
-    });
-
     window.addEventListener('keydown', (e) => {
-        // Disable F12 and Inspect Developer Tool shortcuts
-        if (
-            e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
-            (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
-        ) {
-            e.preventDefault();
-            return;
-        }
-
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             openCmdPalette();
@@ -523,7 +528,7 @@ function populateCmdList(query) {
                     <i data-lucide="${c.icon}" class="w-4 h-4 text-purple-400"></i>
                     ${c.name}
                 </span>
-                <span class="text-[10px] text-slate-400">SECTOR</span>
+                <span class="text-[10px] text-slate-400 font-mono">SECTOR</span>
             </div>
         `;
     });
