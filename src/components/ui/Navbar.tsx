@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 
 interface NavbarProps {
   activeSection: string;
@@ -6,6 +7,8 @@ interface NavbarProps {
 }
 
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navItems = [
     { id: 'hero', label: 'HOME' },
     { id: 'about', label: 'ABOUT' },
@@ -15,15 +18,30 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
     { id: 'contact', label: 'CONTACT' },
   ];
 
+  const handleMobileNavigate = (id: string) => {
+    setMobileMenuOpen(false);
+    onNavigate(id);
+  };
+
+  // Close mobile menu on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <header className="navbar-header">
       <nav className="navbar-container" aria-label="Main Navigation">
-        <div className="nav-logo" onClick={() => onNavigate('hero')}>
+        <div className="nav-logo" onClick={() => handleMobileNavigate('hero')}>
           <span className="logo-dot"></span>
           <span className="logo-text">CHINMAY GAWAD</span>
         </div>
 
-        <ul className="nav-links">
+        {/* Desktop Links */}
+        <ul className="nav-links desktop-links">
           {navItems.map((item) => (
             <li key={item.id}>
               <button
@@ -35,7 +53,55 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             </li>
           ))}
         </ul>
+
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          className="mobile-menu-toggle"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </nav>
+
+      {/* Mobile Navigation Drawer Overlay */}
+      {mobileMenuOpen && (
+        <div className="mobile-drawer-overlay" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-drawer-window" onClick={(e) => e.stopPropagation()}>
+            <div className="drawer-header">
+              <div className="nav-logo" onClick={() => handleMobileNavigate('hero')}>
+                <span className="logo-dot"></span>
+                <span className="logo-text">CHINMAY GAWAD</span>
+              </div>
+              <button
+                className="mobile-menu-toggle"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close navigation menu"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <ul className="mobile-nav-list">
+              {navItems.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <li key={item.id}>
+                    <button
+                      className={`mobile-nav-item ${isActive ? 'active' : ''}`}
+                      onClick={() => handleMobileNavigate(item.id)}
+                    >
+                      <span className="item-label">{item.label}</span>
+                      <ChevronRight size={16} className="item-arrow" />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .navbar-header {
@@ -58,12 +124,13 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
           width: 100%;
           max-width: 900px;
           padding: 0.6rem 1.4rem;
-          background: rgba(10, 12, 16, 0.75);
+          background: rgba(10, 12, 16, 0.8);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
           border: 1px solid var(--border-color);
           border-radius: 9999px;
           transition: all 0.3s ease;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
         .nav-logo {
@@ -118,23 +185,105 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
           font-weight: 600;
         }
 
+        .mobile-menu-toggle {
+          display: none;
+          background: transparent;
+          border: none;
+          color: var(--text-primary);
+          cursor: pointer;
+          padding: 0.25rem;
+          border-radius: 6px;
+        }
+
+        /* Mobile Drawer */
+        .mobile-drawer-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          background: rgba(6, 7, 9, 0.9);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          display: flex;
+          flex-direction: column;
+          padding: 1.5rem;
+          pointer-events: auto;
+          animation: fadeIn 0.2s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mobile-drawer-window {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 480px;
+          margin: 0 auto;
+        }
+
+        .drawer-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid var(--border-color);
+          margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .mobile-nav-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1rem 1.25rem;
+          background: rgba(15, 23, 42, 0.6);
+          border: 1px solid var(--border-color);
+          border-radius: 14px;
+          color: var(--text-secondary);
+          font-family: var(--font-heading);
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .mobile-nav-item:hover, .mobile-nav-item.active {
+          color: var(--text-primary);
+          background: rgba(56, 189, 248, 0.1);
+          border-color: var(--accent-color);
+        }
+
+        .mobile-nav-item.active .item-arrow {
+          color: var(--accent-color);
+          transform: translateX(4px);
+        }
+
+        .item-arrow {
+          transition: transform 0.2s ease;
+        }
+
         @media (max-width: 768px) {
           .navbar-header {
             top: 1rem;
-            padding: 0 0.5rem;
+            padding: 0 1rem;
           }
-          .navbar-container {
-            padding: 0.5rem 0.75rem;
-          }
-          .nav-links {
-            gap: 0.25rem;
-          }
-          .nav-link {
-            font-size: 0.68rem;
-            padding: 0.2rem 0.3rem;
-          }
-          .logo-text {
+          .desktop-links {
             display: none;
+          }
+          .mobile-menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         }
       `}</style>

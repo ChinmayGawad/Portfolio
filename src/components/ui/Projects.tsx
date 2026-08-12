@@ -796,6 +796,31 @@ export function Projects() {
             padding: 1.5rem;
           }
         }
+
+        @media (max-width: 640px) {
+          .inspector-repo-title {
+            font-size: clamp(1.4rem, 6vw, 2rem);
+          }
+          .inspector-metrics-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+          }
+          .metric-card {
+            padding: 0.75rem 0.35rem;
+          }
+          .metric-val-group {
+            font-size: 1.05rem;
+          }
+          .clone-terminal-box {
+            padding: 0.6rem 0.75rem;
+          }
+          .modal-card {
+            padding: 1.5rem;
+          }
+          .modal-title {
+            font-size: 1.5rem;
+          }
+        }
       `}</style>
     </section>
   );

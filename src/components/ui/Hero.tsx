@@ -486,6 +486,26 @@ export function Hero({ onNavigate }: HeroProps) {
         }
 
         @media (max-width: 640px) {
+          .hero-section {
+            padding: 5.5rem 0 3rem 0;
+          }
+          .hero-badge {
+            padding: 0.35rem 0.85rem;
+            margin-bottom: 1rem;
+          }
+          .hero-title {
+            font-size: clamp(2.2rem, 9vw, 4rem);
+          }
+          .roles-bar {
+            font-size: 0.75rem;
+            gap: 0.4rem;
+          }
+          .typing-box {
+            max-width: 100%;
+            padding: 0 0.85rem;
+            font-size: 0.75rem;
+            height: 38px;
+          }
           .hero-subtitle {
             font-size: 0.95rem;
           }
