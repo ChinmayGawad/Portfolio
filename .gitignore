@@ -1,27 +1,32 @@
-# ── Editor / IDE ─────────────────────────────
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production build outputs
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# Agent & Tooling local directories
+.agents/
+.gemini/
+.claude/
+*.log
+
+# Editor & IDE settings
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# ── Local Claude Code settings (may contain secrets) ──
-.claude/settings.local.json
-
-# ── OS junk ──────────────────────────────────
+# OS & Temp junk
 .DS_Store
 Thumbs.db
 Desktop.ini
-
-# ── Logs & temp ──────────────────────────────
-*.log
 *.tmp
 
-# ── Env / secrets ────────────────────────────
+# Environment variables & secrets
 .env
 .env.*
 !.env.example
-
-# ── Node (if tooling is added later) ─────────
-node_modules/
-dist/
-build/
