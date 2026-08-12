@@ -27,15 +27,15 @@ export const experiences: ExperienceItem[] = [
     id: 'enjay-android-intern',
     role: 'Android App Development Intern',
     company: 'Enjay IT Solutions Ltd',
-    period: 'May 2026 – Aug 2026',
+    period: 'May 2026 – Current',
     location: 'Vapi, India',
-    isCurrent: false,
+    isCurrent: true,
     highlights: [
-      'Developed user-friendly interfaces using Android Studio, Kotlin, and Jetpack Compose to enhance mobile application functionality.',
+      'Developed user-friendly interfaces using Android Studio, Java, and Kotlin to enhance mobile application functionality.',
       'Engaged in learning new technologies and tools, contributing to personal development and team knowledge base expansion.',
       'Developed software solutions using Kotlin and Firebase to enhance operational efficiency.',
     ],
-    skills: ['Kotlin', 'Android Studio', 'Java', 'Firebase', 'Mobile App Architecture', 'Jetpack Compose'],
+    skills: ['Kotlin', 'Android Studio', 'Java', 'Firebase', 'Mobile App Architecture'],
   },
   {
     id: 'alpha-cybersecurity-intern',
@@ -67,7 +67,7 @@ export const GITHUB_REPOSITORIES: Repository[] = [
   {
     id: 2,
     name: 'nutrivision-capstone',
-    description: 'Agentic AI vision app analyzing food meals, nutrients, and LLM-driven dietary recommendations.',
+    description: 'AI & Machine Learning vision app analyzing food meals, nutrients, and ML-driven dietary recommendations.',
     language: 'Python',
     stargazers_count: 8,
     forks_count: 3,
@@ -143,10 +143,12 @@ export const GITHUB_REPOSITORIES: Repository[] = [
   },
 ];
 
+const baseUrl = import.meta.env.BASE_URL || '/';
+
 export const profileDetails = {
   name: 'Chinmay Gawad',
   username: 'ChinmayGawad',
-  title: 'AI Developer & Native Android Developer',
+  title: 'AI & Machine Learning Developer · Native Android Developer',
   tagline: 'Final-year BE Computer Engineering Student @ SJCEM',
   location: 'Palghar, Maharashtra, India',
   email: 'chinmaygawad365@gmail.com',
@@ -154,8 +156,8 @@ export const profileDetails = {
   whatsapp: 'https://wa.me/918446595303',
   github: 'https://github.com/ChinmayGawad',
   linkedin: 'https://www.linkedin.com/in/chinmay-gawad-7b3172256/',
-  resumeUrl: '/pics/Chinmay Gawad Resmue.pdf',
-  avatarUrl: '/pics/IMG_6884.jpg',
+  resumeUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/Chinmay Gawad Resmue.pdf`,
+  avatarUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/IMG_6884.jpg`,
   metrics: {
     sgpa: '9.29',
     diplomaScore: '88.00%',
@@ -164,7 +166,7 @@ export const profileDetails = {
     graduationYear: '2027',
   },
   skills: {
-    ai: ['Agentic AI', 'Autonomous Agents', 'Prompt Engineering', 'Python AI Stack'],
+    ai: ['Artificial Intelligence', 'Machine Learning', 'AI & ML Workflows', 'Prompt Engineering', 'Python AI Stack', 'Computer Vision'],
     android: ['Kotlin', 'Android Studio', 'MVVM Architecture', 'Room DB', 'REST APIs', 'Jetpack Components', 'Java'],
     core: ['OOP Concepts', 'Python', 'Java', 'C++', 'C', 'JavaScript', 'Data Structures & Algorithms', 'DBMS', 'Operating Systems'],
     tools: ['Git / GitHub', 'MySQL', 'Postman API', 'VS Code', '.NET Framework', 'Gradle'],
@@ -176,7 +178,7 @@ export const profileDetails = {
       period: '2024 — 2027',
       score: '9.29 SGPA / 10.0',
       status: 'Pursuing BE Degree',
-      details: 'Specializing in Agentic AI Systems, LLM Workflows, and native Android App Development with Kotlin & MVVM.',
+      details: 'Specializing in Artificial Intelligence & Machine Learning, LLM Workflows, and native Android App Development with Kotlin & MVVM.',
     },
     {
       institution: 'Diploma in Computer Engineering',

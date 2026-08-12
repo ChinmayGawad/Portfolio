@@ -11,9 +11,9 @@ export function Hero({ onNavigate }: HeroProps) {
 
   // Console Typing Effect
   const commands = [
-    'booting agentic-ai core v2.0',
+    'booting ai & machine learning core v2.0',
     'building native android apps · kotlin & mvvm',
-    'deploying llm workflows · python & kotlin stack',
+    'deploying machine learning workflows · python stack',
     'scanning constellation of skills',
     'system nominal · standing by'
   ];
@@ -73,7 +73,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Roles Pill Bar */}
         <div className="roles-bar">
-          <span className="role-tag role-ai">AI DEVELOPER</span>
+          <span className="role-tag role-ai">AI & MACHINE LEARNING DEVELOPER</span>
           <span className="dot-sep">✦</span>
           <span className="role-tag role-android">NATIVE ANDROID DEVELOPER</span>
           <span className="dot-sep">✦</span>
@@ -91,8 +91,8 @@ export function Hero({ onNavigate }: HeroProps) {
         <p className="subheading hero-subtitle">
           Final-year BE Computer Engineering student at{' '}
           <strong>St. John College of Engineering & Management</strong>. Specializing in{' '}
-          <strong className="text-cyan">Artificial Intelligence & Agentic AI Systems</strong>,{' '}
-          <strong className="text-emerald">Native Android App Development (Kotlin & MVVM)</strong>, algorithm optimization, and autonomous software workflows.
+          <strong className="text-cyan">Artificial Intelligence & Machine Learning</strong>,{' '}
+          <strong className="text-emerald">Native Android App Development (Kotlin & MVVM)</strong>, algorithm optimization, and software architecture.
         </p>
 
         {/* Hero Actions */}

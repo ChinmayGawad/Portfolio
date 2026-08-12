@@ -1,6 +1,6 @@
 import React from 'react';
 import { profileDetails } from '../../data/projects';
-import { CheckCircle2, Bot, Smartphone, Code2, Wrench, Award } from 'lucide-react';
+import { CheckCircle2, Cpu, Smartphone, Code2, Wrench } from 'lucide-react';
 
 export function About() {
   return (
@@ -19,10 +19,10 @@ export function About() {
           {/* Left Column: Biography & Metrics */}
           <div className="bio-card">
             <p className="bio-paragraph">
-              I am a final-year Computer Engineering undergraduate at <strong>St. John College of Engineering and Management</strong>, Palghar. My specialization lies at the intersection of <strong className="text-cyan">Artificial Intelligence & Agentic AI Systems</strong>, and native <strong className="text-emerald">Android Mobile Applications with Kotlin & MVVM</strong>.
+              I am a final-year Computer Engineering undergraduate at <strong>St. John College of Engineering and Management</strong>, Palghar. My specialization lies at the intersection of <strong className="text-cyan">Artificial Intelligence & Machine Learning</strong>, and native <strong className="text-emerald">Android Mobile Applications with Kotlin & MVVM</strong>.
             </p>
             <p className="bio-paragraph">
-              Driven by a self-motivated, hands-on engineering mindset, I focus on clean software architecture (MVVM, Room DB, REST APIs), LLM workflows, RAG retrieval pipelines, and Data Structures & Algorithms.
+              Driven by a self-motivated, hands-on engineering mindset, I focus on clean software architecture (MVVM, Room DB, REST APIs), machine learning pipelines, RAG retrieval models, and Data Structures & Algorithms.
             </p>
 
             {/* Academic & Repo Metrics */}
@@ -55,7 +55,6 @@ export function About() {
                   alt={profileDetails.name}
                   className="profile-avatar"
                   onError={(e) => {
-                    // Fallback to stylized avatar icon if image missing
                     (e.target as HTMLElement).style.display = 'none';
                   }}
                 />
@@ -74,7 +73,7 @@ export function About() {
               </li>
               <li className="cred-item">
                 <CheckCircle2 size={16} className="cred-icon text-cyan" />
-                <span><strong>AI & LLM Stack:</strong> Agentic AI Systems, Autonomous Workflows, LLMs, RAG.</span>
+                <span><strong>AI & ML Stack:</strong> Artificial Intelligence, Machine Learning, Python AI Stack.</span>
               </li>
               <li className="cred-item">
                 <CheckCircle2 size={16} className="cred-icon text-purple" />
@@ -93,14 +92,14 @@ export function About() {
           <div className="skill-cat-card">
             <div className="cat-header">
               <div className="cat-icon-wrapper icon-cyan">
-                <Bot size={22} />
+                <Cpu size={22} />
               </div>
               <div>
-                <h4 className="cat-title">Agentic AI & Intelligence</h4>
+                <h4 className="cat-title">Artificial Intelligence & ML</h4>
                 <span className="cat-badge text-cyan">CORE MISSION LAYER</span>
               </div>
             </div>
-            <p className="cat-desc">Architecting autonomous AI agent pipelines, multi-step LLM workflows, context management, and prompt engineering.</p>
+            <p className="cat-desc">Architecting machine learning pipelines, computer vision models, LLM workflows, and data-driven intelligent software.</p>
             <div className="tag-cloud">
               {profileDetails.skills.ai.map((skill, i) => (
                 <span key={i} className="skill-tag">{skill}</span>
