@@ -97,15 +97,13 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Hero Actions */}
         <div className="hero-actions">
-          <a
-            href={profileDetails.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
             className="btn-primary"
+            onClick={() => setResumeModalOpen(true)}
           >
             <FileText size={16} />
             <span>VIEW_RESUME.PDF</span>
-          </a>
+          </button>
 
           <button className="btn-secondary" onClick={() => onNavigate('projects')}>
             <Code2 size={16} />
@@ -167,6 +165,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   title="Open in New Tab"
                 >
                   <ExternalLink size={15} />
+                  <span>OPEN TAB</span>
                 </a>
                 <button
                   className="modal-close-btn"
@@ -179,11 +178,42 @@ export function Hero({ onNavigate }: HeroProps) {
             </div>
 
             <div className="resume-pdf-container">
-              <iframe
-                src={`https://docs.google.com/gview?url=${encodeURIComponent(profileDetails.resumeUrl)}&embedded=true`}
-                title="Chinmay Gawad Resume PDF"
+              <object
+                data={profileDetails.resumeUrl}
+                type="application/pdf"
                 className="resume-iframe"
-              />
+              >
+                <iframe
+                  src={profileDetails.resumeUrl}
+                  title="Chinmay Gawad Resume PDF"
+                  className="resume-iframe"
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '2rem', textAlign: 'center', color: '#fff' }}>
+                    <FileText size={48} style={{ color: '#38bdf8', marginBottom: '1rem' }} />
+                    <p style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>Chinmay Gawad — Resume PDF</p>
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Preview is restricted by browser security policies.</p>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                      <a
+                        href={profileDetails.resumeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary"
+                      >
+                        <ExternalLink size={16} />
+                        <span>OPEN PDF IN NEW TAB</span>
+                      </a>
+                      <a
+                        href={profileDetails.resumeUrl}
+                        download="Chinmay_Gawad_Resume.pdf"
+                        className="btn-secondary"
+                      >
+                        <Download size={16} />
+                        <span>DOWNLOAD PDF</span>
+                      </a>
+                    </div>
+                  </div>
+                </iframe>
+              </object>
             </div>
           </div>
         </div>
