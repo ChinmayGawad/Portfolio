@@ -156,7 +156,7 @@ export const profileDetails = {
   whatsapp: 'https://wa.me/918446595303',
   github: 'https://github.com/ChinmayGawad',
   linkedin: 'https://www.linkedin.com/in/chinmay-gawad-7b3172256/',
-  resumeUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/Chinmay Gawad Resmue.pdf`,
+  resumeUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/Chinmay_Gawad_Resume2026-08-25.pdf`,
   avatarUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/IMG_6884.jpg`,
   metrics: {
     sgpa: '9.29',
