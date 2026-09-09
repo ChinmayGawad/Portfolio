@@ -57,6 +57,7 @@ export function Hero({ onNavigate }: HeroProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+
   return (
     <section id="hero" className="hero-section">
       <div className="container hero-content">
@@ -187,32 +188,7 @@ export function Hero({ onNavigate }: HeroProps) {
                   src={profileDetails.resumeUrl}
                   title="Chinmay Gawad Resume PDF"
                   className="resume-iframe"
-                >
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '2rem', textAlign: 'center', color: '#fff' }}>
-                    <FileText size={48} style={{ color: '#38bdf8', marginBottom: '1rem' }} />
-                    <p style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>Chinmay Gawad — Resume PDF</p>
-                    <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Preview is restricted by browser security policies.</p>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <a
-                        href={profileDetails.resumeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary"
-                      >
-                        <ExternalLink size={16} />
-                        <span>OPEN PDF IN NEW TAB</span>
-                      </a>
-                      <a
-                        href={profileDetails.resumeUrl}
-                        download="Chinmay_Gawad_Resume.pdf"
-                        className="btn-secondary"
-                      >
-                        <Download size={16} />
-                        <span>DOWNLOAD PDF</span>
-                      </a>
-                    </div>
-                  </div>
-                </iframe>
+                />
               </object>
             </div>
           </div>

@@ -143,32 +143,8 @@ export const GITHUB_REPOSITORIES: Repository[] = [
   },
 ];
 
-const getAssetUrl = (path: string): string => {
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  
-  if (typeof window !== 'undefined') {
-    const origin = window.location.origin;
-    let pathname = window.location.pathname;
-    
-    // Strip trailing filename if present (e.g. index.html)
-    if (pathname.endsWith('.html')) {
-      pathname = pathname.substring(0, pathname.lastIndexOf('/') + 1);
-    }
-    // Ensure trailing slash on directory path
-    if (!pathname.endsWith('/')) {
-      pathname += '/';
-    }
-    
-    return `${origin}${pathname}${cleanPath}`;
-  }
-  
-  const base = import.meta.env.BASE_URL || '/';
-  if (base === './' || base === '.') {
-    return `./${cleanPath}`;
-  }
-  const formattedBase = base.endsWith('/') ? base : `${base}/`;
-  return `${formattedBase}${cleanPath}`;
-};
+import resumePdfPath from '../../public/pics/Chinmay_Gawad_Resume2026-08-25.pdf?url';
+import avatarImgPath from '../../public/pics/IMG_6884.jpg?url';
 
 export const profileDetails = {
   name: 'Chinmay Gawad',
@@ -181,12 +157,8 @@ export const profileDetails = {
   whatsapp: 'https://wa.me/918446595303',
   github: 'https://github.com/ChinmayGawad',
   linkedin: 'https://www.linkedin.com/in/chinmay-gawad-7b3172256/',
-  get resumeUrl() {
-    return getAssetUrl('pics/Chinmay_Gawad_Resume2026-08-25.pdf');
-  },
-  get avatarUrl() {
-    return getAssetUrl('pics/IMG_6884.jpg');
-  },
+  resumeUrl: resumePdfPath,
+  avatarUrl: avatarImgPath,
   metrics: {
     sgpa: '9.29',
     diplomaScore: '88.00%',
