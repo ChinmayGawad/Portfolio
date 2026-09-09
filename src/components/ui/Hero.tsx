@@ -97,13 +97,15 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Hero Actions */}
         <div className="hero-actions">
-          <button
+          <a
+            href={profileDetails.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary"
-            onClick={() => setResumeModalOpen(true)}
           >
             <FileText size={16} />
             <span>VIEW_RESUME.PDF</span>
-          </button>
+          </a>
 
           <button className="btn-secondary" onClick={() => onNavigate('projects')}>
             <Code2 size={16} />
