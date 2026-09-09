@@ -60,11 +60,6 @@ export function Hero({ onNavigate }: HeroProps) {
   return (
     <section id="hero" className="hero-section">
       <div className="container hero-content">
-        {/* Status Badge */}
-        <div className="hero-badge">
-          <span className="badge-pulse"></span>
-          <span className="mono-tag">SIGNAL LOCKED · PALGHAR SECTOR · OPEN TO MISSIONS</span>
-        </div>
 
         {/* Title */}
         <h1 className="heading-large hero-title">
@@ -208,47 +203,18 @@ export function Hero({ onNavigate }: HeroProps) {
 
       <style>{`
         .hero-section {
-          min-height: 100vh;
           display: flex;
-          align-items: center;
-          justify-content: center;
+          align-items: flex-start;
           position: relative;
-          padding: 7rem 0 4rem 0;
-          text-align: center;
+          padding: 11rem 0 7rem 0;
+          text-align: left;
         }
 
         .hero-content {
           display: flex;
           flex-direction: column;
-          align-items: center;
+          align-items: flex-start;
           max-width: 900px;
-        }
-
-        .hero-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.4rem 1.1rem;
-          background: rgba(15, 23, 42, 0.6);
-          border: 1px solid var(--border-color);
-          border-radius: 9999px;
-          margin-bottom: 1.5rem;
-          backdrop-filter: blur(10px);
-        }
-
-        .badge-pulse {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #34d399;
-          box-shadow: 0 0 10px #34d399;
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
-          70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
-          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
         }
 
         .hero-title {
@@ -366,8 +332,8 @@ export function Hero({ onNavigate }: HeroProps) {
           transition: opacity 0.3s ease;
         }
 
-        .scroll-indicator:hover {
-          opacity: 1;
+        .scroll-indicator:hover .bounce-arrow {
+          transform: translateY(4px);
         }
 
         .scroll-text {
@@ -379,13 +345,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
         .bounce-arrow {
           color: var(--accent-color);
-          animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-          40% { transform: translateY(6px); }
-          60% { transform: translateY(3px); }
+          transition: transform 0.25s ease;
         }
 
         /* Resume Modal Backdrop & Window */
@@ -507,10 +467,6 @@ export function Hero({ onNavigate }: HeroProps) {
         @media (max-width: 640px) {
           .hero-section {
             padding: 5.5rem 0 3rem 0;
-          }
-          .hero-badge {
-            padding: 0.35rem 0.85rem;
-            margin-bottom: 1rem;
           }
           .hero-title {
             font-size: clamp(2.2rem, 9vw, 4rem);

@@ -103,7 +103,6 @@ export function Projects() {
       <div className="container projects-container">
         {/* Section Header */}
         <div className="projects-header-wrapper">
-          <span className="mono-tag">// CODE VAULT · GITHUB REPOSITORIES</span>
           <h2 className="heading-large projects-main-title">GitHub Repositories Explorer</h2>
         </div>
 
@@ -415,11 +414,10 @@ export function Projects() {
 
         /* IDE Window Container */
         .ide-card-window {
-          background: rgba(10, 12, 16, 0.65);
+          background: #0a0c10;
           border: 1px solid var(--border-color);
           border-radius: 24px;
           overflow: hidden;
-          backdrop-filter: blur(16px);
         }
 
         .ide-split-grid {
@@ -433,7 +431,7 @@ export function Projects() {
           border-right: 1px solid var(--border-color);
           display: flex;
           flex-direction: column;
-          background: rgba(0, 0, 0, 0.35);
+          background: #060709;
         }
 
         .pane-header {
@@ -586,7 +584,7 @@ export function Projects() {
 
         /* Terminal Clone Box */
         .clone-terminal-box {
-          background: rgba(0, 0, 0, 0.65);
+          background: #060709;
           border: 1px solid var(--border-color);
           border-radius: 12px;
           padding: 0.75rem 1rem;
@@ -645,7 +643,7 @@ export function Projects() {
         }
 
         .metric-card {
-          background: rgba(0, 0, 0, 0.5);
+          background: #0f172a;
           border: 1px solid var(--border-color);
           border-radius: 14px;
           padding: 1rem;
@@ -664,6 +662,7 @@ export function Projects() {
           font-size: 1.3rem;
           font-weight: 700;
           color: var(--text-primary);
+          font-variant-numeric: tabular-nums;
         }
 
         .metric-label {
@@ -728,7 +727,7 @@ export function Projects() {
         .modal-card {
           width: 100%;
           max-width: 620px;
-          background: rgba(10, 12, 16, 0.95);
+          background: #0a0c10;
           border: 1px solid var(--border-hover);
           border-radius: 24px;
           padding: 2.25rem;

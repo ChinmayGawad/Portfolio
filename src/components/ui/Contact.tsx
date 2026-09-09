@@ -15,7 +15,6 @@ export function Contact() {
     <section id="contact" className="contact-section">
       <div className="container contact-container">
         <div className="contact-header text-center">
-          <span className="mono-tag">// OPEN CHANNEL · ESTABLISH CONNECTION</span>
           <h2 className="heading-large contact-title">Let's Build Something Extraordinary</h2>
           <p className="subheading contact-subtitle">
             Whether you have a project inquiry, mission opportunity, or want to collaborate on AI and mobile engineering, reach out directly.
@@ -232,18 +231,17 @@ export function Contact() {
           align-items: center;
           gap: 1rem;
           padding: 1.1rem 1.4rem;
-          background: rgba(10, 12, 16, 0.65);
+          background: #0a0c10;
           border: 1px solid var(--border-color);
           border-radius: 18px;
           text-decoration: none;
-          backdrop-filter: blur(14px);
           transition: all 0.25s ease;
         }
 
         .channel-card:hover {
           border-color: var(--border-hover);
           transform: translateX(4px);
-          background: rgba(15, 23, 42, 0.7);
+          background: #0f172a;
         }
 
         .channel-icon {
@@ -277,11 +275,10 @@ export function Contact() {
         }
 
         .contact-form-card {
-          background: rgba(10, 12, 16, 0.65);
+          background: #0a0c10;
           border: 1px solid var(--border-color);
           border-radius: 24px;
           padding: 2.5rem;
-          backdrop-filter: blur(14px);
         }
 
         .form-heading {

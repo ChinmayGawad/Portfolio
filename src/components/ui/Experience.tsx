@@ -8,7 +8,6 @@ export function Experience() {
       <div className="container experience-container">
         {/* Section Header */}
         <div className="experience-header">
-          <span className="mono-tag">// PROFESSIONAL LOG · WORK EXPERIENCE</span>
           <h2 className="heading-large experience-title">Work Experience</h2>
           <p className="subheading experience-subtitle">
             Professional software engineering internships in native Android app development and cybersecurity.
@@ -107,12 +106,11 @@ export function Experience() {
         }
 
         .experience-card {
-          background: rgba(10, 12, 16, 0.65);
+          background: #0a0c10;
           border: 1px solid var(--border-color);
           border-left: 4px solid var(--accent-color);
           border-radius: 20px;
           padding: 2rem;
-          backdrop-filter: blur(14px);
           transition: all 0.3s ease;
         }
 

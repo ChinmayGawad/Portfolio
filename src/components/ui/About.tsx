@@ -8,7 +8,6 @@ export function About() {
       <div className="container about-container">
         {/* Section Header */}
         <div className="about-header">
-          <span className="mono-tag">// ABOUT · BACKGROUND & CORE DRIVE</span>
           <h2 className="heading-large about-title">
             Building <span className="highlight-text">intelligent systems</span> & meaningful software experiences.
           </h2>
@@ -200,11 +199,10 @@ export function About() {
         }
 
         .bio-card, .profile-credentials-card {
-          background: rgba(10, 12, 16, 0.65);
+          background: #0a0c10;
           border: 1px solid var(--border-color);
           border-radius: 24px;
           padding: 2rem;
-          backdrop-filter: blur(14px);
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -233,7 +231,7 @@ export function About() {
         }
 
         .metric-box {
-          background: rgba(0, 0, 0, 0.5);
+          background: #0f172a;
           border: 1px solid var(--border-color);
           border-radius: 14px;
           padding: 0.85rem 0.5rem;
@@ -247,6 +245,7 @@ export function About() {
           font-family: var(--font-heading);
           font-size: 1.4rem;
           font-weight: 700;
+          font-variant-numeric: tabular-nums;
         }
         .text-purple { color: #818cf8; }
         .text-cyan { color: #38bdf8; }
@@ -336,11 +335,10 @@ export function About() {
         }
 
         .skill-cat-card {
-          background: rgba(10, 12, 16, 0.65);
+          background: #0a0c10;
           border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 1.75rem;
-          backdrop-filter: blur(14px);
           transition: all 0.3s ease;
         }
 
