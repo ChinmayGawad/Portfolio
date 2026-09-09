@@ -177,33 +177,11 @@ export function Hero({ onNavigate }: HeroProps) {
             </div>
 
             <div className="resume-pdf-container">
-              <object
-                data={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0`}
-                type="application/pdf"
+              <iframe
+                src={`https://docs.google.com/gview?url=${encodeURIComponent(profileDetails.resumeUrl)}&embedded=true`}
+                title="Chinmay Gawad Resume PDF"
                 className="resume-iframe"
-              >
-                <iframe
-                  src={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0`}
-                  title="Chinmay Gawad Resume PDF"
-                  className="resume-iframe"
-                >
-                  <div style={{ color: '#fff', textAlign: 'center', padding: '2rem' }}>
-                    <p style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>
-                      Unable to display PDF preview in this browser.
-                    </p>
-                    <a
-                      href={profileDetails.resumeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="modal-action-btn"
-                      style={{ display: 'inline-flex' }}
-                    >
-                      <ExternalLink size={15} />
-                      <span>OPEN RESUME PDF</span>
-                    </a>
-                  </div>
-                </iframe>
-              </object>
+              />
             </div>
           </div>
         </div>
