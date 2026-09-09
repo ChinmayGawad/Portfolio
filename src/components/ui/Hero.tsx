@@ -57,7 +57,6 @@ export function Hero({ onNavigate }: HeroProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-
   return (
     <section id="hero" className="hero-section">
       <div className="container hero-content">
@@ -98,13 +97,15 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Hero Actions */}
         <div className="hero-actions">
-          <button
+          <a
+            href={profileDetails.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-primary"
-            onClick={() => setResumeModalOpen(true)}
           >
             <FileText size={16} />
             <span>VIEW_RESUME.PDF</span>
-          </button>
+          </a>
 
           <button className="btn-secondary" onClick={() => onNavigate('projects')}>
             <Code2 size={16} />
@@ -166,7 +167,6 @@ export function Hero({ onNavigate }: HeroProps) {
                   title="Open in New Tab"
                 >
                   <ExternalLink size={15} />
-                  <span>OPEN TAB</span>
                 </a>
                 <button
                   className="modal-close-btn"
@@ -188,7 +188,18 @@ export function Hero({ onNavigate }: HeroProps) {
                   src={profileDetails.resumeUrl}
                   title="Chinmay Gawad Resume PDF"
                   className="resume-iframe"
-                />
+                >
+                  <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>
+                    <p>Your browser does not support inline PDF viewing.</p>
+                    <a
+                      href={profileDetails.resumeUrl}
+                      download="Chinmay_Gawad_Resume.pdf"
+                      style={{ color: '#38bdf8', textDecoration: 'underline', marginTop: '1rem', display: 'inline-block' }}
+                    >
+                      Download Resume PDF
+                    </a>
+                  </div>
+                </iframe>
               </object>
             </div>
           </div>

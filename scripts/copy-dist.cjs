@@ -18,9 +18,10 @@ const distAssetsDir = path.join(distDir, 'assets');
 const rootAssetsDir = path.join(rootDir, 'assets');
 
 if (fs.existsSync(distAssetsDir)) {
-  if (!fs.existsSync(rootAssetsDir)) {
-    fs.mkdirSync(rootAssetsDir, { recursive: true });
+  if (fs.existsSync(rootAssetsDir)) {
+    fs.rmSync(rootAssetsDir, { recursive: true, force: true });
   }
+  fs.mkdirSync(rootAssetsDir, { recursive: true });
   const files = fs.readdirSync(distAssetsDir);
   for (const file of files) {
     fs.copyFileSync(path.join(distAssetsDir, file), path.join(rootAssetsDir, file));
