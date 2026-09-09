@@ -148,12 +148,18 @@ const getAssetUrl = (path: string): string => {
   
   if (typeof window !== 'undefined') {
     const origin = window.location.origin;
-    const pathname = window.location.pathname;
+    let pathname = window.location.pathname;
     
-    // If hosted on GitHub Pages subpath (/Portfolio)
-    if (pathname.includes('/Portfolio')) {
-      return `${origin}/Portfolio/${cleanPath}`;
+    // Strip trailing filename if present (e.g. index.html)
+    if (pathname.endsWith('.html')) {
+      pathname = pathname.substring(0, pathname.lastIndexOf('/') + 1);
     }
+    // Ensure trailing slash on directory path
+    if (!pathname.endsWith('/')) {
+      pathname += '/';
+    }
+    
+    return `${origin}${pathname}${cleanPath}`;
   }
   
   const base = import.meta.env.BASE_URL || '/';

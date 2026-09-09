@@ -177,18 +177,33 @@ export function Hero({ onNavigate }: HeroProps) {
             </div>
 
             <div className="resume-pdf-container">
-              <iframe
-                src={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0`}
-                title="Chinmay Gawad Resume PDF"
+              <object
+                data={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0`}
+                type="application/pdf"
                 className="resume-iframe"
               >
-                <p style={{ color: '#fff', textAlign: 'center', padding: '2rem' }}>
-                  Unable to load PDF preview.{' '}
-                  <a href={profileDetails.resumeUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'underline' }}>
-                    Click here to open or download the PDF resume.
-                  </a>
-                </p>
-              </iframe>
+                <iframe
+                  src={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0`}
+                  title="Chinmay Gawad Resume PDF"
+                  className="resume-iframe"
+                >
+                  <div style={{ color: '#fff', textAlign: 'center', padding: '2rem' }}>
+                    <p style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>
+                      Unable to display PDF preview in this browser.
+                    </p>
+                    <a
+                      href={profileDetails.resumeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="modal-action-btn"
+                      style={{ display: 'inline-flex' }}
+                    >
+                      <ExternalLink size={15} />
+                      <span>OPEN RESUME PDF</span>
+                    </a>
+                  </div>
+                </iframe>
+              </object>
             </div>
           </div>
         </div>
