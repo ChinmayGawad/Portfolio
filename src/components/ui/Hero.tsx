@@ -181,7 +181,14 @@ export function Hero({ onNavigate }: HeroProps) {
                 src={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0`}
                 title="Chinmay Gawad Resume PDF"
                 className="resume-iframe"
-              />
+              >
+                <p style={{ color: '#fff', textAlign: 'center', padding: '2rem' }}>
+                  Unable to load PDF preview.{' '}
+                  <a href={profileDetails.resumeUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'underline' }}>
+                    Click here to open or download the PDF resume.
+                  </a>
+                </p>
+              </iframe>
             </div>
           </div>
         </div>

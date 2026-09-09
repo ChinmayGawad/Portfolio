@@ -27,3 +27,19 @@ if (fs.existsSync(distAssetsDir)) {
   }
   console.log(`Successfully copied ${files.length} compiled asset(s) to root assets/ directory.`);
 }
+
+// 3. Copy dist/pics to root pics
+const distPicsDir = path.join(distDir, 'pics');
+const rootPicsDir = path.join(rootDir, 'pics');
+
+if (fs.existsSync(distPicsDir)) {
+  if (!fs.existsSync(rootPicsDir)) {
+    fs.mkdirSync(rootPicsDir, { recursive: true });
+  }
+  const files = fs.readdirSync(distPicsDir);
+  for (const file of files) {
+    fs.copyFileSync(path.join(distPicsDir, file), path.join(rootPicsDir, file));
+  }
+  console.log(`Successfully copied ${files.length} pic asset(s) to root pics/ directory.`);
+}
+

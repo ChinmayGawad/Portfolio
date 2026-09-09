@@ -143,7 +143,26 @@ export const GITHUB_REPOSITORIES: Repository[] = [
   },
 ];
 
-const baseUrl = import.meta.env.BASE_URL || '/';
+const getAssetUrl = (path: string): string => {
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  
+  if (typeof window !== 'undefined') {
+    const origin = window.location.origin;
+    const pathname = window.location.pathname;
+    
+    // If hosted on GitHub Pages subpath (/Portfolio)
+    if (pathname.includes('/Portfolio')) {
+      return `${origin}/Portfolio/${cleanPath}`;
+    }
+  }
+  
+  const base = import.meta.env.BASE_URL || '/';
+  if (base === './' || base === '.') {
+    return `./${cleanPath}`;
+  }
+  const formattedBase = base.endsWith('/') ? base : `${base}/`;
+  return `${formattedBase}${cleanPath}`;
+};
 
 export const profileDetails = {
   name: 'Chinmay Gawad',
@@ -156,8 +175,12 @@ export const profileDetails = {
   whatsapp: 'https://wa.me/918446595303',
   github: 'https://github.com/ChinmayGawad',
   linkedin: 'https://www.linkedin.com/in/chinmay-gawad-7b3172256/',
-  resumeUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/Chinmay_Gawad_Resume2026-08-25.pdf`,
-  avatarUrl: `${baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'}pics/IMG_6884.jpg`,
+  get resumeUrl() {
+    return getAssetUrl('pics/Chinmay_Gawad_Resume2026-08-25.pdf');
+  },
+  get avatarUrl() {
+    return getAssetUrl('pics/IMG_6884.jpg');
+  },
   metrics: {
     sgpa: '9.29',
     diplomaScore: '88.00%',
