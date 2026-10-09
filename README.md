@@ -78,8 +78,8 @@ This project is 100% static and deploys automatically on **GitHub Pages**:
 ## 👤 Author
 
 **Chinmay Gawad**
-- **Education**: Final-Year BE Computer Engineering @ St. John College of Engineering & Management (SJCEM), Palghar
-- **Academic Stats**: BE SGPA: **9.29** | Diploma: **88.00%**
+- **Education**: B.Tech in Computer Engineering @ St. John College of Engineering & Management, Palghar (2024 – 2027)
+- **Academic Stats**: B.Tech CGPA: **8.56 / 10** | Diploma: **83.14%**
 - **GitHub**: [@ChinmayGawad](https://github.com/ChinmayGawad)
 - **LinkedIn**: [Chinmay Gawad](https://www.linkedin.com/in/chinmay-gawad-7b3172256/)
 - **Email**: chinmaygawad365@gmail.com

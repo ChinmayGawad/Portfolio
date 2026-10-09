@@ -18,17 +18,17 @@ export function About() {
           {/* Left Column: Biography & Metrics */}
           <div className="bio-card">
             <p className="bio-paragraph">
-              I am a final-year Computer Engineering undergraduate at <strong>St. John College of Engineering and Management</strong>, Palghar. My specialization lies at the intersection of <strong className="text-cyan">Artificial Intelligence & Machine Learning</strong>, and native <strong className="text-emerald">Android Mobile Applications with Kotlin & MVVM</strong>.
+              I am a Computer Engineering undergraduate at <strong>St. John College of Engineering and Management</strong>, Palghar. My engineering focus centers on native <strong className="text-emerald">Android Mobile Applications (Kotlin, Jetpack Compose, Material 3)</strong>, robust <strong className="text-cyan">Backend Integration & Cloud DevOps</strong>, and <strong className="text-purple">Artificial Intelligence & Machine Learning Workflows</strong>.
             </p>
             <p className="bio-paragraph">
-              Driven by a self-motivated, hands-on engineering mindset, I focus on clean software architecture (MVVM, Room DB, REST APIs), machine learning pipelines, RAG retrieval models, and Data Structures & Algorithms.
+              Creative Software & Android Developer with experience building native mobile applications and integrating complex backend services. Tested apps extensively and resolved identified bugs to improve application stability and performance.
             </p>
 
             {/* Academic & Repo Metrics */}
             <div className="metrics-grid">
               <div className="metric-box">
-                <span className="metric-val text-purple">{profileDetails.metrics.sgpa}</span>
-                <span className="metric-lbl">BE SGPA</span>
+                <span className="metric-val text-purple">{profileDetails.metrics.cgpa}</span>
+                <span className="metric-lbl">B.TECH CGPA</span>
               </div>
               <div className="metric-box">
                 <span className="metric-val text-cyan">{profileDetails.metrics.diplomaScore}</span>
@@ -40,7 +40,7 @@ export function About() {
               </div>
               <div className="metric-box">
                 <span className="metric-val text-amber">{profileDetails.metrics.graduationYear}</span>
-                <span className="metric-lbl">BE GRADUATION</span>
+                <span className="metric-lbl">GRADUATION</span>
               </div>
             </div>
           </div>
@@ -68,19 +68,19 @@ export function About() {
             <ul className="credentials-list">
               <li className="cred-item">
                 <CheckCircle2 size={16} className="cred-icon text-emerald" />
-                <span><strong>Specialization:</strong> Native Android App Dev (Kotlin & MVVM).</span>
+                <span><strong>Mobile Development:</strong> Native Android (Kotlin, Jetpack Compose, Material 3, MVVM).</span>
               </li>
               <li className="cred-item">
                 <CheckCircle2 size={16} className="cred-icon text-cyan" />
-                <span><strong>AI & ML Stack:</strong> Artificial Intelligence, Machine Learning, Python AI Stack.</span>
+                <span><strong>AI & ML Frameworks:</strong> TensorFlow, PyTorch, OpenAI API, Hugging Face Transformers.</span>
               </li>
               <li className="cred-item">
                 <CheckCircle2 size={16} className="cred-icon text-purple" />
-                <span><strong>Languages:</strong> Python, Java, Kotlin, C++, JavaScript, C#.</span>
+                <span><strong>Cloud & DevOps:</strong> Docker, CI/CD Pipeline, GitHub Actions, Firebase, PostgreSQL.</span>
               </li>
               <li className="cred-item">
                 <CheckCircle2 size={16} className="cred-icon text-amber" />
-                <span><strong>Academic Excellence:</strong> 9.29 SGPA (BE) & 88.00% (Diploma).</span>
+                <span><strong>Academic Excellence:</strong> 8.56 CGPA (B.Tech) & 83.14% (Diploma).</span>
               </li>
             </ul>
           </div>
@@ -90,17 +90,17 @@ export function About() {
         <div className="skills-constellation">
           <div className="skill-cat-card">
             <div className="cat-header">
-              <div className="cat-icon-wrapper icon-cyan">
-                <Cpu size={22} />
+              <div className="cat-icon-wrapper icon-purple">
+                <Smartphone size={22} />
               </div>
               <div>
-                <h4 className="cat-title">Artificial Intelligence & ML</h4>
-                <span className="cat-badge text-cyan">CORE MISSION LAYER</span>
+                <h4 className="cat-title">Native Android & Mobile</h4>
+                <span className="cat-badge text-purple">MOBILE ECOSYSTEM</span>
               </div>
             </div>
-            <p className="cat-desc">Architecting machine learning pipelines, computer vision models, LLM workflows, and data-driven intelligent software.</p>
+            <p className="cat-desc">Building native Android mobile apps with Kotlin, Android Studio, Jetpack Compose, Material Design 3, MVVM architecture, and RoomDB.</p>
             <div className="tag-cloud">
-              {profileDetails.skills.ai.map((skill, i) => (
+              {profileDetails.skills.mobile.map((skill, i) => (
                 <span key={i} className="skill-tag">{skill}</span>
               ))}
             </div>
@@ -108,17 +108,17 @@ export function About() {
 
           <div className="skill-cat-card">
             <div className="cat-header">
-              <div className="cat-icon-wrapper icon-purple">
-                <Smartphone size={22} />
+              <div className="cat-icon-wrapper icon-cyan">
+                <Cpu size={22} />
               </div>
               <div>
-                <h4 className="cat-title">Native Android & Mobile</h4>
-                <span className="cat-badge text-purple">NATIVE MOBILE LAYER</span>
+                <h4 className="cat-title">Artificial Intelligence & ML</h4>
+                <span className="cat-badge text-cyan">INTELLIGENCE LAYER</span>
               </div>
             </div>
-            <p className="cat-desc">Building native Android mobile apps with Kotlin, MVVM software architecture, Room DB persistence, and REST APIs.</p>
+            <p className="cat-desc">Deploying machine learning pipelines, NLP, OpenAI API, Hugging Face transformers, and deep neural models with TensorFlow & PyTorch.</p>
             <div className="tag-cloud">
-              {profileDetails.skills.android.map((skill, i) => (
+              {profileDetails.skills.aiml.map((skill, i) => (
                 <span key={i} className="skill-tag">{skill}</span>
               ))}
             </div>
@@ -130,13 +130,13 @@ export function About() {
                 <Code2 size={22} />
               </div>
               <div>
-                <h4 className="cat-title">Core CS & Languages</h4>
-                <span className="cat-badge text-emerald">COMPUTATIONAL FOUNDATION</span>
+                <h4 className="cat-title">Programming Languages</h4>
+                <span className="cat-badge text-emerald">LANGUAGE STACK</span>
               </div>
             </div>
-            <p className="cat-desc">Solid foundations in CS theory, algorithm design, data structures, DBMS, operating systems, and memory management.</p>
+            <p className="cat-desc">Multi-language software engineering with strict type safety, clean algorithmic design, and object-oriented architecture.</p>
             <div className="tag-cloud">
-              {profileDetails.skills.core.map((skill, i) => (
+              {profileDetails.skills.languages.map((skill, i) => (
                 <span key={i} className="skill-tag">{skill}</span>
               ))}
             </div>
@@ -148,13 +148,13 @@ export function About() {
                 <Wrench size={22} />
               </div>
               <div>
-                <h4 className="cat-title">Developer Tools & Pipeline</h4>
-                <span className="cat-badge text-amber">DEVELOPMENT PIPELINE</span>
+                <h4 className="cat-title">Cloud, DevOps & Databases</h4>
+                <span className="cat-badge text-amber">INFRASTRUCTURE & DATA</span>
               </div>
             </div>
-            <p className="cat-desc">Tooling for version control, continuous API testing, database management, and automated build execution.</p>
+            <p className="cat-desc">Containerization with Docker, CI/CD automated deployments, Git version control, Firebase, and relational databases (PostgreSQL, MySQL, SQLite).</p>
             <div className="tag-cloud">
-              {profileDetails.skills.tools.map((skill, i) => (
+              {[...profileDetails.skills.cloudDevops, ...profileDetails.skills.databases].map((skill, i) => (
                 <span key={i} className="skill-tag">{skill}</span>
               ))}
             </div>

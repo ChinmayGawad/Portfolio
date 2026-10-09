@@ -11,11 +11,11 @@ export function Hero({ onNavigate }: HeroProps) {
 
   // Console Typing Effect
   const commands = [
-    'booting ai & machine learning core v2.0',
-    'building native android apps · kotlin & mvvm',
-    'deploying machine learning workflows · python stack',
-    'scanning constellation of skills',
-    'system nominal · standing by'
+    'building native android apps · kotlin & jetpack compose',
+    'architecting backend integrations & docker pipelines',
+    'deploying machine learning & nlp workflows',
+    'mobile applications · backend integration · ai/ml',
+    'resume updated · system nominal · standing by'
   ];
 
   const [text, setText] = useState('');
@@ -68,11 +68,11 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Roles Pill Bar */}
         <div className="roles-bar">
-          <span className="role-tag role-ai">AI & MACHINE LEARNING DEVELOPER</span>
+          <span className="role-tag role-ai">SOFTWARE DEVELOPER</span>
           <span className="dot-sep">✦</span>
           <span className="role-tag role-android">NATIVE ANDROID DEVELOPER</span>
           <span className="dot-sep">✦</span>
-          <span className="role-tag role-ce">COMPUTER ENGINEER</span>
+          <span className="role-tag role-ce">AI/ML & BACKEND INTEGRATION</span>
         </div>
 
         {/* Terminal Typing Box */}
@@ -84,23 +84,24 @@ export function Hero({ onNavigate }: HeroProps) {
 
         {/* Biography */}
         <p className="subheading hero-subtitle">
-          Final-year BE Computer Engineering student at{' '}
-          <strong>St. John College of Engineering & Management</strong>. Specializing in{' '}
-          <strong className="text-cyan">Artificial Intelligence & Machine Learning</strong>,{' '}
-          <strong className="text-emerald">Native Android App Development (Kotlin & MVVM)</strong>, algorithm optimization, and software architecture.
+          Creative Software & Android Developer and B.Tech student at{' '}
+          <strong>St. John College of Engineering & Management</strong>. Experienced in building{' '}
+          <strong className="text-emerald">Native Android Mobile Applications (Kotlin & MVVM)</strong>,{' '}
+          <strong className="text-cyan">Backend Integration & Cloud DevOps</strong>, and{' '}
+          <strong className="text-purple">AI/ML Projects</strong>.
         </p>
 
         {/* Hero Actions */}
         <div className="hero-actions">
-          <a
-            href={profileDetails.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             className="btn-primary"
+            onClick={() => setResumeModalOpen(true)}
+            id="open-resume-btn"
           >
             <FileText size={16} />
             <span>VIEW_RESUME.PDF</span>
-          </a>
+          </button>
 
           <button className="btn-secondary" onClick={() => onNavigate('projects')}>
             <Code2 size={16} />
@@ -134,24 +135,30 @@ export function Hero({ onNavigate }: HeroProps) {
         </div>
       </div>
 
-      {/* In-Page PDF Viewer Modal */}
+      {/* In-Page PDF Viewer Modal Card */}
       {resumeModalOpen && (
-        <div className="resume-modal-backdrop" onClick={() => setResumeModalOpen(false)}>
+        <div
+          className="resume-modal-backdrop"
+          onClick={() => setResumeModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
+        >
           <div className="resume-modal-window" onClick={(e) => e.stopPropagation()}>
             <div className="resume-modal-header">
               <div className="modal-title-group">
                 <FileText size={18} className="modal-icon" />
-                <span className="modal-title-text">Chinmay Gawad — Resume (PDF)</span>
+                <span className="modal-title-text">Chinmay Gawad — Resume</span>
+                <span className="modal-tag">LATEST VERSION</span>
               </div>
 
               <div className="modal-actions">
                 <a
                   href={profileDetails.resumeUrl}
-                  download="Chinmay_Gawad_Resume.pdf"
+                  download="Chinmay_Resume_Updated.pdf"
                   className="modal-action-btn"
                   title="Download Resume PDF"
                 >
-                  <Download size={15} />
+                  <Download size={14} />
                   <span>DOWNLOAD</span>
                 </a>
                 <a
@@ -161,38 +168,53 @@ export function Hero({ onNavigate }: HeroProps) {
                   className="modal-action-btn"
                   title="Open in New Tab"
                 >
-                  <ExternalLink size={15} />
+                  <ExternalLink size={14} />
+                  <span>NEW TAB</span>
                 </a>
                 <button
+                  type="button"
                   className="modal-close-btn"
                   onClick={() => setResumeModalOpen(false)}
+                  title="Close (Esc)"
                 >
                   <span>ESC</span>
-                  <X size={16} />
+                  <X size={15} />
                 </button>
               </div>
             </div>
 
             <div className="resume-pdf-container">
               <object
-                data={profileDetails.resumeUrl}
+                data={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0&view=FitH`}
                 type="application/pdf"
                 className="resume-iframe"
               >
                 <iframe
-                  src={profileDetails.resumeUrl}
+                  src={`${profileDetails.resumeUrl}#toolbar=1&navpanes=0&view=FitH`}
                   title="Chinmay Gawad Resume PDF"
                   className="resume-iframe"
                 >
-                  <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>
-                    <p>Your browser does not support inline PDF viewing.</p>
-                    <a
-                      href={profileDetails.resumeUrl}
-                      download="Chinmay_Gawad_Resume.pdf"
-                      style={{ color: '#38bdf8', textDecoration: 'underline', marginTop: '1rem', display: 'inline-block' }}
-                    >
-                      Download Resume PDF
-                    </a>
+                  <div className="pdf-fallback-card">
+                    <FileText size={36} className="modal-icon" />
+                    <h4>PDF Preview</h4>
+                    <p>Your browser is unable to render inline PDFs directly.</p>
+                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                      <a
+                        href={profileDetails.resumeUrl}
+                        download="Chinmay_Resume_Updated.pdf"
+                        className="modal-action-btn"
+                      >
+                        <Download size={14} /> Download PDF
+                      </a>
+                      <a
+                        href={profileDetails.resumeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="modal-action-btn"
+                      >
+                        <ExternalLink size={14} /> Open in New Tab
+                      </a>
+                    </div>
                   </div>
                 </iframe>
               </object>
@@ -402,6 +424,18 @@ export function Hero({ onNavigate }: HeroProps) {
           color: var(--text-primary);
         }
 
+        .modal-tag {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          font-weight: 700;
+          color: #38bdf8;
+          background: rgba(56, 189, 248, 0.12);
+          border: 1px solid rgba(56, 189, 248, 0.3);
+          padding: 0.15rem 0.5rem;
+          border-radius: 9999px;
+          letter-spacing: 0.06em;
+        }
+
         .modal-actions {
           display: flex;
           align-items: center;
@@ -455,13 +489,48 @@ export function Hero({ onNavigate }: HeroProps) {
           flex: 1;
           width: 100%;
           height: 100%;
-          background: #000;
+          background: #060709;
+          position: relative;
         }
 
         .resume-iframe {
           width: 100%;
           height: 100%;
           border: none;
+          background: #060709;
+        }
+
+        .pdf-fallback-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          padding: 2.5rem 1.5rem;
+          text-align: center;
+          color: var(--text-secondary);
+          gap: 0.6rem;
+        }
+
+        .pdf-fallback-card h4 {
+          font-family: var(--font-heading);
+          color: var(--text-primary);
+          font-size: 1.15rem;
+        }
+
+        @keyframes cardPopIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(16px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        .resume-modal-window {
+          animation: cardPopIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @media (max-width: 640px) {
